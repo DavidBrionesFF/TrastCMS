@@ -2,6 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.CategoriaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,13 +44,12 @@ public class CategoriaRepository implements CategoriaRep {
 
 	@Override
 	public List<Categoria> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from Categoria", new CategoriaMapper());
 	}
 
 	@Override
 	public Categoria findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Categoria where IdCategoria = ?", params, new CategoriaMapper());
 	}
 }
