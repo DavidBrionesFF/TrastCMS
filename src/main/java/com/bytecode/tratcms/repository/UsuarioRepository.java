@@ -2,6 +2,8 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.CategoriaMapper;
+import com.bytecode.tratcms.mapper.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,13 +42,13 @@ public class UsuarioRepository implements UsuarioRep {
 
 	@Override
 	public List<Usuario> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from Usuario", new UsuarioMapper());
 	}
 
 	@Override
 	public Usuario findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from Usuario where IdUsuario = ?",
+												params, new UsuarioMapper());
 	}
 }

@@ -2,6 +2,8 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.PostMapper;
+import com.bytecode.tratcms.mapper.UsuarioMetadataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,13 +43,13 @@ public class PostRepository implements PostRep{
 
 	@Override
 	public List<Post> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from post", new PostMapper());
 	}
 
 	@Override
 	public Post findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from post where IdPost = ?",
+				params, new PostMapper());
 	}
 }

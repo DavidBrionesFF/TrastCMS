@@ -2,6 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.ComentarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,13 +43,13 @@ public class ComentarioRepository implements ComentarioRep {
 
 	@Override
 	public List<Comentario> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from comentario", new ComentarioMapper());
 	}
 
 	@Override
 	public Comentario findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from comentario where IdComentario = ?",
+				params, new ComentarioMapper());
 	}
 }

@@ -2,6 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.ContenidoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,13 +42,13 @@ public class ContenidoRepository implements ContenidoRep {
 
 	@Override
 	public List<Contenido> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from contenido", new ContenidoMapper());
 	}
 
 	@Override
 	public Contenido findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from contenido where IdContenido = ?",
+				params, new ContenidoMapper());
 	}
 }

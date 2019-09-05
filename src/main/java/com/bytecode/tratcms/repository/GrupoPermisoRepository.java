@@ -2,6 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.GrupoPermisoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,14 +37,14 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 
 	@Override
 	public List<GrupoPermiso> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from grupo_permiso", new GrupoPermisoMapper());
 	}
 
 	@Override
 	public GrupoPermiso findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from grupo_permiso where IdGrupoPermiso = ?",
+				params, new GrupoPermisoMapper());
 	}
 
 	

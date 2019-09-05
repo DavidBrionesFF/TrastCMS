@@ -2,6 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.GrupoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,13 +39,13 @@ public class GrupoRepository implements GrupoRep{
 
 	@Override
 	public List<Grupo> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from grupo", new GrupoMapper());
 	}
 
 	@Override
 	public Grupo findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from grupo where IdGrupo = ?",
+				params, new GrupoMapper());
 	}
 }

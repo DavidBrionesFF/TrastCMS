@@ -2,6 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
+import com.bytecode.tratcms.mapper.PostMetadataMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,13 +40,13 @@ public class PostMetadataRepository implements PostMetadataRep{
 
 	@Override
 	public List<PostMetadata> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdbcTemplate.query("select * from post_metadata", new PostMetadataMapper());
 	}
 
 	@Override
 	public PostMetadata findById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] params = new Object[] {Id};
+		return jdbcTemplate.queryForObject("select * from post_metadata where IdPostMetadata = ?",
+				params, new PostMetadataMapper());
 	}
 }
