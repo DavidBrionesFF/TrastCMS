@@ -1,2 +1,2 @@
 # TrastCMS
-Este es un cms totalmente ne Java el cual esta inspirado para empresas que desarrollan sus sistemas y desean escalar evitando pasos repetitivos, espero les funcione y puedan ayudarme a mejorar!! 
+Esta es una herramienta para la gestion de contenido, totalmente escalable y gratuito escriot en Java y Spring Boot y MySQL.
