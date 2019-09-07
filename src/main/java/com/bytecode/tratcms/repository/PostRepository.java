@@ -11,11 +11,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.Post;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class PostRepository implements PostRep{
-
-	@Autowired 
+	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Post object) {
@@ -51,5 +59,13 @@ public class PostRepository implements PostRep{
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from post where IdPost = ?",
 				params, new PostMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

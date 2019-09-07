@@ -15,7 +15,7 @@ import com.bytecode.tratcms.model.Categoria;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-//@Repository
+@Repository
 public class CategoriaRepository implements CategoriaRep {
 	private Log logger = LogFactory.getLog(getClass());
 	@Autowired

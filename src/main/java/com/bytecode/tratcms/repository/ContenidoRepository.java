@@ -10,11 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.Contenido;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class ContenidoRepository implements ContenidoRep {
-
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Contenido object) {
@@ -50,5 +58,13 @@ public class ContenidoRepository implements ContenidoRep {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from contenido where IdContenido = ?",
 				params, new ContenidoMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

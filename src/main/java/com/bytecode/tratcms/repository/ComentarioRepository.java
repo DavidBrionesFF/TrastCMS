@@ -10,11 +10,20 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.Comentario;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class ComentarioRepository implements ComentarioRep {
 
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Comentario comentario) {
@@ -51,5 +60,13 @@ public class ComentarioRepository implements ComentarioRep {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from comentario where IdComentario = ?",
 				params, new ComentarioMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

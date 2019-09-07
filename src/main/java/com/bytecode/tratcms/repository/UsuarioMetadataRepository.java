@@ -11,11 +11,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.UsuarioMetadata;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class UsuarioMetadataRepository implements UsuarioMetadaRep {
-
-	@Autowired 
+	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(UsuarioMetadata object) {
@@ -50,5 +58,13 @@ public class UsuarioMetadataRepository implements UsuarioMetadaRep {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from usuario_metadata where IdUsuarioMetadata = ?",
 				params, new UsuarioMetadataMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

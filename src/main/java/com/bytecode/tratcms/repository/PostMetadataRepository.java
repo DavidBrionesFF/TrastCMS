@@ -10,11 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.PostMetadata;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class PostMetadataRepository implements PostMetadataRep{
-
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(PostMetadata object) {
@@ -48,5 +56,13 @@ public class PostMetadataRepository implements PostMetadataRep{
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from post_metadata where IdPostMetadata = ?",
 				params, new PostMetadataMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

@@ -9,9 +9,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.bytecode.tratcms.model.GrupoPermiso;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 public class GrupoPermisoRepository implements GrupoPermisoRep{
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(GrupoPermiso object) {
@@ -47,6 +56,12 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 				params, new GrupoPermisoMapper());
 	}
 
-	
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 }

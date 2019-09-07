@@ -10,11 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.Grupo;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class GrupoRepository implements GrupoRep{
-	
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Grupo object) {
@@ -47,5 +55,13 @@ public class GrupoRepository implements GrupoRep{
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from grupo where IdGrupo = ?",
 				params, new GrupoMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

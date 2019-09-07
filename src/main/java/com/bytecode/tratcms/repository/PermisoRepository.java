@@ -10,11 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.Permiso;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class PermisoRepository implements PermisoRep {
-
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Permiso object) {
@@ -49,5 +57,13 @@ public class PermisoRepository implements PermisoRep {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from permiso where IdPermiso = ?",
 				params, new PermisoMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

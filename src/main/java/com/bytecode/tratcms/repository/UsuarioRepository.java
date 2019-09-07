@@ -2,7 +2,6 @@ package com.bytecode.tratcms.repository;
 
 import java.util.List;
 
-import com.bytecode.tratcms.mapper.CategoriaMapper;
 import com.bytecode.tratcms.mapper.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -58,5 +57,13 @@ public class UsuarioRepository implements UsuarioRep {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from Usuario where IdUsuario = ?",
 												params, new UsuarioMapper());
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }
