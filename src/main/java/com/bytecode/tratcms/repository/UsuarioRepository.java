@@ -11,11 +11,19 @@ import org.springframework.stereotype.Repository;
 
 import com.bytecode.tratcms.model.Usuario;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 @Repository
 public class UsuarioRepository implements UsuarioRep {
-
 	@Autowired
+	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
+
+	@PostConstruct
+	public void postConstruct(){
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Usuario object) {
