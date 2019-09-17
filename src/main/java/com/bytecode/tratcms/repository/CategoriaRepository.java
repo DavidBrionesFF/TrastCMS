@@ -37,6 +37,7 @@ public class CategoriaRepository implements CategoriaRep {
 			jdbcTemplate.execute(sql);
 			return true;
 		}catch(Exception e) {
+			e.printStackTrace();
 			logger.error(e);
 			return false;
 		}

@@ -3,7 +3,7 @@ Esta es una herramienta para la gestion de contenido, totalmente escalable y gra
 
 Trats CMS esta orientado en la arquitectura de microservicios.
 
-Instalacion
+### Instalacion
 
-Aun se encuentra en etapa de desarrollo
+Aun se encuentra en etapa de desarrollo.
  1. Primero se debe de cargar la base de datos la cual es squema.sql en una base de datos mysql.
