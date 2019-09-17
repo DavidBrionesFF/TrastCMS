@@ -26,8 +26,16 @@ public class CategoriaRepositoryTest {
 
         boolean result = categoriaRepository.save(categoria);
 
-        //categoriaRepository.deleteAll();
-
         Assert.assertTrue(result);
+    }
+
+    @Test()
+    public void testUpdate(){
+
+    }
+
+    @Test
+    public void testFindAll(){
+
     }
 }

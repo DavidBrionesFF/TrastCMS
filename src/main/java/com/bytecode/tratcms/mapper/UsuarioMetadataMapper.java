@@ -15,6 +15,7 @@ public class UsuarioMetadataMapper implements RowMapper<UsuarioMetadata> {
         usuarioMetadata.setIdUsuarioMetadata(rs.getInt("IdUsuarioMetadata"));
         usuarioMetadata.setValor(rs.getString("Valor"));
         usuarioMetadata.setTipo(rs.getString("Tipo"));
+        usuarioMetadata.setFecha(rs.getDate("Fecha"));
         return usuarioMetadata;
     }
 }

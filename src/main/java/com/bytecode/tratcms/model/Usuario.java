@@ -1,5 +1,7 @@
 package com.bytecode.tratcms.model;
 
+import java.util.Date;
+
 public class Usuario {
 	private long IdUsuario;
 	
@@ -12,6 +14,16 @@ public class Usuario {
 	private String Correo;
 	
 	private long IdGrupo;
+
+	private Date Fecha;
+
+	public Date getFecha() {
+		return Fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		Fecha = fecha;
+	}
 
 	public long getIdUsuario() {
 		return IdUsuario;

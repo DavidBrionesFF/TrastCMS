@@ -15,6 +15,7 @@ public class PostMetadataMapper implements RowMapper<PostMetadata> {
         postMetadata.setIdPostMetadata(rs.getInt("IdPostMetadata"));
         postMetadata.setTipo(rs.getString("Tipo"));
         postMetadata.setValor(rs.getString("Valor"));
+        postMetadata.setFecha(rs.getDate("Fecha"));
         return postMetadata;
     }
 }

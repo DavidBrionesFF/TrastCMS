@@ -25,7 +25,7 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 	@Override
 	public boolean save(GrupoPermiso object) {
 		try {
-			String sql = String.format("insert into GrupoPermiso (IdGrupo, IdPermiso) values ('%d', '%d')", 
+			String sql = String.format("insert into grupo_permiso (IdGrupo, IdPermiso) values ('%d', '%d')",
 					object.getIdGrupo(), object.getIdPermiso());
 			jdbcTemplate.execute(sql);
 			return true;
@@ -37,7 +37,7 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 	@Override
 	public boolean update(GrupoPermiso object) {
 		if(object.getIdGrupo()>0) {
-			String sql = String.format("update Grupo set IdPermiso='%d' where IdGrupo='%d'",
+			String sql = String.format("update grupo_permiso set IdPermiso='%d' where IdGrupo='%d'",
 					object.getIdPermiso(), object.getIdGrupo());
 			jdbcTemplate.execute(sql);
 		}
