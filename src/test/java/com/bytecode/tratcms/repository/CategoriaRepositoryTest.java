@@ -7,10 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
 public class CategoriaRepositoryTest {
 
@@ -18,6 +21,7 @@ public class CategoriaRepositoryTest {
     private CategoriaRepository categoriaRepository;
 
     @Test
+    @Order(1)
     public void testInsert(){
         Categoria categoria = new Categoria();
 
@@ -31,6 +35,7 @@ public class CategoriaRepositoryTest {
     }
 
     @Test()
+    @Order(2)
     public void testUpdate(){
         Categoria categoria = new Categoria();
 
@@ -45,6 +50,7 @@ public class CategoriaRepositoryTest {
     }
 
     @Test
+    @Order(3)
     public void testFindById(){
         Categoria categoria = categoriaRepository.findById(1);
 
@@ -53,6 +59,7 @@ public class CategoriaRepositoryTest {
     }
 
     @Test
+    @Order(4)
     public void testFindAll(){
         SpringDataWebProperties.Pageable pageable = new SpringDataWebProperties.Pageable();
         Assert.assertFalse(categoriaRepository.findAll(pageable).isEmpty());

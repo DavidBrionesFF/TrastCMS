@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="" />
+    <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/init/InitConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PostRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StartCMS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TratsCMS.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PostMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,9 +77,9 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.CategoriaRepositoryTest.testFindAll">
-    <configuration name="CategoriaRepositoryTest.testFindAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="StartCMS" />
+  <component name="RunManager" selected="JUnit.PostRepositoryTest.findAll">
+    <configuration name="CategoriaRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
@@ -76,14 +88,29 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
       <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.CategoriaRepositoryTest" />
-      <option name="METHOD_NAME" value="testFindAll" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostRepositoryTest.findAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PostRepositoryTest" />
+      <option name="METHOD_NAME" value="findAll" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CategoriaRepositoryTest.testInsert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="StartCMS" />
+    <configuration name="PostRepositoryTest.findById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
@@ -91,15 +118,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.CategoriaRepositoryTest" />
-      <option name="METHOD_NAME" value="testInsert" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PostRepositoryTest" />
+      <option name="METHOD_NAME" value="findById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CategoriaRepositoryTest.testUpdate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="StartCMS" />
+    <configuration name="PostRepositoryTest.insert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
@@ -107,15 +134,31 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.CategoriaRepositoryTest" />
-      <option name="METHOD_NAME" value="testUpdate" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PostRepositoryTest" />
+      <option name="METHOD_NAME" value="insert" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostRepositoryTest.update" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PostRepositoryTest" />
+      <option name="METHOD_NAME" value="update" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="StartCmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="StartCMS" />
+      <module name="TratsCMS" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.bytecode.tratcms.Application" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -123,9 +166,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CategoriaRepositoryTest.testFindAll" />
-        <item itemvalue="JUnit.CategoriaRepositoryTest.testUpdate" />
-        <item itemvalue="JUnit.CategoriaRepositoryTest.testInsert" />
+        <item itemvalue="JUnit.PostRepositoryTest.findAll" />
+        <item itemvalue="JUnit.CategoriaRepositoryTest" />
+        <item itemvalue="JUnit.PostRepositoryTest.findById" />
+        <item itemvalue="JUnit.PostRepositoryTest.update" />
+        <item itemvalue="JUnit.PostRepositoryTest.insert" />
       </list>
     </recent_temporary>
   </component>
@@ -142,12 +187,24 @@
       <workItem from="1567054396036" duration="2899000" />
       <workItem from="1567689917352" duration="4351000" />
       <workItem from="1567874929211" duration="3909000" />
-      <workItem from="1568697412405" duration="8468000" />
+      <workItem from="1568697412405" duration="11036000" />
+      <workItem from="1568772155447" duration="6394000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="masterDetails">
     <states>

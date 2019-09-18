@@ -1,9 +1,13 @@
 package com.bytecode.tratcms.component;
 
+import com.bytecode.tratcms.init.InitConfiguration;
 import com.bytecode.tratcms.repository.CategoriaRepository;
+import com.bytecode.tratcms.repository.PostRepository;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -22,6 +26,11 @@ public class TestDatabaseConfiguration {
     }
 
     @Bean
+    public InitConfiguration initConfiguration(){
+        return new InitConfiguration();
+    }
+
+    @Bean
     public CategoriaRepository categoriaRepository(){
         return new CategoriaRepository();
     }
@@ -30,4 +39,7 @@ public class TestDatabaseConfiguration {
     public UsuarioRepository usuarioRepository(){
         return new UsuarioRepository();
     }
+
+    @Bean
+    public PostRepository postRepository(){return new PostRepository();}
 }

@@ -1,0 +1,10 @@
+{
+  "post_types": [
+    {
+      "type": "POST"
+    },
+    {
+      "type": "TRAVEL"
+    }
+  ]
+}
