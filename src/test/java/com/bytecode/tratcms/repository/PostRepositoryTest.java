@@ -25,6 +25,7 @@ public class PostRepositoryTest {
     @Test
     public void insert() throws IOException {
         Post post = new Post();
+        post.setIdPost(1);
         post.setImagenDestacada("image.jpg");
         post.setCategoria(1);
         post.setExtracto("Extracto de ejemplo");
@@ -41,7 +42,7 @@ public class PostRepositoryTest {
     @Test
     public void update() throws IOException {
         Post post = new Post();
-        post.setIdPost(3);
+        post.setIdPost(1);
         post.setImagenDestacada("image.jpg");
         post.setCategoria(1);
         post.setExtracto("Extracto de ejemplo");

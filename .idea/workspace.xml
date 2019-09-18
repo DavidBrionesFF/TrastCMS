@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/init/InitConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PostRepositoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StartCMS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TratsCMS.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PostMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PostRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PostRepositoryTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +69,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.PostRepositoryTest.findAll">
+  <component name="RunManager" selected="JUnit.PostRepositoryTest">
     <configuration name="CategoriaRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
@@ -88,6 +80,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
       <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.CategoriaRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PostRepositoryTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -125,22 +132,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostRepositoryTest.insert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="TratsCMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PostRepositoryTest" />
-      <option name="METHOD_NAME" value="insert" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PostRepositoryTest.update" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
@@ -166,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PostRepositoryTest" />
         <item itemvalue="JUnit.PostRepositoryTest.findAll" />
         <item itemvalue="JUnit.CategoriaRepositoryTest" />
         <item itemvalue="JUnit.PostRepositoryTest.findById" />
         <item itemvalue="JUnit.PostRepositoryTest.update" />
-        <item itemvalue="JUnit.PostRepositoryTest.insert" />
       </list>
     </recent_temporary>
   </component>
@@ -188,7 +179,9 @@
       <workItem from="1567689917352" duration="4351000" />
       <workItem from="1567874929211" duration="3909000" />
       <workItem from="1568697412405" duration="11036000" />
-      <workItem from="1568772155447" duration="6394000" />
+      <workItem from="1568772155447" duration="6425000" />
+      <workItem from="1568798064282" duration="10000" />
+      <workItem from="1568805235860" duration="814000" />
     </task>
     <servers />
   </component>
@@ -200,7 +193,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
