@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/ComentarioRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/ContenidoRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PostMetadataRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/UsuarioMetadataRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/CategoriaRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/common/RepBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ContenidoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ContenidoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioMetadataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioMetadataRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -185,7 +182,8 @@
       <workItem from="1568697412405" duration="11036000" />
       <workItem from="1568772155447" duration="6425000" />
       <workItem from="1568798064282" duration="10000" />
-      <workItem from="1568805235860" duration="6908000" />
+      <workItem from="1568805235860" duration="7199000" />
+      <workItem from="1568858446754" duration="1939000" />
     </task>
     <servers />
   </component>

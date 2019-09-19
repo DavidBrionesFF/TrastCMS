@@ -71,6 +71,17 @@ public class CategoriaRepository implements CategoriaRep {
 		jdbcTemplate.execute("delete from Categoria");
 	}
 
+	public boolean deleteById(int id){
+		try{
+			String sql = String.format("delete from Categoria where IdCategoria='%d'", id);
+			jdbcTemplate.execute(sql);
+			return true;
+		}catch (Exception e){
+			logger.error(e);
+			return false;
+		}
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}
