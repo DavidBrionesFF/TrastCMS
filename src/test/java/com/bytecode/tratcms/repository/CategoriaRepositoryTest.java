@@ -27,7 +27,7 @@ public class CategoriaRepositoryTest {
 
         categoria.setNombre("Test1");
         categoria.setDescripcion("Este es un ejemplo de categoria superior");
-        categoria.setCategoriaSuperiorior(1);
+        categoria.setCategoriaSuperior(1);
 
         boolean result = categoriaRepository.save(categoria);
 
@@ -42,7 +42,7 @@ public class CategoriaRepositoryTest {
         categoria.setIdCategoria(1);
         categoria.setNombre("Test2");
         categoria.setDescripcion("Este es un ejemplo de categoria superior");
-        categoria.setCategoriaSuperiorior(1);
+        categoria.setCategoriaSuperior(1);
 
         boolean result = categoriaRepository.update(categoria);
 

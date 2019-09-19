@@ -33,7 +33,7 @@ public class CategoriaRepository implements CategoriaRep {
 			String sql = String.format(
 					"insert into Categoria (Nombre,Descripcion,CategoriaSuperior) "
 					+ "values('%s', '%s', %d)",
-					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperiorior());
+					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior());
 			jdbcTemplate.execute(sql);
 			return true;
 		}catch(Exception e) {
@@ -48,7 +48,7 @@ public class CategoriaRepository implements CategoriaRep {
 		if(categoria.getIdCategoria() > 0) {
 			String sql = String.format("update Categoria set Nombre='%s', Descripcion='%s', CategoriaSuperior='%d' "
 					+ "where IdCategoria='%d'", 
-					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperiorior(),
+					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior(),
 					categoria.getIdCategoria());
 			jdbcTemplate.execute(sql);
 			return true;

@@ -1,17 +1,20 @@
 package com.bytecode.tratcms.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Categoria {
 	private long IdCategoria;
-	
+
 	private String Nombre;
 	
 	private String Descripcion;
-	
+
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private Date Fecha;
 	
-	private long CategoriaSuperiorior;
+	private long CategoriaSuperior;
 
 	public long getIdCategoria() {
 		return IdCategoria;
@@ -45,11 +48,11 @@ public class Categoria {
 		Fecha = fecha;
 	}
 
-	public long getCategoriaSuperiorior() {
-		return CategoriaSuperiorior;
+	public long getCategoriaSuperior() {
+		return CategoriaSuperior;
 	}
 
-	public void setCategoriaSuperiorior(long categoriaSuperiorior) {
-		CategoriaSuperiorior = categoriaSuperiorior;
+	public void setCategoriaSuperior(long categoriaSuperior) {
+		CategoriaSuperior = categoriaSuperior;
 	}
 }

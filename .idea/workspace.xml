@@ -2,10 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/CategoriaRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/common/RepBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/DatabaseConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/error/GlobalRestErrorController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/util/ApiError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/util/ApiSubError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/util/ApiValidationError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/banner.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TratsCMS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TratsCMS.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/CategoriaRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/CategoriaRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/init/InitConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/init/InitConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/CategoriaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/CategoriaMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/Categoria.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +83,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ComentarioRepositoryTest">
+  <component name="RunManager" selected="Spring Boot.StartCmsApplication">
     <configuration name="ComentarioRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
@@ -183,7 +196,7 @@
       <workItem from="1568772155447" duration="6425000" />
       <workItem from="1568798064282" duration="10000" />
       <workItem from="1568805235860" duration="7199000" />
-      <workItem from="1568858446754" duration="1939000" />
+      <workItem from="1568858446754" duration="4638000" />
     </task>
     <servers />
   </component>

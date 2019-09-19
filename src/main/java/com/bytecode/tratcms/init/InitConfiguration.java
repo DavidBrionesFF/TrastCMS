@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 public class InitConfiguration {
 //    private Environment env;
 //

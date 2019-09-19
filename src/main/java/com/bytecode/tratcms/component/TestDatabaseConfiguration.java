@@ -4,13 +4,11 @@ import com.bytecode.tratcms.init.InitConfiguration;
 import com.bytecode.tratcms.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.StandardEnvironment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-@Configuration
+//@Configuration
 public class TestDatabaseConfiguration {
 
     @Bean

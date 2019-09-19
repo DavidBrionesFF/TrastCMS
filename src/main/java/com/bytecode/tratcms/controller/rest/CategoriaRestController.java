@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,12 +19,12 @@ public class CategoriaRestController {
     private CategoriaRepository categoriaRepository;
 
     @PutMapping//(consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RepBase> save(@RequestBody Categoria categoria){
+    public ResponseEntity<RepBase> save(@RequestBody @Valid Categoria categoria){
         return ResponseEntity.ok(new RepBase(categoriaRepository.save(categoria)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody Categoria categoria){
+    public ResponseEntity<RepBase> update(@RequestBody @Valid Categoria categoria){
         return ResponseEntity.ok(new RepBase(categoriaRepository.update(categoria)));
     }
 
