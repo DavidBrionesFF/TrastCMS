@@ -34,6 +34,7 @@ public class ContenidoRepository implements ContenidoRep {
 			jdbcTemplate.execute(sql);
 			return true;
 		}catch(Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -44,6 +45,7 @@ public class ContenidoRepository implements ContenidoRep {
 			String sql = String.format("update Contenido set Contenido='%s', Tipo='%s' where IdContenido='%d'",
 					object.getContenido(), object.getTipo(), object.getIdContenido());
 			jdbcTemplate.execute(sql);
+			return true;
 		}
 		return false;
 	}

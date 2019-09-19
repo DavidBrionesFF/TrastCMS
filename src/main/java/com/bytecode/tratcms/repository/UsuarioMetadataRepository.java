@@ -40,7 +40,7 @@ public class UsuarioMetadataRepository implements UsuarioMetadaRep {
 	@Override
 	public boolean update(UsuarioMetadata object) {
 		if(object.getIdUsuarioMetadata()>0) {
-			String sql = String.format("update set usuario_metadata IdUsuario='%d', Clave='%s', Valor='%s', Tipo='%s' where IdUsuarioMetadata='%d'",
+			String sql = String.format("update usuario_metadata set IdUsuario='%d', Clave='%s', Valor='%s', Tipo='%s' where IdUsuarioMetadata='%d'",
 					object.getIdUsuario(), object.getClave(), object.getValor(), object.getTipo(), object.getIdUsuarioMetadata());
 			jdbcTemplate.execute(sql);
 			return true;

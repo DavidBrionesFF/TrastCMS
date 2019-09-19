@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/GrupoPermisoRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/GrupoRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PermisoRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/UsuarioRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/ComentarioRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/ContenidoRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/PostMetadataRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/UsuarioMetadataRepositoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/CategoriaRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ContenidoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ContenidoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioMetadataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioMetadataRepository.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,8 +73,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UsuarioRepositoryTest">
-    <configuration name="GrupoPermisoRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.ComentarioRepositoryTest">
+    <configuration name="ComentarioRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
         <pattern>
@@ -82,13 +83,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.GrupoPermisoRepositoryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ComentarioRepositoryTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GrupoPermisoRepositoryTest.testB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ContenidoRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
         <pattern>
@@ -97,14 +98,45 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.GrupoPermisoRepositoryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ContenidoRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContenidoRepositoryTest.testA" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ContenidoRepositoryTest" />
+      <option name="METHOD_NAME" value="testA" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContenidoRepositoryTest.testB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TratsCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ContenidoRepositoryTest" />
       <option name="METHOD_NAME" value="testB" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GrupoRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ContenidoRepositoryTest.testD" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
         <pattern>
@@ -113,39 +145,9 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.GrupoRepositoryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PermisoRepositoryTest.testB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="TratsCMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.PermisoRepositoryTest" />
-      <option name="METHOD_NAME" value="testB" />
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ContenidoRepositoryTest" />
+      <option name="METHOD_NAME" value="testD" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UsuarioRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="TratsCMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.UsuarioRepositoryTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -159,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UsuarioRepositoryTest" />
-        <item itemvalue="JUnit.GrupoPermisoRepositoryTest.testB" />
-        <item itemvalue="JUnit.PermisoRepositoryTest.testB" />
-        <item itemvalue="JUnit.GrupoPermisoRepositoryTest" />
-        <item itemvalue="JUnit.GrupoRepositoryTest" />
+        <item itemvalue="JUnit.ComentarioRepositoryTest" />
+        <item itemvalue="JUnit.ContenidoRepositoryTest.testD" />
+        <item itemvalue="JUnit.ContenidoRepositoryTest.testB" />
+        <item itemvalue="JUnit.ContenidoRepositoryTest" />
+        <item itemvalue="JUnit.ContenidoRepositoryTest.testA" />
       </list>
     </recent_temporary>
   </component>
@@ -183,7 +185,7 @@
       <workItem from="1568697412405" duration="11036000" />
       <workItem from="1568772155447" duration="6425000" />
       <workItem from="1568798064282" duration="10000" />
-      <workItem from="1568805235860" duration="5226000" />
+      <workItem from="1568805235860" duration="6908000" />
     </task>
     <servers />
   </component>
