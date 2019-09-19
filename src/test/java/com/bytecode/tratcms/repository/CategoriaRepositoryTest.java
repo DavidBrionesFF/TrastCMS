@@ -12,8 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
 public class CategoriaRepositoryTest {
 
