@@ -8,10 +8,12 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.bytecode.tratcms.model.GrupoPermiso;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+@Repository
 public class GrupoPermisoRepository implements GrupoPermisoRep{
 	@Autowired
 	private DataSource dataSource;
