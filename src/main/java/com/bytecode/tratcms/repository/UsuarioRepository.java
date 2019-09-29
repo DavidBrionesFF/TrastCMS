@@ -66,4 +66,11 @@ public class UsuarioRepository implements UsuarioRep {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+	@Override
+	public Usuario findByCorreo(String correo) {
+		Object[] params = new Object[] {correo};
+		return jdbcTemplate.queryForObject("select * from Usuario where Correo = ?",
+				params, new UsuarioMapper());
+	}
 }

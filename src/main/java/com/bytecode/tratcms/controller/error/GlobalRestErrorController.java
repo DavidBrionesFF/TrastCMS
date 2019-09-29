@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.error;
 
-import com.bytecode.tratcms.util.ApiError;
+import com.bytecode.tratcms.util.ErrorResponse;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ public class GlobalRestErrorController {
     @ExceptionHandler({EmptyResultDataAccessException.class})
     public ResponseEntity<Object> getEmptyResultDataAccessException(EmptyResultDataAccessException ex,
                                                                     ServletWebRequest webRequest){
-        ApiError apiError = new ApiError();
-        apiError.setMessage(ex.getMessage());
-        apiError.setMethod(webRequest.getHttpMethod().name());
-        apiError.setStatus(HttpStatus.NOT_FOUND);
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setMethod(webRequest.getHttpMethod().name());
+        errorResponse.setStatus(HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
     }
 }

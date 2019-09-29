@@ -1,6 +1,9 @@
 package com.bytecode.tratcms.util;
 
-public class ApiValidationError extends ApiSubError {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ErrorValidationResponse extends ErrorResponseSub {
     private String object;
     private String field;
     private Object rejectedValue;

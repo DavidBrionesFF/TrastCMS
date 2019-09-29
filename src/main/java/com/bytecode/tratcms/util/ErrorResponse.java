@@ -1,14 +1,16 @@
 package com.bytecode.tratcms.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public class ApiError{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ErrorResponse {
     private HttpStatus status;
     private String message;
     private String method;
-    private List<ApiSubError> subErrors;
+    private List<ErrorResponseSub> subErrors;
 
     public HttpStatus getStatus() {
         return status;
@@ -34,11 +36,11 @@ public class ApiError{
         this.method = method;
     }
 
-    public List<ApiSubError> getSubErrors() {
+    public List<ErrorResponseSub> getSubErrors() {
         return subErrors;
     }
 
-    public void setSubErrors(List<ApiSubError> subErrors) {
+    public void setSubErrors(List<ErrorResponseSub> subErrors) {
         this.subErrors = subErrors;
     }
 }
