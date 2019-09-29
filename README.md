@@ -17,3 +17,9 @@ Aun se encuentra en etapa de desarrollo.
  3. Soporte de Autenticacion con JWT (Fase de desarrollo)
  
 **Nota**: Si deseas contribuir al proyecto puedes mandar un correo a la david_briones@bytepl.com.
+
+Construyendo un CMS con Spring Boot
+https://www.youtube.com/watch?v=pKnnsapt5Vk
+
+Si no conoces que es Spring Boot, puedes aprender
+https://www.youtube.com/watch?v=H2TIvYIRxW4&list=PLcIHm18h1i4nD4H8tPeID8PNiKsm4VZm5
