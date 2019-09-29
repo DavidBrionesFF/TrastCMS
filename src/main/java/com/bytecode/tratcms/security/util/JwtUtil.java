@@ -23,11 +23,11 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + (60000*100)))
 
                 // Hash con el que firmaremos la clave
-                .signWith(SignatureAlgorithm.HS512, "P@tit0")
+                .signWith(SignatureAlgorithm.HS512, "trastCMSKey")
                 .compact();
 
         //agregamos al encabezado el token
-        res.addHeader("Authorization",  token);
+        res.addHeader("Authorization",  "Bearer " + token);
     }
 
     // Método para validar el token enviado por el cliente
@@ -39,8 +39,8 @@ public class JwtUtil {
         // si hay un token presente, entonces lo validamos
         if (token != null) {
             String user = Jwts.parser()
-                    .setSigningKey("P@tit0")
-                    .parseClaimsJws(token.replace("Bearer", token)) //este metodo es el que valida
+                    .setSigningKey("trastCMSKey")
+                    .parseClaimsJws(token.replace("Bearer ", "")) //este metodo es el que valida
                     .getBody()
                     .getSubject();
 

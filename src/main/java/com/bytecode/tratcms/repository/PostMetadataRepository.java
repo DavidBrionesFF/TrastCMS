@@ -58,6 +58,11 @@ public class PostMetadataRepository implements PostMetadataRep{
 				params, new PostMetadataMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from post_metadata", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

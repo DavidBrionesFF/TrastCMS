@@ -9,4 +9,5 @@ public interface BaseRep<T> {
 	public boolean update(T object);
 	public List<T> findAll(Pageable pageable);
 	public T findById(int Id);
+	public long countAll();
 }

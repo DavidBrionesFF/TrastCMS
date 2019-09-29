@@ -58,6 +58,11 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 				params, new GrupoPermisoMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from grupo_permiso", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

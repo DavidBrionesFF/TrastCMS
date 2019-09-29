@@ -62,6 +62,11 @@ public class ContenidoRepository implements ContenidoRep {
 				params, new ContenidoMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from Contenido", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

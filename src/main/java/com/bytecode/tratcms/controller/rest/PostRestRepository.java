@@ -4,6 +4,7 @@ import com.bytecode.tratcms.model.Post;
 import com.bytecode.tratcms.model.Usuario;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.PostRepository;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,12 @@ public class PostRestRepository {
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> findAll(SpringDataWebProperties.Pageable pageable){
-        return ResponseEntity.ok(repository.findAll(pageable));
+    public ResponseEntity<RepBase<List<Post>>> findAll(SpringDataWebProperties.Pageable pageable){
+        return ResponseEntity.ok(RepBase.create(repository.countAll(), repository.findAll(pageable)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> findById(@PathVariable int id){
-        return ResponseEntity.ok(repository.findById(id));
+    public ResponseEntity<RepBase<Pos>> findById(@PathVariable int id){
+        return ResponseEntity.ok(RepBase.create(1, repository.findById(id)));
     }
 }

@@ -62,6 +62,11 @@ public class PostRepository implements PostRep{
 				params, new PostMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from post", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

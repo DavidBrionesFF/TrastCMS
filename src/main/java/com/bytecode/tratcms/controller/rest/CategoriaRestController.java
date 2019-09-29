@@ -18,7 +18,7 @@ public class CategoriaRestController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @PutMapping//(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping
     public ResponseEntity<RepBase> save(@RequestBody @Valid Categoria categoria){
         return ResponseEntity.ok(new RepBase(categoriaRepository.save(categoria)));
     }
@@ -34,12 +34,12 @@ public class CategoriaRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> findAll(SpringDataWebProperties.Pageable pageable){
-        return ResponseEntity.ok(categoriaRepository.findAll(pageable));
+    public ResponseEntity<RepBase<List<Categoria>>> findAll(SpringDataWebProperties.Pageable pageable){
+        return ResponseEntity.ok(RepBase.create(categoriaRepository.countAll(), categoriaRepository.findAll(pageable)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> findById(@PathVariable int id){
-        return ResponseEntity.ok(categoriaRepository.findById(id));
+    public ResponseEntity<RepBase> findById(@PathVariable int id){
+        return ResponseEntity.ok(RepBase.create(1, categoriaRepository.findById(id)));
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
@@ -27,12 +28,20 @@ public class UsuarioRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll(SpringDataWebProperties.Pageable pageable){
-        return ResponseEntity.ok(repository.findAll(pageable));
+    public ResponseEntity<RepBase<List<Usuario>>> findAll(SpringDataWebProperties.Pageable pageable){
+        return ResponseEntity.ok(RepBase.create(repository.countAll(),
+                repository.findAll(pageable)
+                        .stream()
+                        .map(usuario -> {
+                            usuario.setContrasena(null);
+                            return usuario;
+                        }).collect(Collectors.toList())));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable int id){
-        return ResponseEntity.ok(repository.findById(id));
+    public ResponseEntity<RepBase<Usuario>> findById(@PathVariable int id){
+        Usuario usuario = repository.findById(id);
+        usuario.setContrasena(null);
+        return ResponseEntity.ok(RepBase.create(1, usuario));
     }
 }

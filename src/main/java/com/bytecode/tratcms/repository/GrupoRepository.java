@@ -57,6 +57,11 @@ public class GrupoRepository implements GrupoRep{
 				params, new GrupoMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from grupo", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

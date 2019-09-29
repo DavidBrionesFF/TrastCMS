@@ -62,6 +62,11 @@ public class ComentarioRepository implements ComentarioRep {
 				params, new ComentarioMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from Comentario", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

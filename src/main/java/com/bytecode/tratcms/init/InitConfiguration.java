@@ -15,14 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Component
+@Component
 public class InitConfiguration {
-//    private Environment env;
-//
-//    @PostConstruct
-//    public void postCOnstruct(){
-//        env = new StandardEnvironment();
-//    }
+    private Environment env;
 
     public List<String> getTypes() throws IOException {
         File file = new File("/home/application.json");

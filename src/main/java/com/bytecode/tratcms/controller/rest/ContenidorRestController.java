@@ -29,12 +29,12 @@ public class ContenidorRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Contenido>> findAll(SpringDataWebProperties.Pageable pageable){
-        return ResponseEntity.ok(repository.findAll(pageable));
+    public ResponseEntity<RepBase<List<Contenido>>> findAll(SpringDataWebProperties.Pageable pageable){
+        return ResponseEntity.ok(RepBase.create(repository.countAll(), repository.findAll(pageable)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Contenido> findById(@PathVariable int id){
-        return ResponseEntity.ok(repository.findById(id));
+    public ResponseEntity<RepBase<Contenido>> findById(@PathVariable int id){
+        return ResponseEntity.ok(RepBase.create(1, repository.findById(id)));
     }
 }

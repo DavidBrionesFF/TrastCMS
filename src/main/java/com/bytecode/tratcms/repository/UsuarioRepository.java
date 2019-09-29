@@ -73,4 +73,9 @@ public class UsuarioRepository implements UsuarioRep {
 		return jdbcTemplate.queryForObject("select * from Usuario where Correo = ?",
 				params, new UsuarioMapper());
 	}
+
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from usuario", Integer.class);
+	}
 }

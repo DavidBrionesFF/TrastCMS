@@ -60,6 +60,11 @@ public class UsuarioMetadataRepository implements UsuarioMetadaRep {
 				params, new UsuarioMetadataMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from usuario_metadata", Integer.class);
+	}
+
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}

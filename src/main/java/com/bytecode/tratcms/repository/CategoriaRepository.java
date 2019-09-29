@@ -67,6 +67,11 @@ public class CategoriaRepository implements CategoriaRep {
 		return jdbcTemplate.queryForObject("select * from Categoria where IdCategoria = ?", params, new CategoriaMapper());
 	}
 
+	@Override
+	public long countAll() {
+		return jdbcTemplate.queryForObject("select count(*) from categoria", Integer.class);
+	}
+
 	public void deleteAll(){
 		jdbcTemplate.execute("delete from Categoria");
 	}
