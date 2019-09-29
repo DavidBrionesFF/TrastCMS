@@ -14,3 +14,6 @@ Aun se encuentra en etapa de desarrollo.
  ### Caracteristicas
  1. Soporte para JDBC MySQL
  2. API REST en su primera version
+ 3. Soporte de Autenticacion con JWT (Fase de desarrollo)
+ 
+**Nota**: Si deseas contribuir al proyecto puedes mandar un correo a la david_briones@bytepl.com.
