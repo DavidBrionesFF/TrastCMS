@@ -18,8 +18,9 @@ Aun se encuentra en etapa de desarrollo.
  
 **Nota**: Si deseas contribuir al proyecto puedes mandar un correo a la david_briones@bytepl.com.
 
+#### Documentacion:
 Construyendo un CMS con Spring Boot
-https://www.youtube.com/watch?v=pKnnsapt5Vk
+[![Everything Is AWESOME](https://img.youtube.com/vi/pKnnsapt5Vk/maxresdefault.jpg)](https://www.youtube.com/watch?v=pKnnsapt5Vk "Construyendo un CMS con Spring Boot ")
 
-Si no conoces que es Spring Boot, puedes aprender
-https://www.youtube.com/watch?v=H2TIvYIRxW4&list=PLcIHm18h1i4nD4H8tPeID8PNiKsm4VZm5
+###### Si no conoces que es Spring Boot, puedes aprender
+[![Everything Is AWESOME](https://img.youtube.com/vi/H2TIvYIRxW4/maxresdefault.jpg)](https://www.youtube.com/watch?v=H2TIvYIRxW4&list=PLcIHm18h1i4nD4H8tPeID8PNiKsm4VZm5 "Construyendo un CMS con Spring Boot ")
