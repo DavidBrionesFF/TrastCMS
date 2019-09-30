@@ -1,6 +1,6 @@
-package com.bytecode.tratcms.mapper;
+package com.bytecode.tratcms.core.mapper;
 
-import com.bytecode.tratcms.model.Grupo;
+import com.bytecode.tratcms.core.model.Grupo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

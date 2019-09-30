@@ -1,8 +1,8 @@
-package com.bytecode.tratcms.controller.rest;
+package com.bytecode.tratcms.core.controller.rest;
 
-import com.bytecode.tratcms.model.Permiso;
-import com.bytecode.tratcms.model.common.RepBase;
-import com.bytecode.tratcms.repository.PermisoRepository;
+import com.bytecode.tratcms.core.model.Permiso;
+import com.bytecode.tratcms.core.repository.PermisoRepository;
+import com.bytecode.tratcms.core.model.common.RepBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.ResponseEntity;

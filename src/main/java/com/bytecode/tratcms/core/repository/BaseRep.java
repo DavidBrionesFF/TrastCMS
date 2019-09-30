@@ -1,4 +1,4 @@
-package com.bytecode.tratcms.repository;
+package com.bytecode.tratcms.core.repository;
 
 import java.util.List;
 

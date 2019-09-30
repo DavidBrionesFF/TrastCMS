@@ -1,4 +1,4 @@
-package com.bytecode.tratcms.model.common;
+package com.bytecode.tratcms.core.model.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;

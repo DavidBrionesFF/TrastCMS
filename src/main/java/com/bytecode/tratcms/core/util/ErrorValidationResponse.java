@@ -1,4 +1,4 @@
-package com.bytecode.tratcms.util;
+package com.bytecode.tratcms.core.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

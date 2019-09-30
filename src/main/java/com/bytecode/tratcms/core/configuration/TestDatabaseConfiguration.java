@@ -1,6 +1,7 @@
-package com.bytecode.tratcms.configuration;
+package com.bytecode.tratcms.core.configuration;
 
-import com.bytecode.tratcms.init.InitConfiguration;
+import com.bytecode.tratcms.core.repository.*;
+import com.bytecode.tratcms.core.init.InitConfiguration;
 import com.bytecode.tratcms.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;

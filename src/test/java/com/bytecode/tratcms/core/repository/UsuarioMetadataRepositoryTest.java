@@ -1,7 +1,7 @@
-package com.bytecode.tratcms.repository;
+package com.bytecode.tratcms.core.repository;
 
-import com.bytecode.tratcms.configuration.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.UsuarioMetadata;
+import com.bytecode.tratcms.core.configuration.TestDatabaseConfiguration;
+import com.bytecode.tratcms.core.model.UsuarioMetadata;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

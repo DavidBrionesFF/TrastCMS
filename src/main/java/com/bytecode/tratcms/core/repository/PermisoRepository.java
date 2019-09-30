@@ -1,14 +1,14 @@
-package com.bytecode.tratcms.repository;
+package com.bytecode.tratcms.core.repository;
 
 import java.util.List;
 
-import com.bytecode.tratcms.mapper.PermisoMapper;
+import com.bytecode.tratcms.core.mapper.PermisoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.core.model.Permiso;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;

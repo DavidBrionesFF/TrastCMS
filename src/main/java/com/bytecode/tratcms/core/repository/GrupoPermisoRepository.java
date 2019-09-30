@@ -1,13 +1,13 @@
-package com.bytecode.tratcms.repository;
+package com.bytecode.tratcms.core.repository;
 
 import java.util.List;
 
-import com.bytecode.tratcms.mapper.GrupoPermisoMapper;
+import com.bytecode.tratcms.core.mapper.GrupoPermisoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.bytecode.tratcms.model.GrupoPermiso;
+import com.bytecode.tratcms.core.model.GrupoPermiso;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;

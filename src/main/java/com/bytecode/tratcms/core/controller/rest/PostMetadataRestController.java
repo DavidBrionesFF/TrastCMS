@@ -1,10 +1,8 @@
-package com.bytecode.tratcms.controller.rest;
+package com.bytecode.tratcms.core.controller.rest;
 
-import com.bytecode.tratcms.model.Comentario;
-import com.bytecode.tratcms.model.PostMetadata;
-import com.bytecode.tratcms.model.common.RepBase;
-import com.bytecode.tratcms.repository.ComentarioRepository;
-import com.bytecode.tratcms.repository.PostMetadataRepository;
+import com.bytecode.tratcms.core.model.PostMetadata;
+import com.bytecode.tratcms.core.repository.PostMetadataRepository;
+import com.bytecode.tratcms.core.model.common.RepBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.ResponseEntity;

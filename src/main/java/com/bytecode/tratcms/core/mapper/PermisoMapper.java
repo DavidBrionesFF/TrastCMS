@@ -1,6 +1,6 @@
-package com.bytecode.tratcms.mapper;
+package com.bytecode.tratcms.core.mapper;
 
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.core.model.Permiso;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

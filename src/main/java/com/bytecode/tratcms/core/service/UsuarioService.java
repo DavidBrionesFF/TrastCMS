@@ -1,7 +1,7 @@
-package com.bytecode.tratcms.service;
+package com.bytecode.tratcms.core.service;
 
-import com.bytecode.tratcms.model.Usuario;
-import com.bytecode.tratcms.repository.UsuarioRep;
+import com.bytecode.tratcms.core.model.Usuario;
+import com.bytecode.tratcms.core.repository.UsuarioRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

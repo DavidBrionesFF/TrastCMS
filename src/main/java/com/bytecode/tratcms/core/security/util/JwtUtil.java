@@ -1,4 +1,4 @@
-package com.bytecode.tratcms.security.util;
+package com.bytecode.tratcms.core.security.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
