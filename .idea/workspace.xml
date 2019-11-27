@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/ComentarioRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/ContenidorRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/GrupoPermisoRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/GrupoRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/PermisoRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/PostMetadataRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/PostRestRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/UsuarioMetadataRestRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/UsuarioRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/StartCMS.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/GrupoPermisoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/GrupoPermisoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +70,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.StartCmsApplication">
+  <component name="RunManager" selected="Spring Boot.Application">
     <configuration name="ComentarioRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TratsCMS" />
       <extension name="coverage">
@@ -106,22 +97,6 @@
       <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
       <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ContenidoRepositoryTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ContenidoRepositoryTest.testA" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="TratsCMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.repository.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.bytecode.tratcms.repository" />
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.repository.ContenidoRepositoryTest" />
-      <option name="METHOD_NAME" value="testA" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -158,6 +133,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="StartCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bytecode.tratcms.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StartCmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="TratsCMS" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.bytecode.tratcms.Application" />
@@ -167,11 +155,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.Application" />
         <item itemvalue="JUnit.ComentarioRepositoryTest" />
         <item itemvalue="JUnit.ContenidoRepositoryTest.testD" />
         <item itemvalue="JUnit.ContenidoRepositoryTest.testB" />
         <item itemvalue="JUnit.ContenidoRepositoryTest" />
-        <item itemvalue="JUnit.ContenidoRepositoryTest.testA" />
       </list>
     </recent_temporary>
   </component>
@@ -193,6 +181,7 @@
       <workItem from="1568798064282" duration="10000" />
       <workItem from="1568805235860" duration="7199000" />
       <workItem from="1568858446754" duration="6964000" />
+      <workItem from="1574888847038" duration="1234000" />
     </task>
     <servers />
   </component>
