@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<ul class="nav justify-content-center">
+    <li class="nav-item">
+        <a class="nav-link active" th:href="@{/admin/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/categoria}">Categeoria</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" th:href="@{/admin/publicacion}">Publicaciones</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" th:href="@{/admin/comentario}">Comentario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Control de Usuarios</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/admin/usuario}">Usuarios</a>
+            <a class="dropdown-item" th:href="@{/admin/grupo}">Grupo</a>
+            <a class="dropdown-item" th:href="@{/admin/permiso}">Permiso</a>
+        </div>
+    </li>
+    <!--    <li class="nav-item">-->
+    <!--        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+    <!--    </li>-->
+</ul>

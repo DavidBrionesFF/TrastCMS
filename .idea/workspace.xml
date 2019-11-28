@@ -2,10 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/StartCMS.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/CategoriaController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/GrupoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PermisoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/UsuarioController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/script.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/style.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/publicacion.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/admin.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +70,11 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\David\Documents\TrastCMS\src\main\resources\templates\administrator" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -181,7 +199,7 @@
       <workItem from="1568798064282" duration="10000" />
       <workItem from="1568805235860" duration="7199000" />
       <workItem from="1568858446754" duration="6964000" />
-      <workItem from="1574888847038" duration="1234000" />
+      <workItem from="1574888847038" duration="7299000" />
     </task>
     <servers />
   </component>
