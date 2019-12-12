@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-4">
+            <div th:switch="${#httpServletRequest.requestURI}" class="alert alert-success" role="alert">
+                <span th:case="'/admin/'">
+                    Bienvenido al inicio.
+                </span>
+                <span th:case="'/admin/categoria'">
+                    Bienvenido a tus categorias
+                </span>
+                <span th:case="'/admin/publicacion'">
+                    Bienvenido a las publicaciones.
+                </span>
+                <span th:case="'/admin/comentario'">
+                    Bienvenido a Comentarios
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

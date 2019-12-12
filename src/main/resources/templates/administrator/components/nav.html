@@ -1,27 +1,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<ul class="nav justify-content-center">
-    <li class="nav-item">
-        <a class="nav-link active" th:href="@{/admin/}">Inicio</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" th:href="@{/admin/categoria}">Categeoria</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" th:href="@{/admin/publicacion}">Publicaciones</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" th:href="@{/admin/comentario}">Comentario</a>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Control de Usuarios</a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" th:href="@{/admin/usuario}">Usuarios</a>
-            <a class="dropdown-item" th:href="@{/admin/grupo}">Grupo</a>
-            <a class="dropdown-item" th:href="@{/admin/permiso}">Permiso</a>
-        </div>
-    </li>
-    <!--    <li class="nav-item">-->
-    <!--        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-    <!--    </li>-->
+<ul class="nav justify-content-center navbar-dark bg-dark">
+
 </ul>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">TrastCMS</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/}"
+                th:classappend="(${#httpServletRequest.requestURI} == '/admin/')? 'active': ''">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/categoria}"
+                   th:classappend="(${#httpServletRequest.requestURI} == '/admin/categoria')? 'active': ''">Categeoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/publicacion}"
+                   th:classappend="(${#httpServletRequest.requestURI} == '/admin/publicacion')? 'active': ''">Publicaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/comentario}"
+                   th:classappend="(${#httpServletRequest.requestURI} == '/admin/comentario')? 'active': ''">Comentario</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Control de Usuarios</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/admin/usuario}">Usuarios</a>
+                    <a class="dropdown-item" th:href="@{/admin/grupo}">Grupo</a>
+                    <a class="dropdown-item" th:href="@{/admin/permiso}">Permiso</a>
+                </div>
+            </li>
+            <!--    <li class="nav-item">-->
+            <!--        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+            <!--    </li>-->
+        </ul>
+    </div>
+</nav>
