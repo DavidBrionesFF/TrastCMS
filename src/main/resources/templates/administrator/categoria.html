@@ -12,7 +12,69 @@
 <body>
 <div th:replace="/administrator/components/nav.html"></div>
 <div th:replace="/administrator/components/message_welcome.html"></div>
-<form th:action="@{/inicio/categoria}"></form>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div th:if="${#httpServletRequest.getParameter('view_name') == null || #httpServletRequest.getParameter('view_name') == 'all'}" class="col-12">
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Accion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="categoria : ${categorias}">
+                        <th scope="row" th:text="${categoria.getIdCategoria()}"></th>
+                        <td th:text="${categoria.getNombre()}"></td>
+                        <td th:text="${categoria.getDescripcion()}"></td>
+                        <td th:text="${categoria.getFecha()}"></td>
+                        <td style="display: flex; justify-items: center; align-items: center;">
+                            <button type="button" class="btn btn-warning">
+                                <a class="text-white" th:href="'/admin/categoria?view_name=update&id=' + ${categoria.getIdCategoria()}">Editar</a>
+                            </button>
+                            <form style="margin: 0px;" th:action="@{/admin/categoria}" th:method="delete">
+                                <input type="hidden" name="id" th:value="${categoria.getIdCategoria()}">
+                                <button class="text-white btn btn-danger" type="submit">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary mt-4 mb-4">
+                    <a class="text-white" th:href="'/admin/categoria?view_name=new'">Agregar Categoria</a>
+                </button>
+            </div>
+        </div>
+
+        <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
+            <form th:action="@{/admin/categoria}" th:method="post" th:object="${categoria}">
+                <input type="hidden" th:field="*{idCategoria}">
+
+                <div class="form-group">
+                    <label for="inputNombre">Nombre</label>
+                    <input class="form-control" type="text" th:value="*{nombre}" id="inputNombre" th:field="*{nombre}" name="Nombre">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDescripcion">Descripcion</label>
+                    <input class="form-control" type="text" th:value="*{descripcion}" id="inputDescripcion" th:field="*{descripcion}" name="Descripcion">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="reset" class="btn btn-primary">Vaciar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div th:replace="/administrator/components/script.html"></div>
 </body>
 </html>

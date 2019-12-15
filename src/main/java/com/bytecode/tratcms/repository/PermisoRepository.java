@@ -66,4 +66,14 @@ public class PermisoRepository implements PermisoRep {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+	@Override
+	public boolean deleteById(long idPermiso) {
+		if(idPermiso>0) {
+			String sql = String.format("delete from permiso where IdPermiso='%d'", idPermiso);
+			jdbcTemplate.execute(sql);
+			return true;
+		}
+		return false;
+	}
 }
