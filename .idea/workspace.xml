@@ -3,13 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="a333aa58-1604-4b48-b96a-5f0d1d354346" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/CategoriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/CategoriaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PermisoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PermisoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PermisoRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PermisoRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PermisoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PermisoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/GrupoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/GrupoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/UsuarioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/message_welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/message_welcome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/publicacion.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/publicacion.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +46,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1Qx1PjFtAiBznQDXXjTJXffVkxO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -200,6 +210,8 @@
       <workItem from="1576209904768" duration="104000" />
       <workItem from="1576214268371" duration="13000" />
       <workItem from="1576357207766" duration="6217000" />
+      <workItem from="1576374431852" duration="23000" />
+      <workItem from="1579876521026" duration="2953000" />
     </task>
     <servers />
   </component>

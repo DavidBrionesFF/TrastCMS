@@ -11,6 +11,52 @@
 </head>
 <body>
 <div th:replace="/administrator/components/nav.html"></div>
+<div class="container">
+    <div class="row mt-4">
+        <div class="alert col-12 alert-primary" role="alert">
+            <h2>Usuario</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div th:if="${#httpServletRequest.getParameter('view_name') == null || #httpServletRequest.getParameter('view_name') == 'all'}" class="col-12">
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Accion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <th scope="row" th:text="${usuario.getIdUsuario()}"></th>
+                        <td th:text="${usuario.getNombre()}"></td>
+                        <td th:text="${usuario.getApellido()}"></td>
+                        <td th:text="${usuario.getCorreo()}"></td>
+                        <td th:text="${usuario.getFecha()}"></td>
+                        <td style="display: flex; justify-items: center; align-items: center;">
+                            <button type="button" class="btn btn-warning">
+                                <a class="text-white" th:href="'/admin/usuario?view_name=update&id=' + ${usuario.getIdUsuario()}">Editar</a>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary mt-4 mb-4">
+                    <a class="text-white" th:href="'/admin/grupo?view_name=new'">Agregar Usuario</a>
+                </button>
+            </div>
+
+            <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="/administrator/components/script.html"></div>
 </body>
 </html>
