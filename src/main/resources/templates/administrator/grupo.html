@@ -49,10 +49,100 @@
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
+                <form th:action="@{/admin/grupo}" th:method="post" th:object="${grupo}">
+                    <input type="hidden" th:field="*{idgrupo}">
+
+                    <div class="form-group">
+                        <label for="inputNombre">Nombre</label>
+                        <input class="form-control" type="text" th:value="*{nombre}" id="inputNombre" th:field="*{nombre}" name="Nombre">
+                    </div>
+
+                    <table class="table">
+                        <thead class="bg-primary text-white">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Fecha</th>
+<!--                            <th scope="col">Accion</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="permiso : ${permisos}">
+                            <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                            <td th:text="${permiso.getNombre()}"></td>
+                            <td th:text="${permiso.getFecha()}"></td>
+<!--                            <td style="display: flex; justify-items: center; align-items: center;">-->
+<!--                                <button type="button" class="btn btn-warning">-->
+<!--                                    <a class="text-white" th:href="'/admin/permiso?view_name=update&id=' + ${permiso.getIdPermiso()}">Editar</a>-->
+<!--                                </button>-->
+<!--                                <form style="margin: 0px;" th:action="@{/admin/permiso}" th:method="delete">-->
+<!--                                    <input type="hidden" name="id" th:value="${permiso.getIdPermiso()}">-->
+<!--                                    <button class="text-white btn btn-danger" type="submit">-->
+<!--                                        Eliminar-->
+<!--                                    </button>-->
+<!--                                </form>-->
+<!--                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Agregar Permiso</button>
+                        <button type="reset" class="btn btn-primary">Vaciar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <div th:replace="/administrator/components/script.html"></div>
+
+<!--Modal Permisos-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Permisos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Selecciona Permiso</h3>
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Accion</th>
+                        <!--                            <th scope="col">Accion</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="permiso : ${permisos_disponibles}">
+                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                        <td th:text="${permiso.getNombre()}"></td>
+                        <td th:text="${permiso.getFecha()}"></td>
+                        <td style="display: flex; justify-items: center; align-items: center;">
+                            <form style="margin: 0px;" th:action="@{/admin/grupo/addPermiso}" th:method="post">
+                                <input type="hidden" name="idPermiso" th:value="${permiso.getIdPermiso()}">
+                                <input type="hidden" name="idGrupo" th:value="${grupo.getIdgrupo()}">
+                                <button class="text-white btn btn-success" type="submit">
+                                    Agregar Permiso
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

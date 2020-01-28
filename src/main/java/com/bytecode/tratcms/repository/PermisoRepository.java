@@ -76,4 +76,20 @@ public class PermisoRepository implements PermisoRep {
 		}
 		return false;
 	}
+
+	@Override
+	public List<Permiso> findByIdGrupo(int idGrupo) {
+		Object[] params = new Object[] {idGrupo};
+		return jdbcTemplate.query("select p.* from grupo_permiso gp inner join permiso p on gp.IdPermiso = p.IdPermiso where gp.IdGrupo=?",
+				params,
+				new PermisoMapper());
+	}
+
+	@Override
+	public List<Permiso> findByNotIdGrupo(int idGrupo) {
+		Object[] params = new Object[] {idGrupo};
+		return jdbcTemplate.query("select p.* from grupo_permiso gp inner join permiso p on gp.IdPermiso = p.IdPermiso where gp.IdGrupo!=?",
+				params,
+				new PermisoMapper());
+	}
 }

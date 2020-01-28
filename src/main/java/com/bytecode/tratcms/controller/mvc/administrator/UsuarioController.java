@@ -1,6 +1,7 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
 import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.repository.GrupoRepository;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private GrupoRepository grupoRepository;
 
     @GetMapping
     public ModelAndView getHome(
@@ -27,9 +30,13 @@ public class UsuarioController {
                 break;
             case "new":
                 modelAndView.addObject("usuario", new Usuario());
+                modelAndView.addObject("grupos", grupoRepository.findAll(pageable));
+                modelAndView.addObject("update", false);
                 break;
             case "update":
                 modelAndView.addObject("usuario", usuarioRepository.findById(id));
+                modelAndView.addObject("grupos", grupoRepository.findAll(pageable));
+                modelAndView.addObject("update", true);
                 break;
         }
         return modelAndView;

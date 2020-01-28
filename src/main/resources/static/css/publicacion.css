@@ -1,0 +1,43 @@
+.content{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+#editor {
+    height: 250px;
+    background-color: white;
+    border-collapse: separate;
+    border: 1px solid rgb(204, 204, 204);
+    padding: 10px;
+    box-sizing: content-box;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+    box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+    overflow: auto;
+    outline: none;
+    border-radius: 0px;
+}
+
+#voiceBtn {
+    width: 20px;
+    color: transparent;
+    background-color: transparent;
+    transform: scale(2.0, 2.0);
+    -webkit-transform: scale(2.0, 2.0);
+    -moz-transform: scale(2.0, 2.0);
+    border: transparent;
+    cursor: pointer;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+div[data-role="editor-toolbar"] {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dropdown-menu a {
+    cursor: pointer;
+}

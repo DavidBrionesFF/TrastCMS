@@ -1,6 +1,7 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
 import com.bytecode.tratcms.model.Post;
+import com.bytecode.tratcms.repository.CategoriaRepository;
 import com.bytecode.tratcms.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class PublicacionController {
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @GetMapping
     public ModelAndView getHome(
@@ -26,12 +29,17 @@ public class PublicacionController {
         switch (view_name){
             case "all":
                 modelAndView.addObject("posts", postRepository.findAll(pageable));
+                modelAndView.addObject("update", false);
                 break;
             case "new":
                 modelAndView.addObject("post", new Post());
+                modelAndView.addObject("categorias", categoriaRepository.findAll(pageable));
+                modelAndView.addObject("update", true);
                 break;
             case "update":
                 modelAndView.addObject("post", postRepository.findById(id));
+                modelAndView.addObject("categorias", categoriaRepository.findAll(pageable));
+                modelAndView.addObject("update", true);
                 break;
         }
         return modelAndView;

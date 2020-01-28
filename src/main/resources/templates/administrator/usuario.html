@@ -48,11 +48,53 @@
                 </table>
 
                 <button type="button" class="btn btn-primary mt-4 mb-4">
-                    <a class="text-white" th:href="'/admin/grupo?view_name=new'">Agregar Usuario</a>
+                    <a class="text-white" th:href="'/admin/usuario?view_name=new'">Agregar Usuario</a>
                 </button>
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
+                <form th:action="@{/admin/usuario}" th:method="post" th:object="${usuario}">
+                    <input type="hidden" th:field="*{idUsuario}">
+
+                    <div class="form-group">
+                        <label for="inputNombre">Nombre</label>
+                        <input class="form-control" type="text" th:value="*{nombre}" id="inputNombre" th:field="*{nombre}" name="Nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputApellido">Apellido</label>
+                        <input class="form-control" type="text" th:value="*{apellido}" id="inputApellido" th:field="*{apellido}" name="Apellido">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputContrasena">Contrasena</label>
+                        <input class="form-control" type="password" th:value="*{contrasena}" id="inputContrasena" th:field="*{contrasena}" name="Contrasena">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputCorreo">Correo</label>
+                        <input class="form-control" type="text" th:value="*{correo}" id="inputCorreo" th:field="*{correo}" name="Correo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputGrupo">Grupo</label>
+                        <select th:field="*{idGrupo}" name="_cargo" id="inputGrupo" class="form-control">
+                            <option th:value="${grupo.getIdgrupo()}"
+                                    th:each="grupo : ${grupos}"
+                                    th:text="${grupo.getNombre()}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="reset" class="btn btn-primary">Vaciar</button>
+                        <button type="button" class="btn btn-primary">
+                            <a class="text-white" th:href="'/admin/grupo?view_name=update&id=' + ${usuario.getIdGrupo()}">
+                                Ver permisos
+                            </a>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

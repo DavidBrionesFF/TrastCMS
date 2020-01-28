@@ -12,6 +12,48 @@
 <body>
 <div th:replace="/administrator/components/nav.html"></div>
 <div th:replace="/administrator/components/message_welcome.html"></div>
+<div class="container">
+    <div class="row mt-4">
+        <div class="alert col-12 alert-primary" role="alert">
+            <h2>Comentarios</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div th:if="${#httpServletRequest.getParameter('view_name') == null || #httpServletRequest.getParameter('view_name') == 'all'}" class="col-12">
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Comentario</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Accion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comentario : ${comentarios}">
+                        <th scope="row" th:text="${comentario.getIdComentario()}"></th>
+                        <td th:text="${comentario.getComentario()}"></td>
+                        <td th:text="${comentario.getFecha()}"></td>
+                        <td style="display: flex; justify-items: center; align-items: center;">
+                            <button type="button" class="btn btn-warning">
+                                <a class="text-white" th:href="'/admin/comentario?view_name=update&id=' + ${comentario.getIdComentario()}">Editar</a>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary mt-4 mb-4">
+                    <a class="text-white" th:href="'/admin/comentario?view_name=new'">Agregar Comentario</a>
+                </button>
+            </div>
+
+            <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
+            </div>
+        </div>
+    </div>
+</div>
 <div th:replace="/administrator/components/script.html"></div>
 </body>
 </html>
