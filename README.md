@@ -19,3 +19,6 @@ Aun se encuentra en etapa de desarrollo.
  5. Manejo de matedatos en los usuarios, para poder agregar campos personalizados.
  6. Manejo de Categorias en las publicaciones.
  
+## Esquema de base de datos
+Este es el esquema basico de nuestra base de datos el cual te la puedes descargar
+[![Esquema](https://raw.githubusercontent.com/DavidBrionesFF/TrastCMS/master/TrastCMS%20Model.JPG)]
