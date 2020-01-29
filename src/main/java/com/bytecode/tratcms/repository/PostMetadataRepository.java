@@ -65,4 +65,11 @@ public class PostMetadataRepository implements PostMetadataRep{
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+	@Override
+	public List<PostMetadata> findByIdPost(int idPost) {
+		Object[] params = new Object[] {idPost};
+		return jdbcTemplate.query("select * from post_metadata where IdPost = ?",
+				params, new PostMetadataMapper());
+	}
 }

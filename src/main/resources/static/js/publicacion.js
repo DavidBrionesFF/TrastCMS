@@ -1,11 +1,9 @@
 $(function(){
-    document.getElementById("enviar")
-        .addEventListener("click", function (ev) {
+    document.getElementById("form1")
+        .addEventListener("submit", function (ev) {
             document.getElementById("meta_descripcion_text_html").value =
                 document.getElementById("editor").innerHTML;
-            alert(document.getElementById("meta_descripcion_text_html").value)
         }, true);
-
 
     function initToolbarBootstrapBindings() {
         var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',

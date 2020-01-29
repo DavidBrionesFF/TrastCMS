@@ -11,13 +11,13 @@ public class Post {
 	
 	private String Extracto;
 	
-	private long  IdUsuario;
+	private long  IdUsuario = 1;
 	
 	private long Categoria;
 	
 	private String ImagenDestacada;
 	
-	private String Tipo;
+	private String Tipo = "POST";
 
 	private Date Fecha;
 

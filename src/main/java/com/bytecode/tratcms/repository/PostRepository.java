@@ -52,7 +52,7 @@ public class PostRepository implements PostRep{
 
 	@Override
 	public List<Post> findAll(Pageable pageable) {
-		return jdbcTemplate.query("select * from post", new PostMapper());
+		return jdbcTemplate.query("select * from post order by Fecha desc ", new PostMapper());
 	}
 
 	@Override
@@ -68,5 +68,16 @@ public class PostRepository implements PostRep{
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@Override
+	public Post findOnSave(Post post) {
+		this.save(post);
+		return findLast();
+	}
+
+	@Override
+	public Post findLast() {
+		return jdbcTemplate.queryForObject("SELECT * FROM post ORDER by IdPost desc LIMIT 1", new PostMapper());
 	}
 }

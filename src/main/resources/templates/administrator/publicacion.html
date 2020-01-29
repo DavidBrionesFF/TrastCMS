@@ -52,7 +52,7 @@
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
-                <form id="form1" th:action="@{/admin/publicacion}" th:method="post" th:object="${post}" onsubmit="loadVal();">
+                <form id="form1" th:action="@{/admin/publicacion}" th:method="post" th:object="${post}">
                     <input type="hidden" th:value="*{tipo}" th:field="*{tipo}">
                     <input type="hidden" th:value="*{idPost}" th:field="*{idPost}">
 
@@ -135,12 +135,14 @@
                             <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
                         </div>
 
-                        <div id="editor"></div>
+                        <input type="hidden" th:value="${meta_description.getIdPostMetadata()}" name="meta_id">
+
+                        <div th:text="${meta_description.getValor()}" id="editor"></div>
 
                         <textarea name="meta_descripcion_text_html" id="meta_descripcion_text_html" rows="2" cols="20" style="display:none; "></textarea>
 
                         <br/>
-                        <input id="enviar" type="button" value="Guardar" name="B1" class="btn btn-primary btn-large"></div>
+                        <input id="enviar" type="submit" value="Guardar" name="B1" class="btn btn-primary btn-large"></div>
                 </form>
             </div>
         </div>
