@@ -5,6 +5,7 @@ import com.bytecode.tratcms.repository.GrupoRepository;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,9 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private GrupoRepository grupoRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping
     public ModelAndView getHome(
@@ -49,6 +53,7 @@ public class UsuarioController {
         if (usuario.getIdUsuario() > 0){
             usuarioRepository.update(usuario);
         } else {
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
             usuarioRepository.save(usuario);
         }
         return "redirect:/admin/usuario";
