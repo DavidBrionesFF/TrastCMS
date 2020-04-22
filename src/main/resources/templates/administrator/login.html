@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace ="/administrator/components/style.html"></div>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <title>Iniciar Sesion</title>
+</head>
+<body>
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1"></div>
+        <div class="col-md-6 login-form-2">
+            <h3>Bienvenido a Byte PL</h3>
+            <form th:action="@{/login}" method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Correo *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Contrasena *" value="" />
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" name="remember-me" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Recordar</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Iniciar Sesion" />
+                </div>
+                <div class="form-group">
+                    <a href="#" class="ForgetPwd" value="Login">¿Perdiste tu contrasena?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
