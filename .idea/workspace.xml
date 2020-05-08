@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5342f7e1-d12b-4e78-87eb-b0ac8daf66e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/Logincontroller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/configuration/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/configuration/WebSecurityConfiguration.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +81,8 @@
       <workItem from="1580321174721" duration="1764000" />
       <workItem from="1580957430451" duration="2355000" />
       <workItem from="1586897135648" duration="2492000" />
-      <workItem from="1587540999355" duration="665000" />
+      <workItem from="1587540999355" duration="2141000" />
+      <workItem from="1587585006018" duration="794000" />
     </task>
     <servers />
   </component>
