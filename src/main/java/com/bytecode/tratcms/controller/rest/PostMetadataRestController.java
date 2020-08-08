@@ -1,9 +1,7 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Comentario;
-import com.bytecode.tratcms.model.PostMetadata;
+import com.bytecode.tratcms.model.MPostMetadata;
 import com.bytecode.tratcms.model.common.RepBase;
-import com.bytecode.tratcms.repository.ComentarioRepository;
 import com.bytecode.tratcms.repository.PostMetadataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -19,22 +17,22 @@ public class PostMetadataRestController {
     private PostMetadataRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody PostMetadata postMetadata){
-        return ResponseEntity.ok(new RepBase(repository.save(postMetadata)));
+    public ResponseEntity<RepBase> save(@RequestBody MPostMetadata MPostMetadata){
+        return ResponseEntity.ok(new RepBase(repository.save(MPostMetadata)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody PostMetadata postMetadata){
-        return ResponseEntity.ok(new RepBase(repository.update(postMetadata)));
+    public ResponseEntity<RepBase> update(@RequestBody MPostMetadata MPostMetadata){
+        return ResponseEntity.ok(new RepBase(repository.update(MPostMetadata)));
     }
 
     @GetMapping
-    public ResponseEntity<List<PostMetadata>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MPostMetadata>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostMetadata> findById(@PathVariable int id){
+    public ResponseEntity<MPostMetadata> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

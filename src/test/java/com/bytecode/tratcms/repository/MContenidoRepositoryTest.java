@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.PostMetadata;
+import com.bytecode.tratcms.model.MContenido;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -15,32 +15,31 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class PostMetadataRepositoryTest {
+public class MContenidoRepositoryTest {
+
     @Autowired
-    private PostMetadataRepository repository;
+    private ContenidoRepository repository;
 
     @Test
     public void testA(){
-        PostMetadata postMetadata = new PostMetadata();
-        postMetadata.setClave("Visitas");
-        postMetadata.setIdPost(1);
-        postMetadata.setTipo(Integer.class.getName());
-        postMetadata.setValor("13");
-        postMetadata.setIdPostMetadata(1);
+        MContenido MContenido = new MContenido();
+        MContenido.setContenido("Hola");
+        MContenido.setIdPost(3);
+        MContenido.setTipo(String.class.getName());
+        MContenido.setIdContenido(1);
 
-        Assert.assertTrue(repository.save(postMetadata));
+        Assert.assertTrue(repository.save(MContenido));
     }
 
     @Test
     public void testB(){
-        PostMetadata postMetadata = new PostMetadata();
-        postMetadata.setClave("Visitas");
-        postMetadata.setIdPost(1);
-        postMetadata.setTipo(Integer.class.getName());
-        postMetadata.setValor("18");
-        postMetadata.setIdPostMetadata(1);
+        MContenido MContenido = new MContenido();
+        MContenido.setContenido("HolaAA");
+        MContenido.setIdPost(3);
+        MContenido.setTipo(String.class.getName());
+        MContenido.setIdContenido(3);
 
-        Assert.assertTrue(repository.update(postMetadata));
+        Assert.assertTrue(repository.update(MContenido));
     }
 
     @Test
@@ -50,6 +49,6 @@ public class PostMetadataRepositoryTest {
 
     @Test
     public void testD(){
-        Assert.assertTrue(repository.findById(1).getValor().equalsIgnoreCase("19"));
+        Assert.assertTrue(repository.findById(3).getContenido().equalsIgnoreCase("HolaAA"));
     }
 }

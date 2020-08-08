@@ -1,8 +1,6 @@
 package com.bytecode.tratcms.service;
 
-import com.bytecode.tratcms.model.Grupo;
-import com.bytecode.tratcms.model.Usuario;
-import com.bytecode.tratcms.repository.GrupoRepository;
+import com.bytecode.tratcms.model.MUsuario;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -21,17 +19,17 @@ public class InstalacionService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public void init_usuarios(){
-        Usuario usuario = null;
+        MUsuario MUsuario = null;
         try {
             usuarioRepository.findByCorreo(env.getProperty("bytecode.usuario.correo"));
         }catch (Exception e){
-            usuario = new Usuario();
-            usuario.setContrasena(passwordEncoder.encode(env.getProperty("bytecode.usuario.contrasena")));
-            usuario.setApellido("Administrador");
-            usuario.setNombre("Administrador");
-            usuario.setIdGrupo(1);
-            usuario.setCorreo(env.getProperty("bytecode.usuario.correo"));
-            usuarioRepository.save(usuario);
+            MUsuario = new MUsuario();
+            MUsuario.setContrasena(passwordEncoder.encode(env.getProperty("bytecode.usuario.contrasena")));
+            MUsuario.setApellido("Administrador");
+            MUsuario.setNombre("Administrador");
+            MUsuario.setIdGrupo(1);
+            MUsuario.setCorreo(env.getProperty("bytecode.usuario.correo"));
+            usuarioRepository.save(MUsuario);
         }
     }
 }

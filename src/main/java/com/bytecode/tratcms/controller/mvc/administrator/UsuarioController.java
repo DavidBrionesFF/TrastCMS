@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MUsuario;
 import com.bytecode.tratcms.repository.GrupoRepository;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class UsuarioController {
                 modelAndView.addObject("usuarios", usuarioRepository.findAll(pageable));
                 break;
             case "new":
-                modelAndView.addObject("usuario", new Usuario());
+                modelAndView.addObject("usuario", new MUsuario());
                 modelAndView.addObject("grupos", grupoRepository.findAll(pageable));
                 modelAndView.addObject("update", false);
                 break;
@@ -48,13 +48,13 @@ public class UsuarioController {
 
     @PostMapping
     public String newAndUpdate(
-            @ModelAttribute Usuario usuario
+            @ModelAttribute MUsuario MUsuario
     ){
-        if (usuario.getIdUsuario() > 0){
-            usuarioRepository.update(usuario);
+        if (MUsuario.getIdUsuario() > 0){
+            usuarioRepository.update(MUsuario);
         } else {
-            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
-            usuarioRepository.save(usuario);
+            MUsuario.setContrasena(passwordEncoder.encode(MUsuario.getContrasena()));
+            usuarioRepository.save(MUsuario);
         }
         return "redirect:/admin/usuario";
     }

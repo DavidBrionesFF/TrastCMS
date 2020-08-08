@@ -2,7 +2,7 @@ package com.bytecode.tratcms.model;
 
 import java.util.Date;
 
-public class GrupoPermiso {
+public class MGrupoPermiso {
 	private long IdGrupo;
 	
 	private long IdPermiso;

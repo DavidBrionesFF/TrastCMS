@@ -1,18 +1,18 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.GrupoPermiso;
+import com.bytecode.tratcms.model.MGrupoPermiso;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GrupoPermisoMapper implements RowMapper<GrupoPermiso> {
+public class GrupoPermisoMapper implements RowMapper<MGrupoPermiso> {
     @Override
-    public GrupoPermiso mapRow(ResultSet rs, int rowNum) throws SQLException {
-        GrupoPermiso grupoPermiso = new GrupoPermiso();
-        grupoPermiso.setIdGrupo(rs.getInt("IdGrupo"));
-        grupoPermiso.setIdPermiso(rs.getInt("IdPermiso"));
-        grupoPermiso.setFecha(rs.getDate("Fecha"));
-        return grupoPermiso;
+    public MGrupoPermiso mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MGrupoPermiso MGrupoPermiso = new MGrupoPermiso();
+        MGrupoPermiso.setIdGrupo(rs.getInt("IdGrupo"));
+        MGrupoPermiso.setIdPermiso(rs.getInt("IdPermiso"));
+        MGrupoPermiso.setFecha(rs.getDate("Fecha"));
+        return MGrupoPermiso;
     }
 }

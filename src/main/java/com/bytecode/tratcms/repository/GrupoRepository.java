@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.bytecode.tratcms.model.Grupo;
+import com.bytecode.tratcms.model.MGrupo;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -25,7 +25,7 @@ public class GrupoRepository implements GrupoRep{
 	}
 
 	@Override
-	public boolean save(Grupo object) {
+	public boolean save(MGrupo object) {
 		try {
 			String sql = String.format("insert into Grupo (Nombre) values ('%s')", object.getNombre());
 			jdbcTemplate.execute(sql);
@@ -36,7 +36,7 @@ public class GrupoRepository implements GrupoRep{
 	}
 
 	@Override
-	public boolean update(Grupo object) {
+	public boolean update(MGrupo object) {
 		if(object.getIdgrupo()>0) {
 			String sql = String.format("update Grupo set Nombre='%s' where IdGrupo='%d'", object.getNombre(), object.getIdgrupo());
 			jdbcTemplate.execute(sql);
@@ -46,12 +46,12 @@ public class GrupoRepository implements GrupoRep{
 	}
 
 	@Override
-	public List<Grupo> findAll(Pageable pageable) {
+	public List<MGrupo> findAll(Pageable pageable) {
 		return jdbcTemplate.query("select * from grupo", new GrupoMapper());
 	}
 
 	@Override
-	public Grupo findById(int Id) {
+	public MGrupo findById(int Id) {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from grupo where IdGrupo = ?",
 				params, new GrupoMapper());

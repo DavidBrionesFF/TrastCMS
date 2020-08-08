@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.Grupo;
+import com.bytecode.tratcms.model.MGrupo;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,20 +22,20 @@ public class GrupoRepositoryTest {
 
     @Test
     public void testA(){
-        Grupo grupo = new Grupo();
-        grupo.setIdgrupo(1);
-        grupo.setNombre("Grupo1");
+        MGrupo MGrupo = new MGrupo();
+        MGrupo.setIdgrupo(1);
+        MGrupo.setNombre("Grupo1");
 
-        Assert.assertTrue(grupoRepository.save(grupo));
+        Assert.assertTrue(grupoRepository.save(MGrupo));
     }
 
     @Test
     public void testB(){
-        Grupo grupo = new Grupo();
-        grupo.setIdgrupo(1);
-        grupo.setNombre("Grupo2");
+        MGrupo MGrupo = new MGrupo();
+        MGrupo.setIdgrupo(1);
+        MGrupo.setNombre("Grupo2");
 
-        Assert.assertTrue(grupoRepository.update(grupo));
+        Assert.assertTrue(grupoRepository.update(MGrupo));
     }
 
     @Test

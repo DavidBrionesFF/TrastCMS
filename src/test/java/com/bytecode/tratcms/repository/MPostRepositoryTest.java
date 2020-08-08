@@ -2,7 +2,7 @@ package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
 import com.bytecode.tratcms.init.InitConfiguration;
-import com.bytecode.tratcms.model.Post;
+import com.bytecode.tratcms.model.MPost;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class PostRepositoryTest {
+public class MPostRepositoryTest {
     @Autowired
     private PostRepository postRepository;
 
@@ -24,42 +24,42 @@ public class PostRepositoryTest {
 
     @Test
     public void insert() throws IOException {
-        Post post = new Post();
-        post.setIdPost(1);
-        post.setImagenDestacada("image.jpg");
-        post.setCategoria(1);
-        post.setExtracto("Extracto de ejemplo");
-        post.setSlug("nuevo-post");
-        post.setTitulo("Nuevo Post");
-        post.setTipo(initConfiguration.getTypes().get(1));
-        post.setIdUsuario(1);
+        MPost MPost = new MPost();
+        MPost.setIdPost(1);
+        MPost.setImagenDestacada("image.jpg");
+        MPost.setCategoria(1);
+        MPost.setExtracto("Extracto de ejemplo");
+        MPost.setSlug("nuevo-post");
+        MPost.setTitulo("Nuevo Post");
+        MPost.setTipo(initConfiguration.getTypes().get(1));
+        MPost.setIdUsuario(1);
 
-        boolean result = postRepository.save(post);
+        boolean result = postRepository.save(MPost);
 
         Assert.assertTrue(result);
     }
 
     @Test
     public void update() throws IOException {
-        Post post = new Post();
-        post.setIdPost(1);
-        post.setImagenDestacada("image.jpg");
-        post.setCategoria(1);
-        post.setExtracto("Extracto de ejemplo");
-        post.setSlug("nuevo-post-xd");
-        post.setTitulo("Nuevo Post XD");
-        post.setTipo(initConfiguration.getTypes().get(1));
-        post.setIdUsuario(1);
+        MPost MPost = new MPost();
+        MPost.setIdPost(1);
+        MPost.setImagenDestacada("image.jpg");
+        MPost.setCategoria(1);
+        MPost.setExtracto("Extracto de ejemplo");
+        MPost.setSlug("nuevo-post-xd");
+        MPost.setTitulo("Nuevo Post XD");
+        MPost.setTipo(initConfiguration.getTypes().get(1));
+        MPost.setIdUsuario(1);
 
-        boolean result = postRepository.update(post);
+        boolean result = postRepository.update(MPost);
 
         Assert.assertTrue(result);
     }
 
     @Test
     public void findById(){
-        Post post = postRepository.findById(3);
-        Assert.assertNotNull(post);
+        MPost MPost = postRepository.findById(3);
+        Assert.assertNotNull(MPost);
     }
 
     @Test

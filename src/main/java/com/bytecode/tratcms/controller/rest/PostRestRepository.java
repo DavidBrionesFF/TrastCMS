@@ -1,7 +1,6 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Post;
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MPost;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +18,22 @@ public class PostRestRepository {
     private PostRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody Post post){
-        return ResponseEntity.ok(new RepBase(repository.save(post)));
+    public ResponseEntity<RepBase> save(@RequestBody MPost MPost){
+        return ResponseEntity.ok(new RepBase(repository.save(MPost)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody Post post){
-        return ResponseEntity.ok(new RepBase(repository.update(post)));
+    public ResponseEntity<RepBase> update(@RequestBody MPost MPost){
+        return ResponseEntity.ok(new RepBase(repository.update(MPost)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MPost>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> findById(@PathVariable int id){
+    public ResponseEntity<MPost> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

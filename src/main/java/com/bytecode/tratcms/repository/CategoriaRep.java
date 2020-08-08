@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
-import com.bytecode.tratcms.model.Categoria;
+import com.bytecode.tratcms.model.MCategoria;
 
-public interface CategoriaRep extends BaseRep<Categoria> {
+public interface CategoriaRep extends BaseRep<MCategoria> {
     public boolean deleteById(int id);
 }

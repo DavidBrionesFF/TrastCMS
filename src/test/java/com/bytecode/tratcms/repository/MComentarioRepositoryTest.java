@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.model.MComentario;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -15,26 +15,32 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class PermisoRepositoryTest {
+public class MComentarioRepositoryTest {
     @Autowired
-    private PermisoRepository repository;
+    private ComentarioRepository repository;
 
     @Test
     public void testA(){
-        Permiso permiso = new Permiso();
-        permiso.setIdPermiso(1);
-        permiso.setNombre("Nuevo Permismo");
+        MComentario MComentario = new MComentario();
+        MComentario.setComentario("ComentarioA");
+        MComentario.setIdComentario(1);
+        MComentario.setIdPost(3);
+        MComentario.setIdUsuario(1);
+        MComentario.setRespuesta(null);
 
-        Assert.assertTrue(repository.save(permiso));
+        Assert.assertTrue(repository.save(MComentario));
     }
 
     @Test
     public void testB(){
-        Permiso permiso = new Permiso();
-        permiso.setIdPermiso(1);
-        permiso.setNombre("Nuevo Permismo2");
+        MComentario MComentario = new MComentario();
+        MComentario.setComentario("ComentarioB");
+        MComentario.setIdComentario(1);
+        MComentario.setIdPost(3);
+        MComentario.setIdUsuario(1);
+        MComentario.setRespuesta(null);
 
-        Assert.assertTrue(repository.update(permiso));
+        Assert.assertTrue(repository.update(MComentario));
     }
 
     @Test
@@ -44,6 +50,6 @@ public class PermisoRepositoryTest {
 
     @Test
     public void testD(){
-        Assert.assertTrue(repository.findById(1).getNombre().equalsIgnoreCase("Nuevo Permismo2"));
+        Assert.assertTrue(repository.findById(1).getComentario().equalsIgnoreCase("ComentarioB"));
     }
 }

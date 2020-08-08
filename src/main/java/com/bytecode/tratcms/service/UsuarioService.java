@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.service;
 
-import com.bytecode.tratcms.model.Grupo;
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MGrupo;
+import com.bytecode.tratcms.model.MUsuario;
 import com.bytecode.tratcms.repository.GrupoRepository;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByCorreo(correo);
-        Grupo grupo = grupoRepository.findById(Integer.valueOf(usuario.getIdGrupo() + ""));
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(("ROLE_" + grupo.getNombre()).toUpperCase());
-        return new User(usuario.getCorreo(), usuario.getContrasena(), Arrays.asList(grantedAuthority));
+        MUsuario MUsuario = usuarioRepository.findByCorreo(correo);
+        MGrupo MGrupo = grupoRepository.findById(Integer.valueOf(MUsuario.getIdGrupo() + ""));
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(("ROLE_" + MGrupo.getNombre()).toUpperCase());
+        return new User(MUsuario.getCorreo(), MUsuario.getContrasena(), Arrays.asList(grantedAuthority));
     }
 }

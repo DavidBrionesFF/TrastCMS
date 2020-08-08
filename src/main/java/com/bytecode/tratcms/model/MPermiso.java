@@ -2,8 +2,8 @@ package com.bytecode.tratcms.model;
 
 import java.util.Date;
 
-public class Grupo {
-	private long Idgrupo;
+public class MPermiso {
+	private long IdPermiso;
 	
 	private String Nombre;
 
@@ -17,12 +17,12 @@ public class Grupo {
 		Fecha = fecha;
 	}
 
-	public long getIdgrupo() {
-		return Idgrupo;
+	public long getIdPermiso() {
+		return IdPermiso;
 	}
 
-	public void setIdgrupo(long idgrupo) {
-		Idgrupo = idgrupo;
+	public void setIdPermiso(long idPermiso) {
+		IdPermiso = idPermiso;
 	}
 
 	public String getNombre() {

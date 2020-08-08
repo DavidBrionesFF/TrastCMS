@@ -2,7 +2,7 @@ package com.bytecode.tratcms.model;
 
 import java.util.Date;
 
-public class UsuarioMetadata {
+public class MUsuarioMetadata {
 	private long IdUsuarioMetadata;
 	
 	private long IdUsuario;

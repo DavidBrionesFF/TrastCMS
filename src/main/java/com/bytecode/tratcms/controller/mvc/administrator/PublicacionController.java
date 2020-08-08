@@ -1,12 +1,10 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.Post;
-import com.bytecode.tratcms.model.PostMetadata;
+import com.bytecode.tratcms.model.MPost;
+import com.bytecode.tratcms.model.MPostMetadata;
 import com.bytecode.tratcms.repository.CategoriaRepository;
 import com.bytecode.tratcms.repository.PostMetadataRepository;
 import com.bytecode.tratcms.repository.PostRepository;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Controller;
@@ -39,18 +37,18 @@ public class PublicacionController {
                 modelAndView.addObject("update", false);
                 break;
             case "new":
-                modelAndView.addObject("post", new Post());
+                modelAndView.addObject("post", new MPost());
                 modelAndView.addObject("categorias", categoriaRepository.findAll(pageable));
                 modelAndView.addObject("update", true);
-                modelAndView.addObject("meta_description", new PostMetadata());
+                modelAndView.addObject("meta_description", new MPostMetadata());
                 break;
             case "update":
-                List<PostMetadata> postMetadatas = postMetadataRepository.findByIdPost(id);
+                List<MPostMetadata> MPostMetadata = postMetadataRepository.findByIdPost(id);
                 modelAndView.addObject("post", postRepository.findById(id));
                 modelAndView.addObject("categorias", categoriaRepository.findAll(pageable));
                 modelAndView.addObject("update", true);
-                modelAndView.addObject("post_metadata", postMetadatas);
-                modelAndView.addObject("meta_description", postMetadatas.stream()
+                modelAndView.addObject("post_metadata", MPostMetadata);
+                modelAndView.addObject("meta_description", MPostMetadata.stream()
                                                                          .filter(postMetadata -> {
                                                                              return postMetadata.getClave().equalsIgnoreCase("meta_descripcion");
                                                                          }).collect(Collectors.toList()).get(0));
@@ -60,23 +58,23 @@ public class PublicacionController {
     }
 
     @PostMapping
-    public String addAndUpdatePublicacion(@ModelAttribute Post post,
+    public String addAndUpdatePublicacion(@ModelAttribute MPost MPost,
                                           @RequestParam(name = "meta_descripcion_text_html") String descripcion,
                                           @RequestParam(name = "meta_id", defaultValue = "0") int idMeta){
-        PostMetadata postMetadata = new PostMetadata();
-        postMetadata.setIdPost(post.getIdPost());
-        postMetadata.setClave("meta_descripcion");
-        postMetadata.setValor(descripcion);
-        postMetadata.setTipo("text/html");
-        postMetadata.setIdPostMetadata(idMeta);
+        MPostMetadata MPostMetadata = new MPostMetadata();
+        MPostMetadata.setIdPost(MPost.getIdPost());
+        MPostMetadata.setClave("meta_descripcion");
+        MPostMetadata.setValor(descripcion);
+        MPostMetadata.setTipo("text/html");
+        MPostMetadata.setIdPostMetadata(idMeta);
 
-        if (post.getIdPost() > 0){
-            postRepository.update(post);
-            postMetadataRepository.update(postMetadata);
+        if (MPost.getIdPost() > 0){
+            postRepository.update(MPost);
+            postMetadataRepository.update(MPostMetadata);
         } else {
-            post = postRepository.findOnSave(post);
-            postMetadata.setIdPost(post.getIdPost());
-            postMetadataRepository.save(postMetadata);
+            MPost = postRepository.findOnSave(MPost);
+            MPostMetadata.setIdPost(MPost.getIdPost());
+            postMetadataRepository.save(MPostMetadata);
         }
         return "redirect:/admin/publicacion";
     }

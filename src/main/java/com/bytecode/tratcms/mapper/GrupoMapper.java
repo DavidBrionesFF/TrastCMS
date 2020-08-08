@@ -1,18 +1,18 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.Grupo;
+import com.bytecode.tratcms.model.MGrupo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GrupoMapper implements RowMapper<Grupo> {
+public class GrupoMapper implements RowMapper<MGrupo> {
     @Override
-    public Grupo mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Grupo grupo = new Grupo();
-        grupo.setIdgrupo(rs.getInt("IdGrupo"));
-        grupo.setNombre(rs.getString("Nombre"));
-        grupo.setFecha(rs.getDate("Fecha"));
-        return grupo;
+    public MGrupo mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MGrupo MGrupo = new MGrupo();
+        MGrupo.setIdgrupo(rs.getInt("IdGrupo"));
+        MGrupo.setNombre(rs.getString("Nombre"));
+        MGrupo.setFecha(rs.getDate("Fecha"));
+        return MGrupo;
     }
 }

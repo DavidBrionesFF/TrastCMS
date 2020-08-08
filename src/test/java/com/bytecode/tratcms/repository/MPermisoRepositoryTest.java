@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.Comentario;
+import com.bytecode.tratcms.model.MPermiso;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -15,32 +15,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class ComentarioRepositoryTest {
+public class MPermisoRepositoryTest {
     @Autowired
-    private ComentarioRepository repository;
+    private PermisoRepository repository;
 
     @Test
     public void testA(){
-        Comentario comentario = new Comentario();
-        comentario.setComentario("ComentarioA");
-        comentario.setIdComentario(1);
-        comentario.setIdPost(3);
-        comentario.setIdUsuario(1);
-        comentario.setRespuesta(null);
+        MPermiso MPermiso = new MPermiso();
+        MPermiso.setIdPermiso(1);
+        MPermiso.setNombre("Nuevo Permismo");
 
-        Assert.assertTrue(repository.save(comentario));
+        Assert.assertTrue(repository.save(MPermiso));
     }
 
     @Test
     public void testB(){
-        Comentario comentario = new Comentario();
-        comentario.setComentario("ComentarioB");
-        comentario.setIdComentario(1);
-        comentario.setIdPost(3);
-        comentario.setIdUsuario(1);
-        comentario.setRespuesta(null);
+        MPermiso MPermiso = new MPermiso();
+        MPermiso.setIdPermiso(1);
+        MPermiso.setNombre("Nuevo Permismo2");
 
-        Assert.assertTrue(repository.update(comentario));
+        Assert.assertTrue(repository.update(MPermiso));
     }
 
     @Test
@@ -50,6 +44,6 @@ public class ComentarioRepositoryTest {
 
     @Test
     public void testD(){
-        Assert.assertTrue(repository.findById(1).getComentario().equalsIgnoreCase("ComentarioB"));
+        Assert.assertTrue(repository.findById(1).getNombre().equalsIgnoreCase("Nuevo Permismo2"));
     }
 }

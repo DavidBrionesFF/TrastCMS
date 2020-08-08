@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.repository;
 
-import com.bytecode.tratcms.model.Comentario;
+import com.bytecode.tratcms.model.MComentario;
 
-public interface ComentarioRep extends BaseRep<Comentario>{
+public interface ComentarioRep extends BaseRep<MComentario>{
 }

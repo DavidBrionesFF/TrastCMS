@@ -2,7 +2,7 @@ package com.bytecode.tratcms.model;
 
 import java.util.Date;
 
-public class Post {
+public class MPost {
 	private long IdPost;
 	
 	private String Titulo;

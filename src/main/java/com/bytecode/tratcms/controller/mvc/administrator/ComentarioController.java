@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.Comentario;
+import com.bytecode.tratcms.model.MComentario;
 import com.bytecode.tratcms.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -28,7 +28,7 @@ public class ComentarioController {
                 modelAndView.addObject("comentarios", comentarioRepository.findAll(pageable));
                 break;
             case "new":
-                modelAndView.addObject("comentario", new Comentario());
+                modelAndView.addObject("comentario", new MComentario());
                 break;
             case "update":
                 modelAndView.addObject("comentario", comentarioRepository.findById(id));

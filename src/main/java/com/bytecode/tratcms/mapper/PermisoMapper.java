@@ -1,18 +1,18 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.model.MPermiso;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PermisoMapper implements RowMapper<Permiso> {
+public class PermisoMapper implements RowMapper<MPermiso> {
     @Override
-    public Permiso mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Permiso permiso = new Permiso();
-        permiso.setIdPermiso(rs.getInt("IdPermiso"));
-        permiso.setNombre(rs.getString("Nombre"));
-        permiso.setFecha(rs.getDate("Fecha"));
-        return permiso;
+    public MPermiso mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MPermiso MPermiso = new MPermiso();
+        MPermiso.setIdPermiso(rs.getInt("IdPermiso"));
+        MPermiso.setNombre(rs.getString("Nombre"));
+        MPermiso.setFecha(rs.getDate("Fecha"));
+        return MPermiso;
     }
 }

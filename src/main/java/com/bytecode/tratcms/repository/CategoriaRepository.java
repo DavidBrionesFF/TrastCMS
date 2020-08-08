@@ -3,14 +3,13 @@ package com.bytecode.tratcms.repository;
 import java.util.List;
 
 import com.bytecode.tratcms.mapper.CategoriaMapper;
+import com.bytecode.tratcms.model.MCategoria;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.bytecode.tratcms.model.Categoria;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -28,12 +27,12 @@ public class CategoriaRepository implements CategoriaRep {
 	}
 
 	@Override
-	public boolean save(Categoria categoria) {
+	public boolean save(MCategoria MCategoria) {
 		try {
 			String sql = String.format(
 					"insert into Categoria (Nombre,Descripcion,CategoriaSuperior) "
 					+ "values('%s', '%s', %d)",
-					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior());
+					MCategoria.getNombre(), MCategoria.getDescripcion(), MCategoria.getCategoriaSuperior());
 			jdbcTemplate.execute(sql);
 			return true;
 		}catch(Exception e) {
@@ -44,12 +43,12 @@ public class CategoriaRepository implements CategoriaRep {
 	}
 
 	@Override
-	public boolean update(Categoria categoria) {
-		if(categoria.getIdCategoria() > 0) {
+	public boolean update(MCategoria MCategoria) {
+		if(MCategoria.getIdCategoria() > 0) {
 			String sql = String.format("update Categoria set Nombre='%s', Descripcion='%s', CategoriaSuperior='%d' "
 					+ "where IdCategoria='%d'", 
-					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior(),
-					categoria.getIdCategoria());
+					MCategoria.getNombre(), MCategoria.getDescripcion(), MCategoria.getCategoriaSuperior(),
+					MCategoria.getIdCategoria());
 			jdbcTemplate.execute(sql);
 			return true;
 		}
@@ -57,12 +56,12 @@ public class CategoriaRepository implements CategoriaRep {
 	}
 
 	@Override
-	public List<Categoria> findAll(Pageable pageable) {
+	public List<MCategoria> findAll(Pageable pageable) {
 		return jdbcTemplate.query("select * from Categoria ", new CategoriaMapper());
 	}
 
 	@Override
-	public Categoria findById(int Id) {
+	public MCategoria findById(int Id) {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from Categoria where IdCategoria = ?", params, new CategoriaMapper());
 	}

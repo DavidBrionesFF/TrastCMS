@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.model.MPermiso;
 import com.bytecode.tratcms.repository.PermisoRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +29,7 @@ public class PermisoController {
                 modelAndView.addObject("permisos", permisoRepository.findAll(pageable));
                 break;
             case "new":
-                modelAndView.addObject("permiso", new Permiso());
+                modelAndView.addObject("permiso", new MPermiso());
                 break;
             case "update":
                 modelAndView.addObject("permiso", permisoRepository.findById(id));
@@ -41,13 +41,13 @@ public class PermisoController {
     }
 
     @PostMapping
-    public String newAndUpdate(@ModelAttribute Permiso permiso){
-        if (permiso.getIdPermiso() > 0){
-            permisoRepository.update(permiso);
+    public String newAndUpdate(@ModelAttribute MPermiso MPermiso){
+        if (MPermiso.getIdPermiso() > 0){
+            permisoRepository.update(MPermiso);
         } else {
-            permisoRepository.save(permiso);
+            permisoRepository.save(MPermiso);
         }
-        log.info(String.format("Permiso: {nombre:%s} agregado", permiso.getNombre()));
+        log.info(String.format("Permiso: {nombre:%s} agregado", MPermiso.getNombre()));
         return "redirect:/admin/permiso";
     }
 

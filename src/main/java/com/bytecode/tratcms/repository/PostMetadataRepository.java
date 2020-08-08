@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.P
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.bytecode.tratcms.model.PostMetadata;
+import com.bytecode.tratcms.model.MPostMetadata;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -25,7 +25,7 @@ public class PostMetadataRepository implements PostMetadataRep{
 	}
 
 	@Override
-	public boolean save(PostMetadata object) {
+	public boolean save(MPostMetadata object) {
 		try {
 			String sql = String.format("insert into post_metadata (Clave, Valor, Tipo, IdPost) values ('%s', '%s', '%s', '%d')",
 					object.getClave(), object.getValor(), object.getTipo(), object.getIdPost());
@@ -37,7 +37,7 @@ public class PostMetadataRepository implements PostMetadataRep{
 	}
 
 	@Override
-	public boolean update(PostMetadata object) {
+	public boolean update(MPostMetadata object) {
 		if(object.getIdPost()>0) {
 			String sql = String.format("update post_metadata set Clave='%s', Valor='%s', Tipo='%s', IdPost='%d' where IdPostMetadata='%d'", 
 						object.getClave(), object.getValor(), object.getTipo(), object.getIdPost(), object.getIdPostMetadata());
@@ -47,12 +47,12 @@ public class PostMetadataRepository implements PostMetadataRep{
 	}
 
 	@Override
-	public List<PostMetadata> findAll(Pageable pageable) {
+	public List<MPostMetadata> findAll(Pageable pageable) {
 		return jdbcTemplate.query("select * from post_metadata", new PostMetadataMapper());
 	}
 
 	@Override
-	public PostMetadata findById(int Id) {
+	public MPostMetadata findById(int Id) {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from post_metadata where IdPostMetadata = ?",
 				params, new PostMetadataMapper());
@@ -67,7 +67,7 @@ public class PostMetadataRepository implements PostMetadataRep{
 	}
 
 	@Override
-	public List<PostMetadata> findByIdPost(int idPost) {
+	public List<MPostMetadata> findByIdPost(int idPost) {
 		Object[] params = new Object[] {idPost};
 		return jdbcTemplate.query("select * from post_metadata where IdPost = ?",
 				params, new PostMetadataMapper());

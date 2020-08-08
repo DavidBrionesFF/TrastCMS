@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.model.MPermiso;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.PermisoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +18,22 @@ public class PermisoRestController {
     private PermisoRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody Permiso permiso){
-        return ResponseEntity.ok(new RepBase(repository.save(permiso)));
+    public ResponseEntity<RepBase> save(@RequestBody MPermiso MPermiso){
+        return ResponseEntity.ok(new RepBase(repository.save(MPermiso)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody Permiso permiso){
-        return ResponseEntity.ok(new RepBase(repository.update(permiso)));
+    public ResponseEntity<RepBase> update(@RequestBody MPermiso MPermiso){
+        return ResponseEntity.ok(new RepBase(repository.update(MPermiso)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Permiso>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MPermiso>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Permiso> findById(@PathVariable int id){
+    public ResponseEntity<MPermiso> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

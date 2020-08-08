@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `blog` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `blog`;
+CREATE DATABASE  IF NOT EXISTS `blog_1` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `blog_1`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: blog

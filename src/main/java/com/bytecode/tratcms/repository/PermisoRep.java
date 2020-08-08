@@ -1,12 +1,12 @@
 package com.bytecode.tratcms.repository;
 
-import com.bytecode.tratcms.model.Permiso;
+import com.bytecode.tratcms.model.MPermiso;
 
 import java.util.List;
 
-public interface PermisoRep extends BaseRep<Permiso> {
+public interface PermisoRep extends BaseRep<MPermiso> {
     public boolean deleteById(long idPermiso);
 
-    public List<Permiso> findByIdGrupo(int idGrupo);
-    public List<Permiso> findByNotIdGrupo(int idGrupo);
+    public List<MPermiso> findByIdGrupo(int idGrupo);
+    public List<MPermiso> findByNotIdGrupo(int idGrupo);
 }

@@ -1,21 +1,21 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.PostMetadata;
+import com.bytecode.tratcms.model.MPostMetadata;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PostMetadataMapper implements RowMapper<PostMetadata> {
+public class PostMetadataMapper implements RowMapper<MPostMetadata> {
     @Override
-    public PostMetadata mapRow(ResultSet rs, int rowNum) throws SQLException {
-        PostMetadata postMetadata = new PostMetadata();
-        postMetadata.setClave(rs.getString("Clave"));
-        postMetadata.setIdPost(rs.getInt("IdPost"));
-        postMetadata.setIdPostMetadata(rs.getInt("IdPostMetadata"));
-        postMetadata.setTipo(rs.getString("Tipo"));
-        postMetadata.setValor(rs.getString("Valor"));
-        postMetadata.setFecha(rs.getDate("Fecha"));
-        return postMetadata;
+    public MPostMetadata mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MPostMetadata MPostMetadata = new MPostMetadata();
+        MPostMetadata.setClave(rs.getString("Clave"));
+        MPostMetadata.setIdPost(rs.getInt("IdPost"));
+        MPostMetadata.setIdPostMetadata(rs.getInt("IdPostMetadata"));
+        MPostMetadata.setTipo(rs.getString("Tipo"));
+        MPostMetadata.setValor(rs.getString("Valor"));
+        MPostMetadata.setFecha(rs.getDate("Fecha"));
+        return MPostMetadata;
     }
 }

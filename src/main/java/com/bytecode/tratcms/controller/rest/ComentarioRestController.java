@@ -1,7 +1,6 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Comentario;
-import com.bytecode.tratcms.model.Contenido;
+import com.bytecode.tratcms.model.MComentario;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +17,22 @@ public class ComentarioRestController {
     private ComentarioRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody Comentario comentario){
-        return ResponseEntity.ok(new RepBase(repository.save(comentario)));
+    public ResponseEntity<RepBase> save(@RequestBody MComentario MComentario){
+        return ResponseEntity.ok(new RepBase(repository.save(MComentario)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody Comentario comentario){
-        return ResponseEntity.ok(new RepBase(repository.update(comentario)));
+    public ResponseEntity<RepBase> update(@RequestBody MComentario MComentario){
+        return ResponseEntity.ok(new RepBase(repository.update(MComentario)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Comentario>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MComentario>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Comentario> findById(@PathVariable int id){
+    public ResponseEntity<MComentario> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

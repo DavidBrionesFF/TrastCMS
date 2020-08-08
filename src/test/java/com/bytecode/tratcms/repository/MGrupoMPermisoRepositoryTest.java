@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.GrupoPermiso;
+import com.bytecode.tratcms.model.MGrupoPermiso;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -15,24 +15,24 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class GrupoPermisoRepositoryTest {
+public class MGrupoMPermisoRepositoryTest {
     @Autowired
     private GrupoPermisoRepository grupoPermisoRepository;
 
     @Test
     public void testA(){
-        GrupoPermiso grupoPermiso = new GrupoPermiso();
-        grupoPermiso.setIdGrupo(1);
-        grupoPermiso.setIdPermiso(1);
-        Assert.assertTrue(grupoPermisoRepository.save(grupoPermiso));
+        MGrupoPermiso MGrupoPermiso = new MGrupoPermiso();
+        MGrupoPermiso.setIdGrupo(1);
+        MGrupoPermiso.setIdPermiso(1);
+        Assert.assertTrue(grupoPermisoRepository.save(MGrupoPermiso));
     }
 
     @Test
     public void testB(){
-        GrupoPermiso grupoPermiso = new GrupoPermiso();
-        grupoPermiso.setIdGrupo(1);
-        grupoPermiso.setIdPermiso(2);
-        Assert.assertTrue(grupoPermisoRepository.update(grupoPermiso));
+        MGrupoPermiso MGrupoPermiso = new MGrupoPermiso();
+        MGrupoPermiso.setIdGrupo(1);
+        MGrupoPermiso.setIdPermiso(2);
+        Assert.assertTrue(grupoPermisoRepository.update(MGrupoPermiso));
     }
 
     @Test

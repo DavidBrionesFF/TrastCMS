@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MUsuario;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +17,22 @@ public class UsuarioRestController {
     private UsuarioRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody Usuario usuario){
-        return ResponseEntity.ok(new RepBase(repository.save(usuario)));
+    public ResponseEntity<RepBase> save(@RequestBody MUsuario MUsuario){
+        return ResponseEntity.ok(new RepBase(repository.save(MUsuario)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody Usuario usuario){
-        return ResponseEntity.ok(new RepBase(repository.update(usuario)));
+    public ResponseEntity<RepBase> update(@RequestBody MUsuario MUsuario){
+        return ResponseEntity.ok(new RepBase(repository.update(MUsuario)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MUsuario>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> findById(@PathVariable int id){
+    public ResponseEntity<MUsuario> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

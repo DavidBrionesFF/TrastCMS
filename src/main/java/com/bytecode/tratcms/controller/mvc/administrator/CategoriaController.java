@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.Categoria;
+import com.bytecode.tratcms.model.MCategoria;
 import com.bytecode.tratcms.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -27,7 +27,7 @@ public class CategoriaController {
                 modelAndView.addObject("categorias", categoriaRepository.findAll(pageable));
                 break;
             case "new":
-                modelAndView.addObject("categoria", new Categoria());
+                modelAndView.addObject("categoria", new MCategoria());
                 break;
             case "update":
                 modelAndView.addObject("categoria", categoriaRepository.findById(id));
@@ -38,12 +38,12 @@ public class CategoriaController {
 
     @PostMapping
     public String newAndUpdate(
-            @ModelAttribute Categoria categoria
+            @ModelAttribute MCategoria MCategoria
     ){
-        if (categoria.getIdCategoria() > 0){
-            categoriaRepository.update(categoria);
+        if (MCategoria.getIdCategoria() > 0){
+            categoriaRepository.update(MCategoria);
         } else {
-            categoriaRepository.save(categoria);
+            categoriaRepository.save(MCategoria);
         }
         return "redirect:/admin/categoria";
     }

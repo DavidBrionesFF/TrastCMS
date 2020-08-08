@@ -3,12 +3,11 @@ package com.bytecode.tratcms.repository;
 import java.util.List;
 
 import com.bytecode.tratcms.mapper.PermisoMapper;
+import com.bytecode.tratcms.model.MPermiso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.bytecode.tratcms.model.Permiso;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -25,7 +24,7 @@ public class PermisoRepository implements PermisoRep {
 	}
 
 	@Override
-	public boolean save(Permiso object) {
+	public boolean save(MPermiso object) {
 		try {
 			String sql = String.format("insert into Permiso (Nombre) values ('%s')", 
 					object.getNombre());
@@ -37,7 +36,7 @@ public class PermisoRepository implements PermisoRep {
 	}
 
 	@Override
-	public boolean update(Permiso object) {
+	public boolean update(MPermiso object) {
 		if(object.getIdPermiso()>0) {
 			String sql = String.format("update Permiso set Nombre='%s' where IdPermiso='%d'", 
 					object.getNombre(), object.getIdPermiso());
@@ -48,12 +47,12 @@ public class PermisoRepository implements PermisoRep {
 	}
 
 	@Override
-	public List<Permiso> findAll(Pageable pageable) {
+	public List<MPermiso> findAll(Pageable pageable) {
 		return jdbcTemplate.query("select * from permiso", new PermisoMapper());
 	}
 
 	@Override
-	public Permiso findById(int Id) {
+	public MPermiso findById(int Id) {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from permiso where IdPermiso = ?",
 				params, new PermisoMapper());
@@ -78,7 +77,7 @@ public class PermisoRepository implements PermisoRep {
 	}
 
 	@Override
-	public List<Permiso> findByIdGrupo(int idGrupo) {
+	public List<MPermiso> findByIdGrupo(int idGrupo) {
 		Object[] params = new Object[] {idGrupo};
 		return jdbcTemplate.query("select p.* from grupo_permiso gp inner join permiso p on gp.IdPermiso = p.IdPermiso where gp.IdGrupo=?",
 				params,
@@ -86,7 +85,7 @@ public class PermisoRepository implements PermisoRep {
 	}
 
 	@Override
-	public List<Permiso> findByNotIdGrupo(int idGrupo) {
+	public List<MPermiso> findByNotIdGrupo(int idGrupo) {
 		Object[] params = new Object[] {idGrupo};
 		return jdbcTemplate.query("select p.* from grupo_permiso gp inner join permiso p on gp.IdPermiso = p.IdPermiso where gp.IdGrupo!=?",
 				params,

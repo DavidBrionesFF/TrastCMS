@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.Categoria;
+import com.bytecode.tratcms.model.MCategoria;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class CategoriaRepositoryTest {
+public class MCategoriaRepositoryTest {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -23,13 +23,13 @@ public class CategoriaRepositoryTest {
     @Test
     @Order(1)
     public void testInsert(){
-        Categoria categoria = new Categoria();
+        MCategoria MCategoria = new MCategoria();
 
-        categoria.setNombre("Test1");
-        categoria.setDescripcion("Este es un ejemplo de categoria superior");
-        categoria.setCategoriaSuperior(1);
+        MCategoria.setNombre("Test1");
+        MCategoria.setDescripcion("Este es un ejemplo de categoria superior");
+        MCategoria.setCategoriaSuperior(1);
 
-        boolean result = categoriaRepository.save(categoria);
+        boolean result = categoriaRepository.save(MCategoria);
 
         Assert.assertTrue(result);
     }
@@ -37,14 +37,14 @@ public class CategoriaRepositoryTest {
     @Test()
     @Order(2)
     public void testUpdate(){
-        Categoria categoria = new Categoria();
+        MCategoria MCategoria = new MCategoria();
 
-        categoria.setIdCategoria(1);
-        categoria.setNombre("Test2");
-        categoria.setDescripcion("Este es un ejemplo de categoria superior");
-        categoria.setCategoriaSuperior(1);
+        MCategoria.setIdCategoria(1);
+        MCategoria.setNombre("Test2");
+        MCategoria.setDescripcion("Este es un ejemplo de categoria superior");
+        MCategoria.setCategoriaSuperior(1);
 
-        boolean result = categoriaRepository.update(categoria);
+        boolean result = categoriaRepository.update(MCategoria);
 
         Assert.assertTrue(result);
     }
@@ -52,10 +52,10 @@ public class CategoriaRepositoryTest {
     @Test
     @Order(3)
     public void testFindById(){
-        Categoria categoria = categoriaRepository.findById(1);
+        MCategoria MCategoria = categoriaRepository.findById(1);
 
-        Assert.assertTrue(categoria!=null);
-        Assert.assertTrue("Test2".equals(categoria.getNombre()));
+        Assert.assertTrue(MCategoria !=null);
+        Assert.assertTrue("Test2".equals(MCategoria.getNombre()));
     }
 
     @Test

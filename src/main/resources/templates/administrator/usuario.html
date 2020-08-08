@@ -32,15 +32,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="usuario : ${usuarios}">
-                        <th scope="row" th:text="${usuario.getIdUsuario()}"></th>
-                        <td th:text="${usuario.getNombre()}"></td>
-                        <td th:text="${usuario.getApellido()}"></td>
-                        <td th:text="${usuario.getCorreo()}"></td>
-                        <td th:text="${usuario.getFecha()}"></td>
+                    <tr th:each="MUsuario : ${usuarios}">
+                        <th scope="row" th:text="${MUsuario.getIdUsuario()}"></th>
+                        <td th:text="${MUsuario.getNombre()}"></td>
+                        <td th:text="${MUsuario.getApellido()}"></td>
+                        <td th:text="${MUsuario.getCorreo()}"></td>
+                        <td th:text="${MUsuario.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/usuario?view_name=update&id=' + ${usuario.getIdUsuario()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/MUsuario?view_name=update&id=' + ${MUsuario.getIdUsuario()}">Editar</a>
                             </button>
                         </td>
                     </tr>
@@ -48,12 +48,12 @@
                 </table>
 
                 <button type="button" class="btn btn-primary mt-4 mb-4">
-                    <a class="text-white" th:href="'/admin/usuario?view_name=new'">Agregar Usuario</a>
+                    <a class="text-white" th:href="'/admin/MUsuario?view_name=new'">Agregar Usuario</a>
                 </button>
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
-                <form th:action="@{/admin/usuario}" th:method="post" th:object="${usuario}">
+                <form th:action="@{/admin/MUsuario}" th:method="MPost" th:object="${MUsuario}">
                     <input type="hidden" th:field="*{idUsuario}">
 
                     <div class="form-group">
@@ -79,9 +79,9 @@
                     <div class="form-group">
                         <label for="inputGrupo">Grupo</label>
                         <select th:field="*{idGrupo}" name="_cargo" id="inputGrupo" class="form-control">
-                            <option th:value="${grupo.getIdgrupo()}"
-                                    th:each="grupo : ${grupos}"
-                                    th:text="${grupo.getNombre()}"></option>
+                            <option th:value="${MGrupo.getIdgrupo()}"
+                                    th:each="MGrupo : ${grupos}"
+                                    th:text="${MGrupo.getNombre()}"></option>
                         </select>
                     </div>
 
@@ -89,7 +89,7 @@
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <button type="reset" class="btn btn-primary">Vaciar</button>
                         <button type="button" class="btn btn-primary">
-                            <a class="text-white" th:href="'/admin/grupo?view_name=update&id=' + ${usuario.getIdGrupo()}">
+                            <a class="text-white" th:href="'/admin/MGrupo?view_name=update&id=' + ${MUsuario.getIdGrupo()}">
                                 Ver permisos
                             </a>
                         </button>

@@ -1,10 +1,8 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Usuario;
-import com.bytecode.tratcms.model.UsuarioMetadata;
+import com.bytecode.tratcms.model.MUsuarioMetadata;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.UsuarioMetadataRepository;
-import com.bytecode.tratcms.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +17,22 @@ public class UsuarioMetadataRestRepository {
     private UsuarioMetadataRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody UsuarioMetadata usuario){
+    public ResponseEntity<RepBase> save(@RequestBody MUsuarioMetadata usuario){
         return ResponseEntity.ok(new RepBase(repository.save(usuario)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody UsuarioMetadata usuario){
+    public ResponseEntity<RepBase> update(@RequestBody MUsuarioMetadata usuario){
         return ResponseEntity.ok(new RepBase(repository.update(usuario)));
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioMetadata>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MUsuarioMetadata>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioMetadata> findById(@PathVariable int id){
+    public ResponseEntity<MUsuarioMetadata> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

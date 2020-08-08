@@ -33,13 +33,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="post : ${posts}">
-                        <th scope="row" th:text="${post.getIdPost()}"></th>
-                        <td th:text="${post.getTitulo()}"></td>
-                        <td th:text="${post.getFecha()}"></td>
+                    <tr th:each="MPost : ${posts}">
+                        <th scope="row" th:text="${MPost.getIdPost()}"></th>
+                        <td th:text="${MPost.getTitulo()}"></td>
+                        <td th:text="${MPost.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/publicacion?view_name=update&id=' + ${post.getIdPost()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/publicacion?view_name=update&id=' + ${MPost.getIdPost()}">Editar</a>
                             </button>
                         </td>
                     </tr>
@@ -52,7 +52,7 @@
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
-                <form id="form1" th:action="@{/admin/publicacion}" th:method="post" th:object="${post}">
+                <form id="form1" th:action="@{/admin/publicacion}" th:method="MPost" th:object="${MPost}">
                     <input type="hidden" th:value="*{tipo}" th:field="*{tipo}">
                     <input type="hidden" th:value="*{idPost}" th:field="*{idPost}">
 
@@ -73,10 +73,10 @@
 
                     <div class="form-group">
                         <label for="inputGrupo">Categoria</label>
-                        <select th:field="*{categoria}" name="_cargo" id="inputGrupo" class="form-control">
-                            <option th:value="${categoria.getIdCategoria()}"
-                                    th:each="categoria : ${categorias}"
-                                    th:text="${categoria.getNombre()}"></option>
+                        <select th:field="*{MCategoria}" name="_cargo" id="inputGrupo" class="form-control">
+                            <option th:value="${MCategoria.getIdCategoria()}"
+                                    th:each="MCategoria : ${categorias}"
+                                    th:text="${MCategoria.getNombre()}"></option>
                         </select>
                     </div>
 

@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.Categoria;
+import com.bytecode.tratcms.model.MCategoria;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class CategoriaRestController {
     private CategoriaRepository categoriaRepository;
 
     @PutMapping//(consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<RepBase> save(@RequestBody @Valid Categoria categoria){
-        return ResponseEntity.ok(new RepBase(categoriaRepository.save(categoria)));
+    public ResponseEntity<RepBase> save(@RequestBody @Valid MCategoria MCategoria){
+        return ResponseEntity.ok(new RepBase(categoriaRepository.save(MCategoria)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody @Valid Categoria categoria){
-        return ResponseEntity.ok(new RepBase(categoriaRepository.update(categoria)));
+    public ResponseEntity<RepBase> update(@RequestBody @Valid MCategoria MCategoria){
+        return ResponseEntity.ok(new RepBase(categoriaRepository.update(MCategoria)));
     }
 
     @DeleteMapping("/{id}")
@@ -34,12 +34,12 @@ public class CategoriaRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MCategoria>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(categoriaRepository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> findById(@PathVariable int id){
+    public ResponseEntity<MCategoria> findById(@PathVariable int id){
         return ResponseEntity.ok(categoriaRepository.findById(id));
     }
 }

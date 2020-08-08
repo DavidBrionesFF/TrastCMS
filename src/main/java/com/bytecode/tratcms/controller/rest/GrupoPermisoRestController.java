@@ -1,7 +1,6 @@
 package com.bytecode.tratcms.controller.rest;
 
-import com.bytecode.tratcms.model.GrupoPermiso;
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MGrupoPermiso;
 import com.bytecode.tratcms.model.common.RepBase;
 import com.bytecode.tratcms.repository.GrupoPermisoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +17,22 @@ public class GrupoPermisoRestController {
     private GrupoPermisoRepository repository;
 
     @PutMapping
-    public ResponseEntity<RepBase> save(@RequestBody GrupoPermiso grupoPermiso){
-        return ResponseEntity.ok(new RepBase(repository.save(grupoPermiso)));
+    public ResponseEntity<RepBase> save(@RequestBody MGrupoPermiso MGrupoPermiso){
+        return ResponseEntity.ok(new RepBase(repository.save(MGrupoPermiso)));
     }
 
     @PostMapping
-    public ResponseEntity<RepBase> update(@RequestBody GrupoPermiso grupoPermiso){
-        return ResponseEntity.ok(new RepBase(repository.update(grupoPermiso)));
+    public ResponseEntity<RepBase> update(@RequestBody MGrupoPermiso MGrupoPermiso){
+        return ResponseEntity.ok(new RepBase(repository.update(MGrupoPermiso)));
     }
 
     @GetMapping
-    public ResponseEntity<List<GrupoPermiso>> findAll(SpringDataWebProperties.Pageable pageable){
+    public ResponseEntity<List<MGrupoPermiso>> findAll(SpringDataWebProperties.Pageable pageable){
         return ResponseEntity.ok(repository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GrupoPermiso> findById(@PathVariable int id){
+    public ResponseEntity<MGrupoPermiso> findById(@PathVariable int id){
         return ResponseEntity.ok(repository.findById(id));
     }
 }

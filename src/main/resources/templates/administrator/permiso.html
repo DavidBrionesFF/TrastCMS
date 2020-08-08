@@ -31,16 +31,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="permiso : ${permisos}">
-                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
-                        <td th:text="${permiso.getNombre()}"></td>
-                        <td th:text="${permiso.getFecha()}"></td>
+                    <tr th:each="MPermiso : ${permisos}">
+                        <th scope="row" th:text="${MPermiso.getIdPermiso()}"></th>
+                        <td th:text="${MPermiso.getNombre()}"></td>
+                        <td th:text="${MPermiso.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/permiso?view_name=update&id=' + ${permiso.getIdPermiso()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/MPermiso?view_name=update&id=' + ${MPermiso.getIdPermiso()}">Editar</a>
                             </button>
-                            <form style="margin: 0px;" th:action="@{/admin/permiso}" th:method="delete">
-                                <input type="hidden" name="id" th:value="${permiso.getIdPermiso()}">
+                            <form style="margin: 0px;" th:action="@{/admin/MPermiso}" th:method="delete">
+                                <input type="hidden" name="id" th:value="${MPermiso.getIdPermiso()}">
                                 <button class="text-white btn btn-danger" type="submit">
                                     Eliminar
                                 </button>
@@ -51,12 +51,12 @@
             </table>
 
             <button type="button" class="btn btn-primary mt-4 mb-4">
-                <a class="text-white" th:href="'/admin/permiso?view_name=new'">Agregar Permiso</a>
+                <a class="text-white" th:href="'/admin/MPermiso?view_name=new'">Agregar Permiso</a>
             </button>
         </div>
 
         <div class="col-12" th:if="${#request.getParameter('view_name') == 'new' || #request.getParameter('view_name') == 'update'}">
-            <form th:action="@{/admin/permiso}" method="post" th:object="${permiso}">
+            <form th:action="@{/admin/MPermiso}" method="MPost" th:object="${MPermiso}">
                 <input type="hidden" th:field="*{idPermiso}" th:value="*{idPermiso}">
 
                 <div class="form-group">

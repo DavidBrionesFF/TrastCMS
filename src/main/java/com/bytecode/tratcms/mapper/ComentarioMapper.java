@@ -1,21 +1,21 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.Comentario;
+import com.bytecode.tratcms.model.MComentario;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ComentarioMapper implements RowMapper<Comentario> {
+public class ComentarioMapper implements RowMapper<MComentario> {
     @Override
-    public Comentario mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Comentario comentario = new Comentario();
-        comentario.setComentario(rs.getString("Comentario"));
-        comentario.setFecha(rs.getDate("Fecha"));
-        comentario.setIdComentario(rs.getInt("IdComentario"));
-        comentario.setIdPost(rs.getInt("IdPost"));
-        comentario.setIdUsuario(rs.getInt("IdUsuario"));
-        comentario.setRespuesta(rs.getString("Respuesta"));
-        return comentario;
+    public MComentario mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MComentario MComentario = new MComentario();
+        MComentario.setComentario(rs.getString("Comentario"));
+        MComentario.setFecha(rs.getDate("Fecha"));
+        MComentario.setIdComentario(rs.getInt("IdComentario"));
+        MComentario.setIdPost(rs.getInt("IdPost"));
+        MComentario.setIdUsuario(rs.getInt("IdUsuario"));
+        MComentario.setRespuesta(rs.getString("Respuesta"));
+        return MComentario;
     }
 }

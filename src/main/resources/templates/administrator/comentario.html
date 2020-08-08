@@ -31,13 +31,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="comentario : ${comentarios}">
-                        <th scope="row" th:text="${comentario.getIdComentario()}"></th>
-                        <td th:text="${comentario.getComentario()}"></td>
-                        <td th:text="${comentario.getFecha()}"></td>
+                    <tr th:each="MComentario : ${comentarios}">
+                        <th scope="row" th:text="${MComentario.getIdComentario()}"></th>
+                        <td th:text="${MComentario.getComentario()}"></td>
+                        <td th:text="${MComentario.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/comentario?view_name=update&id=' + ${comentario.getIdComentario()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/MComentario?view_name=update&id=' + ${MComentario.getIdComentario()}">Editar</a>
                             </button>
                         </td>
                     </tr>
@@ -45,7 +45,7 @@
                 </table>
 
                 <button type="button" class="btn btn-primary mt-4 mb-4">
-                    <a class="text-white" th:href="'/admin/comentario?view_name=new'">Agregar Comentario</a>
+                    <a class="text-white" th:href="'/admin/MComentario?view_name=new'">Agregar Comentario</a>
                 </button>
             </div>
 

@@ -1,21 +1,21 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.Categoria;
+import com.bytecode.tratcms.model.MCategoria;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CategoriaMapper implements RowMapper<Categoria> {
+public class CategoriaMapper implements RowMapper<MCategoria> {
     @Override
-    public Categoria mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Categoria categoria = new Categoria();
-        categoria.setCategoriaSuperior(rs.getInt("CategoriaSuperior"));
-        categoria.setDescripcion(rs.getString("Descripcion"));
-        categoria.setFecha(rs.getTimestamp("Fecha"));
-        categoria.setIdCategoria(rs.getInt("IdCategoria"));
-        categoria.setNombre(rs.getString("Nombre"));
+    public MCategoria mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MCategoria MCategoria = new MCategoria();
+        MCategoria.setCategoriaSuperior(rs.getInt("CategoriaSuperior"));
+        MCategoria.setDescripcion(rs.getString("Descripcion"));
+        MCategoria.setFecha(rs.getTimestamp("Fecha"));
+        MCategoria.setIdCategoria(rs.getInt("IdCategoria"));
+        MCategoria.setNombre(rs.getString("Nombre"));
 
-        return categoria;
+        return MCategoria;
     }
 }

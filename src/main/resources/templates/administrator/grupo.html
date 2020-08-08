@@ -30,13 +30,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="grupo : ${grupos}">
-                        <th scope="row" th:text="${grupo.getIdgrupo()}"></th>
-                        <td th:text="${grupo.getNombre()}"></td>
-                        <td th:text="${grupo.getFecha()}"></td>
+                    <tr th:each="MGrupo : ${grupos}">
+                        <th scope="row" th:text="${MGrupo.getIdgrupo()}"></th>
+                        <td th:text="${MGrupo.getNombre()}"></td>
+                        <td th:text="${MGrupo.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdgrupo()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/MGrupo?view_name=update&id=' + ${MGrupo.getIdgrupo()}">Editar</a>
                             </button>
                         </td>
                     </tr>
@@ -44,12 +44,12 @@
                 </table>
 
                 <button type="button" class="btn btn-primary mt-4 mb-4">
-                    <a class="text-white" th:href="'/admin/grupo?view_name=new'">Agregar Grupo</a>
+                    <a class="text-white" th:href="'/admin/MGrupo?view_name=new'">Agregar Grupo</a>
                 </button>
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
-                <form th:action="@{/admin/grupo}" th:method="post" th:object="${grupo}">
+                <form th:action="@{/admin/MGrupo}" th:method="MPost" th:object="${MGrupo}">
                     <input type="hidden" th:field="*{idgrupo}">
 
                     <div class="form-group">
@@ -67,16 +67,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="permiso : ${permisos}">
-                            <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
-                            <td th:text="${permiso.getNombre()}"></td>
-                            <td th:text="${permiso.getFecha()}"></td>
+                        <tr th:each="MPermiso : ${permisos}">
+                            <th scope="row" th:text="${MPermiso.getIdPermiso()}"></th>
+                            <td th:text="${MPermiso.getNombre()}"></td>
+                            <td th:text="${MPermiso.getFecha()}"></td>
 <!--                            <td style="display: flex; justify-items: center; align-items: center;">-->
 <!--                                <button type="button" class="btn btn-warning">-->
-<!--                                    <a class="text-white" th:href="'/admin/permiso?view_name=update&id=' + ${permiso.getIdPermiso()}">Editar</a>-->
+<!--                                    <a class="text-white" th:href="'/admin/MPermiso?view_name=update&id=' + ${MPermiso.getIdPermiso()}">Editar</a>-->
 <!--                                </button>-->
-<!--                                <form style="margin: 0px;" th:action="@{/admin/permiso}" th:method="delete">-->
-<!--                                    <input type="hidden" name="id" th:value="${permiso.getIdPermiso()}">-->
+<!--                                <form style="margin: 0px;" th:action="@{/admin/MPermiso}" th:method="delete">-->
+<!--                                    <input type="hidden" name="id" th:value="${MPermiso.getIdPermiso()}">-->
 <!--                                    <button class="text-white btn btn-danger" type="submit">-->
 <!--                                        Eliminar-->
 <!--                                    </button>-->
@@ -121,14 +121,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="permiso : ${permisos_disponibles}">
-                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
-                        <td th:text="${permiso.getNombre()}"></td>
-                        <td th:text="${permiso.getFecha()}"></td>
+                    <tr th:each="MPermiso : ${permisos_disponibles}">
+                        <th scope="row" th:text="${MPermiso.getIdPermiso()}"></th>
+                        <td th:text="${MPermiso.getNombre()}"></td>
+                        <td th:text="${MPermiso.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
-                            <form style="margin: 0px;" th:action="@{/admin/grupo/addPermiso}" th:method="post">
-                                <input type="hidden" name="idPermiso" th:value="${permiso.getIdPermiso()}">
-                                <input type="hidden" name="idGrupo" th:value="${grupo.getIdgrupo()}">
+                            <form style="margin: 0px;" th:action="@{/admin/MGrupo/addPermiso}" th:method="MPost">
+                                <input type="hidden" name="idPermiso" th:value="${MPermiso.getIdPermiso()}">
+                                <input type="hidden" name="idGrupo" th:value="${MGrupo.getIdgrupo()}">
                                 <button class="text-white btn btn-success" type="submit">
                                     Agregar Permiso
                                 </button>

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.bytecode.tratcms.model.GrupoPermiso;
+import com.bytecode.tratcms.model.MGrupoPermiso;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +25,7 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 	}
 
 	@Override
-	public boolean save(GrupoPermiso object) {
+	public boolean save(MGrupoPermiso object) {
 		try {
 			String sql = String.format("insert into grupo_permiso (IdGrupo, IdPermiso) values ('%d', '%d')",
 					object.getIdGrupo(), object.getIdPermiso());
@@ -37,7 +37,7 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 	}
 
 	@Override
-	public boolean update(GrupoPermiso object) {
+	public boolean update(MGrupoPermiso object) {
 		if(object.getIdGrupo()>0) {
 			String sql = String.format("update grupo_permiso set IdPermiso='%d' where IdGrupo='%d'",
 					object.getIdPermiso(), object.getIdGrupo());
@@ -47,12 +47,12 @@ public class GrupoPermisoRepository implements GrupoPermisoRep{
 	}
 
 	@Override
-	public List<GrupoPermiso> findAll(Pageable pageable) {
+	public List<MGrupoPermiso> findAll(Pageable pageable) {
 		return jdbcTemplate.query("select * from grupo_permiso", new GrupoPermisoMapper());
 	}
 
 	@Override
-	public GrupoPermiso findById(int Id) {
+	public MGrupoPermiso findById(int Id) {
 		Object[] params = new Object[] {Id};
 		return jdbcTemplate.queryForObject("select * from grupo_permiso where IdGrupoPermiso = ?",
 				params, new GrupoPermisoMapper());

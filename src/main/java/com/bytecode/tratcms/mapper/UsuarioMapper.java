@@ -1,22 +1,22 @@
 package com.bytecode.tratcms.mapper;
 
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MUsuario;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsuarioMapper implements RowMapper<Usuario> {
+public class UsuarioMapper implements RowMapper<MUsuario> {
     @Override
-    public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Usuario usuario = new Usuario();
-        usuario.setApellido(rs.getString("Apellido"));
-        usuario.setContrasena(rs.getString("Contrasena"));
-        usuario.setCorreo(rs.getString("Correo"));
-        usuario.setIdGrupo(rs.getInt("IdGrupo"));
-        usuario.setIdUsuario(rs.getInt("IdUsuario"));
-        usuario.setNombre(rs.getString("Nombre"));
-        usuario.setFecha(rs.getDate("Fecha"));
-        return usuario;
+    public MUsuario mapRow(ResultSet rs, int rowNum) throws SQLException {
+        MUsuario MUsuario = new MUsuario();
+        MUsuario.setApellido(rs.getString("Apellido"));
+        MUsuario.setContrasena(rs.getString("Contrasena"));
+        MUsuario.setCorreo(rs.getString("Correo"));
+        MUsuario.setIdGrupo(rs.getInt("IdGrupo"));
+        MUsuario.setIdUsuario(rs.getInt("IdUsuario"));
+        MUsuario.setNombre(rs.getString("Nombre"));
+        MUsuario.setFecha(rs.getDate("Fecha"));
+        return MUsuario;
     }
 }

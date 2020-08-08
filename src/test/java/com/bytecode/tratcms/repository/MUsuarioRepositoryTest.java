@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.repository;
 
 import com.bytecode.tratcms.component.TestDatabaseConfiguration;
-import com.bytecode.tratcms.model.Usuario;
+import com.bytecode.tratcms.model.MUsuario;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -15,33 +15,33 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ContextConfiguration(classes = {TestDatabaseConfiguration.class})
-public class UsuarioRepositoryTest {
+public class MUsuarioRepositoryTest {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Test
     public void testA(){
-        Usuario usuario = new Usuario();
-        usuario.setApellido("Briones");
-        usuario.setContrasena("1234");
-        usuario.setCorreo("david_briones@bytepl.com");
-        usuario.setIdGrupo(1);
-        usuario.setNombre("David");
+        MUsuario MUsuario = new MUsuario();
+        MUsuario.setApellido("Briones");
+        MUsuario.setContrasena("1234");
+        MUsuario.setCorreo("david_briones@bytepl.com");
+        MUsuario.setIdGrupo(1);
+        MUsuario.setNombre("David");
 
-        Assert.assertTrue(usuarioRepository.save(usuario));
+        Assert.assertTrue(usuarioRepository.save(MUsuario));
     }
 
     @Test
     public void testB(){
-        Usuario usuario = new Usuario();
-        usuario.setIdUsuario(1);
-        usuario.setApellido("Briones");
-        usuario.setContrasena("1234");
-        usuario.setCorreo("aprendefacil1020@gmail.com");
-        usuario.setIdGrupo(1);
-        usuario.setNombre("DavidBB");
+        MUsuario MUsuario = new MUsuario();
+        MUsuario.setIdUsuario(1);
+        MUsuario.setApellido("Briones");
+        MUsuario.setContrasena("1234");
+        MUsuario.setCorreo("aprendefacil1020@gmail.com");
+        MUsuario.setIdGrupo(1);
+        MUsuario.setNombre("DavidBB");
 
-        Assert.assertTrue(usuarioRepository.update(usuario));
+        Assert.assertTrue(usuarioRepository.update(MUsuario));
     }
 
     @Test

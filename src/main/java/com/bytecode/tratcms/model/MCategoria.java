@@ -4,7 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-public class Categoria {
+public class MCategoria {
 	private long IdCategoria;
 
 	private String Nombre;
