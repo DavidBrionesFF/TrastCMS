@@ -23,6 +23,10 @@ public class GrupoPermiso implements Serializable {
     @JoinColumn(name = "IdPermiso", referencedColumnName = "IdPermiso")
     private Permiso Permiso;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "IdGrupo", referencedColumnName = "IdGrupo")
+    private Grupo grupo;
+
     public int getIdGrupoPermiso() {
         return IdGrupoPermiso;
     }
@@ -45,5 +49,13 @@ public class GrupoPermiso implements Serializable {
 
     public void setPermiso(com.bytecode.tratcms.model.entity.Permiso permiso) {
         Permiso = permiso;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 }
