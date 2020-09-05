@@ -1,6 +1,5 @@
 package com.bytecode.tratcms;
 
-import com.bytecode.tratcms.model.entity.Tag;
 import com.bytecode.tratcms.repository.jpa.JpaTagRepository;
 import com.bytecode.tratcms.service.InstalacionService;
 import org.springframework.beans.factory.annotation.Autowired;
