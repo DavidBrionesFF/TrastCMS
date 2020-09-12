@@ -1,61 +1,121 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.bytecode.tratcms.model.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * @author David
+ */
 @Entity
-@Table(name = "grupo_permiso")
+@Table(name = "grupo_permiso", catalog = "blog", schema = "")
+@NamedQueries({
+    @NamedQuery(name = "GrupoPermiso.findAll", query = "SELECT g FROM GrupoPermiso g")})
 public class GrupoPermiso implements Serializable {
-    @Id
-    @Column(name = "IdGrupoPermiso")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int IdGrupoPermiso;
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "IdGrupoPermiso")
+    private Integer idGrupoPermiso;
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date Fecha = new Date();
+    private Date fecha;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "IdPermiso")
+    private long idPermiso;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "IdGrupo")
+    private long idGrupo;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "IdPermiso", referencedColumnName = "IdPermiso")
-    private Permiso Permiso;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "IdGrupo", referencedColumnName = "IdGrupo")
-    private Grupo grupo;
-
-    public int getIdGrupoPermiso() {
-        return IdGrupoPermiso;
+    public GrupoPermiso() {
     }
 
-    public void setIdGrupoPermiso(int idGrupoPermiso) {
-        IdGrupoPermiso = idGrupoPermiso;
+    public GrupoPermiso(Integer idGrupoPermiso) {
+        this.idGrupoPermiso = idGrupoPermiso;
+    }
+
+    public GrupoPermiso(Integer idGrupoPermiso, long idPermiso, long idGrupo) {
+        this.idGrupoPermiso = idGrupoPermiso;
+        this.idPermiso = idPermiso;
+        this.idGrupo = idGrupo;
+    }
+
+    public Integer getIdGrupoPermiso() {
+        return idGrupoPermiso;
+    }
+
+    public void setIdGrupoPermiso(Integer idGrupoPermiso) {
+        this.idGrupoPermiso = idGrupoPermiso;
     }
 
     public Date getFecha() {
-        return Fecha;
+        return fecha;
     }
 
     public void setFecha(Date fecha) {
-        Fecha = fecha;
+        this.fecha = fecha;
     }
 
-    public com.bytecode.tratcms.model.entity.Permiso getPermiso() {
-        return Permiso;
+    public long getIdPermiso() {
+        return idPermiso;
     }
 
-    public void setPermiso(com.bytecode.tratcms.model.entity.Permiso permiso) {
-        Permiso = permiso;
+    public void setIdPermiso(long idPermiso) {
+        this.idPermiso = idPermiso;
     }
 
-    public Grupo getGrupo() {
-        return grupo;
+    public long getIdGrupo() {
+        return idGrupo;
     }
 
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
+    public void setIdGrupo(long idGrupo) {
+        this.idGrupo = idGrupo;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idGrupoPermiso != null ? idGrupoPermiso.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof GrupoPermiso)) {
+            return false;
+        }
+        GrupoPermiso other = (GrupoPermiso) object;
+        if ((this.idGrupoPermiso == null && other.idGrupoPermiso != null) || (this.idGrupoPermiso != null && !this.idGrupoPermiso.equals(other.idGrupoPermiso))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.bytecode.tratcms.model.entity.GrupoPermiso[ idGrupoPermiso=" + idGrupoPermiso + " ]";
+    }
+    
 }

@@ -1,69 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.bytecode.tratcms.model.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
+/**
+ *
+ * @author David
+ */
 @Entity
-@Table(name = "permiso")
+@Table(name = "permiso", catalog = "blog", schema = "")
+@NamedQueries({
+    @NamedQuery(name = "Permiso.findAll", query = "SELECT p FROM Permiso p")})
 public class Permiso implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "IdPermiso")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long IdPermiso;
-
-    @Column(name = "Nombre")
-    private String Nombre;
-
+    @Basic(optional = false)
+    @Column(name = "IdPermiso")
+    private Long idPermiso;
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date Fecha;
+    private Date fecha;
+    @Size(max = 255)
+    @Column(name = "Nombre")
+    private String nombre;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "Permiso")
-    private List<GrupoPermiso> grupoPermisos;
-
-    public long getIdPermiso() {
-        return IdPermiso;
+    public Permiso() {
     }
 
-    public void setIdPermiso(long idPermiso) {
-        IdPermiso = idPermiso;
+    public Permiso(Long idPermiso) {
+        this.idPermiso = idPermiso;
     }
 
-    public String getNombre() {
-        return Nombre;
+    public Long getIdPermiso() {
+        return idPermiso;
     }
 
-    public void setNombre(String nombre) {
-        Nombre = nombre;
+    public void setIdPermiso(Long idPermiso) {
+        this.idPermiso = idPermiso;
     }
 
     public Date getFecha() {
-        return Fecha;
+        return fecha;
     }
 
     public void setFecha(Date fecha) {
-        Fecha = fecha;
+        this.fecha = fecha;
     }
 
-    public List<GrupoPermiso> getGrupoPermisos() {
-        return grupoPermisos;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setGrupoPermisos(List<GrupoPermiso> grupoPermisos) {
-        this.grupoPermisos = grupoPermisos;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    //Metodos extra...
-    public List<Grupo> getGrupos(){
-        return getGrupoPermisos()
-                .stream()
-                .map(grupoPermiso -> grupoPermiso.getGrupo())
-                .collect(Collectors.toList());
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idPermiso != null ? idPermiso.hashCode() : 0);
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Permiso)) {
+            return false;
+        }
+        Permiso other = (Permiso) object;
+        if ((this.idPermiso == null && other.idPermiso != null) || (this.idPermiso != null && !this.idPermiso.equals(other.idPermiso))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.bytecode.tratcms.model.entity.Permiso[ idPermiso=" + idPermiso + " ]";
+    }
+    
 }
