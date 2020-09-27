@@ -26,19 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5342f7e1-d12b-4e78-87eb-b0ac8daf66e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaComentarioMetadataRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaComentarioRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaContenidoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaPostMetadaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaUsuarioMetadataRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Categoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Grupo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Grupo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/GrupoPermiso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/GrupoPermiso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Permiso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Permiso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Tag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaCategoriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaCategoriaRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,22 +157,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="686" y="211" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1595640946598" />
-    <state width="1877" height="467" key="GridCell.Tab.0.bottom" timestamp="1599879373088">
+    <state width="1877" height="264" key="GridCell.Tab.0.bottom" timestamp="1601194121622">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="467" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599879373088" />
-    <state width="1877" height="467" key="GridCell.Tab.0.center" timestamp="1599879373088">
+    <state width="1877" height="264" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601194121622" />
+    <state width="1877" height="264" key="GridCell.Tab.0.center" timestamp="1601194121621">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="467" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599879373088" />
-    <state width="1877" height="467" key="GridCell.Tab.0.left" timestamp="1599879373088">
+    <state width="1877" height="264" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601194121621" />
+    <state width="1877" height="264" key="GridCell.Tab.0.left" timestamp="1601194121621">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="467" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599879373088" />
-    <state width="1877" height="467" key="GridCell.Tab.0.right" timestamp="1599879373088">
+    <state width="1877" height="264" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601194121621" />
+    <state width="1877" height="264" key="GridCell.Tab.0.right" timestamp="1601194121622">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="467" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599879373088" />
+    <state width="1877" height="264" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601194121622" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1595637111781">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -44,7 +44,7 @@ public class Categoria implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "Nombre")
+    @Column(name = "Nombre", unique = true)
     private String nombre;
     @Size(max = 255)
     @Column(name = "Descripcion")
