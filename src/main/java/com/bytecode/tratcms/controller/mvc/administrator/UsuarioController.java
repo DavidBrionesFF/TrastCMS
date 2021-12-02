@@ -1,8 +1,8 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.MUsuario;
-import com.bytecode.tratcms.repository.GrupoRepository;
-import com.bytecode.tratcms.repository.UsuarioRepository;
+import com.bytecode.tratcms.data.model.MUsuario;
+import com.bytecode.tratcms.data.repository.GrupoRepository;
+import com.bytecode.tratcms.data.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

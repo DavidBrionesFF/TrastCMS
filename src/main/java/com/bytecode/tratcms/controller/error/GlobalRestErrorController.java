@@ -1,6 +1,6 @@
 package com.bytecode.tratcms.controller.error;
 
-import com.bytecode.tratcms.util.ApiError;
+import com.bytecode.tratcms.logic.util.ApiError;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

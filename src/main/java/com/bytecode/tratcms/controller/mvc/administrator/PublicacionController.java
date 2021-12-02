@@ -1,10 +1,10 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.MPost;
-import com.bytecode.tratcms.model.MPostMetadata;
-import com.bytecode.tratcms.repository.CategoriaRepository;
-import com.bytecode.tratcms.repository.PostMetadataRepository;
-import com.bytecode.tratcms.repository.PostRepository;
+import com.bytecode.tratcms.data.model.MPost;
+import com.bytecode.tratcms.data.model.MPostMetadata;
+import com.bytecode.tratcms.data.repository.CategoriaRepository;
+import com.bytecode.tratcms.data.repository.PostMetadataRepository;
+import com.bytecode.tratcms.data.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Controller;

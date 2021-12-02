@@ -15,7 +15,7 @@ create table grupo(
 	Fecha datetime default current_timestamp
 );
 
-create table Permiso(
+create table permiso(
 	IdPermiso int primary key not null auto_increment,
 	Nombre varchar(255) not null,
 	Fecha datetime default current_timestamp
@@ -37,7 +37,8 @@ create table usuario(
 	 Fecha datetime default current_timestamp,
 	 Contrasena varchar(255) not null,
 	 Correo varchar(255) not null unique,
-	 IdGrupo int not null
+	 IdGrupo int not null,
+     foreign key(IdGrupo) references grupo(IdGrupo)
 );
 
 create table usuario_metadata (

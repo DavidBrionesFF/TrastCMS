@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.MComentario;
-import com.bytecode.tratcms.repository.ComentarioRepository;
+import com.bytecode.tratcms.data.model.MComentario;
+import com.bytecode.tratcms.data.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Controller;

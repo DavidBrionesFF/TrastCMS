@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.MCategoria;
-import com.bytecode.tratcms.repository.CategoriaRepository;
+import com.bytecode.tratcms.data.model.MCategoria;
+import com.bytecode.tratcms.data.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Controller;

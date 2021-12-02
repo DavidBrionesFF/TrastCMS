@@ -31,12 +31,12 @@
                     </thead>
                     <tbody>
                     <tr th:each="MGrupo : ${grupos}">
-                        <th scope="row" th:text="${MGrupo.getIdgrupo()}"></th>
+                        <th scope="row" th:text="${MGrupo.getIdGrupo()}"></th>
                         <td th:text="${MGrupo.getNombre()}"></td>
                         <td th:text="${MGrupo.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/MGrupo?view_name=update&id=' + ${MGrupo.getIdgrupo()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/grupo?view_name=update&id=' + ${MGrupo.getIdGrupo()}">Editar</a>
                             </button>
                         </td>
                     </tr>
@@ -49,8 +49,8 @@
             </div>
 
             <div th:if="${#httpServletRequest.getParameter('view_name') == 'new' || #httpServletRequest.getParameter('view_name') == 'update'}" class="col-12">
-                <form th:action="@{/admin/MGrupo}" th:method="MPost" th:object="${MGrupo}">
-                    <input type="hidden" th:field="*{idgrupo}">
+                <form th:action="@{/admin/grupo}" th:method="post" th:object="${grupo}">
+                    <input type="hidden" th:field="*{idGrupo}">
 
                     <div class="form-group">
                         <label for="inputNombre">Nombre</label>
@@ -67,10 +67,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="MPermiso : ${permisos}">
-                            <th scope="row" th:text="${MPermiso.getIdPermiso()}"></th>
-                            <td th:text="${MPermiso.getNombre()}"></td>
-                            <td th:text="${MPermiso.getFecha()}"></td>
+                        <tr th:each="permiso : ${permisos}">
+                            <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                            <td th:text="${permiso.getNombre()}"></td>
+                            <td th:text="${permiso.getFecha()}"></td>
 <!--                            <td style="display: flex; justify-items: center; align-items: center;">-->
 <!--                                <button type="button" class="btn btn-warning">-->
 <!--                                    <a class="text-white" th:href="'/admin/MPermiso?view_name=update&id=' + ${MPermiso.getIdPermiso()}">Editar</a>-->

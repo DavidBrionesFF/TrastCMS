@@ -1,7 +1,7 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.MPermiso;
-import com.bytecode.tratcms.repository.PermisoRepository;
+import com.bytecode.tratcms.data.model.MPermiso;
+import com.bytecode.tratcms.data.repository.PermisoRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

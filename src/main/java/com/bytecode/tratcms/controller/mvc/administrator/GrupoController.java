@@ -1,10 +1,10 @@
 package com.bytecode.tratcms.controller.mvc.administrator;
 
-import com.bytecode.tratcms.model.MGrupo;
-import com.bytecode.tratcms.model.MGrupoPermiso;
-import com.bytecode.tratcms.repository.GrupoPermisoRepository;
-import com.bytecode.tratcms.repository.GrupoRepository;
-import com.bytecode.tratcms.repository.PermisoRepository;
+import com.bytecode.tratcms.data.model.MGrupo;
+import com.bytecode.tratcms.data.model.MGrupoPermiso;
+import com.bytecode.tratcms.data.repository.GrupoPermisoRepository;
+import com.bytecode.tratcms.data.repository.GrupoRepository;
+import com.bytecode.tratcms.data.repository.PermisoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Controller;
@@ -52,7 +52,7 @@ public class GrupoController {
     public String newAndUpdate(
             @ModelAttribute MGrupo MGrupo
     ){
-        if (MGrupo.getIdgrupo() > 0){
+        if (MGrupo.getIdGrupo() > 0){
             grupoRepository.update(MGrupo);
         } else {
             grupoRepository.save(MGrupo);

@@ -1,9 +1,7 @@
 package com.bytecode.tratcms;
 
-import com.bytecode.tratcms.model.entity.Categoria;
-import com.bytecode.tratcms.repository.jpa.JpaCategoriaRepository;
-import com.bytecode.tratcms.repository.jpa.JpaTagRepository;
-import com.bytecode.tratcms.service.InstalacionService;
+import com.bytecode.tratcms.data.repository.jpa.JpaCategoriaRepository;
+import com.bytecode.tratcms.logic.service.InstalacionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +13,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.Date;
 
 @SpringBootApplication
-@EntityScan("com.bytecode.tratcms.model.entity")
-@EnableJpaRepositories("com.bytecode.tratcms.repository.jpa")
+@EntityScan("com.bytecode.tratcms.data.model.entity")
+@EnableJpaRepositories("com.bytecode.tratcms.data.repository.jpa")
 @Transactional
 public class Application implements CommandLineRunner {
 	private Log logger = LogFactory.getLog(getClass());
@@ -38,7 +35,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//instalacionService.init_usuarios();
+		instalacionService.init();
 
 		//CRUD EN JPA
 
@@ -52,14 +49,14 @@ public class Application implements CommandLineRunner {
 		//Iniciamos transaccion
 		//entityManager.persist(categoria);
 
-		entityManager.createQuery("select c from Categoria c")
-				.getResultList()
-				.forEach(o -> {
-					Categoria c = (Categoria) o;
-					c.setNombre("I -");
-					entityManager.remove(o);
-					logger.info(o);
-				});
+//		entityManager.createQuery("select c from Categoria c")
+//				.getResultList()
+//				.forEach(o -> {
+//					Categoria c = (Categoria) o;
+//					c.setNombre("I -");
+//					entityManager.remove(o);
+//					logger.info(o);
+//				});
 
 		//Hacer commit
 //
