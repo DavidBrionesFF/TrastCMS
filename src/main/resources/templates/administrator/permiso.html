@@ -51,12 +51,12 @@
             </table>
 
             <button type="button" class="btn btn-primary mt-4 mb-4">
-                <a class="text-white" th:href="'/admin/MPermiso?view_name=new'">Agregar Permiso</a>
+                <a class="text-white" th:href="'/admin/permiso?view_name=new'">Agregar Permiso</a>
             </button>
         </div>
 
         <div class="col-12" th:if="${#request.getParameter('view_name') == 'new' || #request.getParameter('view_name') == 'update'}">
-            <form th:action="@{/admin/permiso}" method="MPost" th:object="${permiso}">
+            <form th:action="@{/admin/permiso}" method="post" th:object="${permiso}">
                 <input type="hidden" th:field="*{idPermiso}" th:value="*{idPermiso}">
 
                 <div class="form-group">

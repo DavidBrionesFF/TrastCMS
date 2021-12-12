@@ -1,8 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<ul class="nav justify-content-center navbar-dark bg-dark">
-
-</ul>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="#">TrastCMS</a>
@@ -17,7 +14,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/admin/categoria}"
-                   th:classappend="(${#httpServletRequest.requestURI} == '/admin/MCategoria')? 'active': ''">Categoria</a>
+                   th:classappend="(${#httpServletRequest.requestURI} == '/admin/categoria')? 'active': ''">Categoria</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/admin/publicacion}"

@@ -29,128 +29,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5342f7e1-d12b-4e78-87eb-b0ac8daf66e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/custom/CategoriaCustomRep.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/custom/CategoriaCustomRepImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/instalacion/GrupoInstalacionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/instalacion/GrupoPermisoInstalacionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/instalacion/InstalacionRegistroService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/instalacion/PermisoInstalacionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/instalacion/UsuarioInstalacionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/grupo.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/grupo_permiso.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/permiso.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/usuario.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/create-user.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/blank.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/v1/aside.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/v1/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/v1/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/squema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/squema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/DatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/component/DatabaseConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/component/TestDatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/component/TestDatabaseConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/configuration/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/configuration/security/WebSecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/error/GlobalRestErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/error/GlobalRestErrorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/CategoriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/CategoriaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/ComentarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/ComentarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/GrupoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/GrupoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PermisoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PermisoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/UsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/CategoriaRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/CategoriaRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/ComentarioRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/ComentarioRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/ContenidorRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/ContenidorRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/GrupoPermisoRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/GrupoPermisoRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/GrupoRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/GrupoRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/PermisoRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/PermisoRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/PostMetadataRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/PostMetadataRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/PostRestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/PostRestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/UsuarioMetadataRestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/UsuarioMetadataRestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/UsuarioRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/rest/jdbc/UsuarioRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/init/InitConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/configuration/init/InitConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/CategoriaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/CategoriaMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/ComentarioMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/ComentarioMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/ContenidoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/ContenidoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/GrupoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/GrupoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/GrupoPermisoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/GrupoPermisoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PermisoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/PermisoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/PostMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/PostMetadataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/PostMetadataMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/UsuarioMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/UsuarioMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/mapper/UsuarioMetadataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/mapper/UsuarioMetadataMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MCategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MCategoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MComentario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MComentario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MContenido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MContenido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MGrupo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MGrupo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MGrupoPermiso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MGrupoPermiso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MPermiso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MPermiso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MPost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MPostMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MPostMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MUsuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MUsuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/MUsuarioMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/MUsuarioMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/common/RepBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/common/RepBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Categoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Comentario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Comentario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/ComentarioMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/ComentarioMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Contenido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Contenido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Grupo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Grupo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/GrupoPermiso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/GrupoPermiso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Permiso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Permiso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/PostMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/PostMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Tag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Usuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/model/entity/UsuarioMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/UsuarioMetadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/BaseRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/BaseRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/CategoriaRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/CategoriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/CategoriaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ComentarioRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/ComentarioRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ComentarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/ComentarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ContenidoRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/ContenidoRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/ContenidoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/ContenidoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/GrupoPermisoRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/GrupoPermisoRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/GrupoPermisoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/GrupoPermisoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/GrupoRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/GrupoRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/GrupoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/GrupoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PermisoRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/PermisoRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PermisoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/PermisoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostMetadataRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/PostMetadataRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostMetadataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/PostMetadataRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/PostRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/PostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioMetadaRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/UsuarioMetadaRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioMetadataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/UsuarioMetadataRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioRep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/UsuarioRep.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/UsuarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/UsuarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaCategoriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaCategoriaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaComentarioMetadataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaComentarioMetadataRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaComentarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaComentarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaContenidoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaContenidoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaGrupoPermisoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaGrupoPermisoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaGrupoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaGrupoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaPermisoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPermisoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaPostMetadaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPostMetadaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaPostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaTagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaTagRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaUsuarioMetadataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaUsuarioMetadataRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/repository/jpa/JpaUsuarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaUsuarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/service/InstalacionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/InstalacionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/service/UsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/service/UsuarioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/util/ApiError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/util/ApiError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/util/ApiSubError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/util/ApiSubError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/util/ApiValidationError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/logic/util/ApiValidationError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/script.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/script.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/style.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/style.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/GrupoRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/GrupoRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MCategoriaRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MCategoriaRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MComentarioRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MComentarioRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MContenidoRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MContenidoRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MGrupoMPermisoRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MGrupoMPermisoRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MMPostMetadataRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MMPostMetadataRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MMUsuarioMetadataRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MMUsuarioMetadataRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MPermisoRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MPermisoRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MPostRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MPostRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/repository/MUsuarioRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bytecode/tratcms/data/repository/MUsuarioRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,9 +55,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -212,6 +104,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\David\Documents\Software\TrastCMS\src\main\resources\templates\administrator\components\v1" />
       <recent name="C:\Users\David\Documents\TrastCMS\src\main\resources\templates\administrator" />
     </key>
   </component>
@@ -225,6 +118,19 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -276,6 +182,7 @@
       <workItem from="1587540999355" duration="2141000" />
       <workItem from="1587585006018" duration="794000" />
       <workItem from="1638379515260" duration="9384000" />
+      <workItem from="1639273962693" duration="3858000" />
     </task>
     <servers />
   </component>

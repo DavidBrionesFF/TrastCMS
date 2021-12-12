@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<aside class="left-sidebar" data-sidebarbg="skin6" style="position: fixed; z-index: 100">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar" style="top: -50px;">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="sidebar-item">
+                    <a class="navbar-brand" style="display: flex; justify-content: center">
+                        <img src="/plugins/images/logo-icon.jpg" alt="homepage" width="75" style="margin: auto; border-radius: 1000px; margin-bottom: 10px"/>
+                    </a>
+                </li>
+                <!-- User Profile-->
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/admin/usuario}"
+                       th:classappend="(${#httpServletRequest.requestURI} == '/admin/')? 'active': ''"
+                       aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span class="hide-menu">Usuarios</span>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>

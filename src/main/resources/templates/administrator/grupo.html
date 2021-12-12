@@ -30,13 +30,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="MGrupo : ${grupos}">
-                        <th scope="row" th:text="${MGrupo.getIdGrupo()}"></th>
-                        <td th:text="${MGrupo.getNombre()}"></td>
-                        <td th:text="${MGrupo.getFecha()}"></td>
+                    <tr th:each="grupo : ${grupos}">
+                        <th scope="row" th:text="${grupo.getIdGrupo()}"></th>
+                        <td th:text="${grupo.getNombre()}"></td>
+                        <td th:text="${grupo.getFecha()}"></td>
                         <td style="display: flex; justify-items: center; align-items: center;">
                             <button type="button" class="btn btn-warning">
-                                <a class="text-white" th:href="'/admin/grupo?view_name=update&id=' + ${MGrupo.getIdGrupo()}">Editar</a>
+                                <a class="text-white" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Editar</a>
                             </button>
                         </td>
                     </tr>
@@ -44,7 +44,7 @@
                 </table>
 
                 <button type="button" class="btn btn-primary mt-4 mb-4">
-                    <a class="text-white" th:href="'/admin/MGrupo?view_name=new'">Agregar Grupo</a>
+                    <a class="text-white" th:href="'/admin/grupo?view_name=new'">Agregar Grupo</a>
                 </button>
             </div>
 
@@ -96,7 +96,6 @@
         </div>
     </div>
 </div>
-<div th:replace="/administrator/components/script.html"></div>
 
 <!--Modal Permisos-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -144,5 +143,7 @@
         </div>
     </div>
 </div>
+
+<div th:replace="/administrator/components/script.html"></div>
 </body>
 </html>

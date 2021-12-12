@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<header class="topbar" data-navbarbg="skin5">
+    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <div class="navbar-header"  data-logobg="skin6">
+            <!-- ============================================================== -->
+            <!-- Logo -->
+            <!-- ============================================================== -->
+<!--            <a class="navbar-brand" href="dashboard.html">-->
+<!--                &lt;!&ndash; Logo text &ndash;&gt;-->
+<!--                <span class="logo-text" style="margin: auto; padding-top: 10px; padding-bottom: 10px">-->
+<!--                    &lt;!&ndash; dark Logo text &ndash;&gt;-->
+<!--                    <img src="/plugins/images/logo-icon.jpg" alt="homepage" width="75" style="margin: auto; border-radius: 1000px"/>-->
+<!--                </span>-->
+<!--            </a>-->
+            <!-- ============================================================== -->
+            <!-- End Logo -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- toggle and nav items -->
+            <!-- ============================================================== -->
+            <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+               href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5" style="position: fixed; top: 0px; z-index: 10">
+            <ul class="navbar-nav d-none d-md-block d-lg-none">
+                <li class="nav-item">
+                    <a class="nav-toggler nav-link waves-effect waves-light text-white"
+                       href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                </li>
+            </ul>
+            <!-- ============================================================== -->
+            <!-- Right side toggle and nav items -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav ms-auto d-flex align-items-center">
+
+                <!-- ============================================================== -->
+                <!-- Search -->
+                <!-- ============================================================== -->
+                <li class=" in">
+                    <form role="search" class="app-search d-none d-md-block me-3">
+                        <input type="text" placeholder="Buscar algo" class="form-control mt-0">
+                        <a href="" class="active">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </form>
+                </li>
+                <!-- ============================================================== -->
+                <!-- User profile and search -->
+                <!-- ============================================================== -->
+                <li>
+                    <a class="profile-pic" href="#">
+                        <img src="/plugins/images/logo-icon.jpg" alt="user-img" width="36"
+                             class="img-circle"><span class="text-white font-medium">ByteCode</span></a>
+                </li>
+                <!-- ============================================================== -->
+                <!-- User profile and search -->
+                <!-- ============================================================== -->
+            </ul>
+        </div>
+    </nav>
+</header>
