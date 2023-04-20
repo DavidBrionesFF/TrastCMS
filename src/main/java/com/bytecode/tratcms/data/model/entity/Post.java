@@ -5,25 +5,12 @@
  */
 package com.bytecode.tratcms.data.model.entity;
 
+import com.bytecode.tratcms.data.listener.PostListener;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,6 +22,7 @@ import javax.validation.constraints.Size;
 @Table(name = "post", catalog = "blog", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p")})
+@EntityListeners(PostListener.class)
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,7 +50,10 @@ public class Post implements Serializable {
     private String tipo;
     @Column(name = "Fecha")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private Date fecha = new Date();
+    @Column(name = "FechaActualizacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaActualizacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPost")
     private List<PostMetadata> postMetadataList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPost")
@@ -88,6 +79,14 @@ public class Post implements Serializable {
     public Post(Integer idPost, String titulo) {
         this.idPost = idPost;
         this.titulo = titulo;
+    }
+
+    public Date getFechaActualizacion() {
+        return fechaActualizacion;
+    }
+
+    public void setFechaActualizacion(Date fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
     }
 
     public Integer getIdPost() {

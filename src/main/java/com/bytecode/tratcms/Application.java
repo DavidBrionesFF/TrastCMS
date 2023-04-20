@@ -1,6 +1,10 @@
 package com.bytecode.tratcms;
 
+import com.bytecode.tratcms.data.model.entity.Categoria;
+import com.bytecode.tratcms.data.model.entity.Post;
+import com.bytecode.tratcms.data.model.entity.Usuario;
 import com.bytecode.tratcms.data.repository.jpa.JpaCategoriaRepository;
+import com.bytecode.tratcms.data.repository.jpa.JpaPostRepository;
 import com.bytecode.tratcms.logic.service.InstalacionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +29,9 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private JpaCategoriaRepository jpaCategoriaRepository;
+
+	@Autowired
+	private JpaPostRepository jpaPostRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -85,5 +92,21 @@ public class Application implements CommandLineRunner {
 //				.forEach(categoria1 -> {
 //					logger.info("La categoria es: " + categoria1.getIdCategoria());
 //				});
+
+//		Post post = new Post();
+//
+//		post.setExtracto("Post de ejemplo");
+//		post.setTipo("POST");
+//		post.setTitulo("Este es un ejemplo de post");
+//		post.setIdCategoria(new Categoria(1));
+//		post.setIdUsuario(new Usuario(1));
+//
+//
+//		jpaPostRepository.save(post);
+
+		jpaPostRepository.findTop10ByOrderByFechaDesc()
+				.forEach(post1 -> {
+					System.out.println("RECORRIENDO ELEMENTOS = " + post1.getTitulo());
+				});
 	}
 }

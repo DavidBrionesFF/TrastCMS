@@ -57,7 +57,8 @@ public class Categoria implements Serializable {
     @Column(name = "CategoriaSuperior")
     private String categoriaSuperior;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
     private long idCategoria1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")

@@ -29,20 +29,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5342f7e1-d12b-4e78-87eb-b0ac8daf66e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/create-user.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/blank.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/v1/aside.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/v1/footer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/v1/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/listener/PostListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/AdministratorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/nav.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/script.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/script.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/style.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/components/style.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/grupo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/permiso.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/usuario.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Categoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/comentario.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/comentario.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +52,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -80,6 +76,17 @@
       </map>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
@@ -88,40 +95,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="RequestMappingsPanelOrder0" value="0" />
-    <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelWidth0" value="75" />
-    <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/50488/Documents/Nat Technologies/TrastCMS"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\David\Documents\Software\TrastCMS\src\main\resources\templates\administrator\components\v1" />
       <recent name="C:\Users\David\Documents\TrastCMS\src\main\resources\templates\administrator" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Application (1)">
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.Application" />
-      <module name="TrastCMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.Application">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -131,6 +118,19 @@
       <option name="TEST_OBJECT" value="CLASS" />
       <properties />
       <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.Application" />
+      <module name="TrastCMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bytecode.tratcms.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -157,7 +157,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.Application (1)" />
         <item itemvalue="Application.Application" />
       </list>
     </recent_temporary>
@@ -199,6 +198,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

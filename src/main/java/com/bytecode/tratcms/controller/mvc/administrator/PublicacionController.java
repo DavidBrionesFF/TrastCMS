@@ -48,10 +48,10 @@ public class PublicacionController {
                 modelAndView.addObject("categorias", categoriaRepository.findAll(pageable));
                 modelAndView.addObject("update", true);
                 modelAndView.addObject("post_metadata", MPostMetadata);
-                modelAndView.addObject("meta_description", MPostMetadata.stream()
-                                                                         .filter(postMetadata -> {
-                                                                             return postMetadata.getClave().equalsIgnoreCase("meta_descripcion");
-                                                                         }).collect(Collectors.toList()).get(0));
+//                modelAndView.addObject("meta_description", MPostMetadata.stream()
+//                                                                         .filter(postMetadata -> {
+//                                                                             return postMetadata.getClave().equalsIgnoreCase("meta_descripcion");
+//                                                                         }).collect(Collectors.toList()).get(0));
                 break;
         }
         return modelAndView;
