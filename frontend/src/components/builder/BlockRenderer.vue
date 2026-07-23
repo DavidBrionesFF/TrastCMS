@@ -4,6 +4,12 @@ import type { CSSProperties } from 'vue'
 import type { BuilderBlock } from '@/types'
 import MediaPlayer from '@/components/media/MediaPlayer.vue'
 import CrmFormBlock from '@plugins/trastcrm/frontend/CrmFormBlock.vue'
+import CartBlock from '@plugins/trastpay/frontend/CartBlock.vue'
+import CheckoutBlock from '@plugins/trastpay/frontend/CheckoutBlock.vue'
+import StoreGridBlock from '@plugins/traststore/frontend/StoreGridBlock.vue'
+import ProductBlock from '@plugins/traststore/frontend/ProductBlock.vue'
+import PricingBlock from '@plugins/trastsaas/frontend/PricingBlock.vue'
+import LicenseActivationBlock from '@plugins/trastsaas/frontend/LicenseActivationBlock.vue'
 
 const props = withDefaults(defineProps<{
   block: BuilderBlock
@@ -184,6 +190,12 @@ function escapeHtml(value: unknown): string {
     </div>
 
     <CrmFormBlock v-else-if="block.type === 'plugin:trastcrm:form'" :form-key="String(block.data.formKey || 'contacto')" :title="String(block.data.title || '')" :show-title="block.data.showTitle !== false" :style="String(block.data.style || 'card')" :editing="editing" />
+    <CartBlock v-else-if="block.type === 'plugin:trastpay:cart'" :style="String(block.data.style || 'card')" :editing="editing" />
+    <CheckoutBlock v-else-if="block.type === 'plugin:trastpay:checkout'" :show-coupon="block.data.showCoupon !== false" :editing="editing" />
+    <StoreGridBlock v-else-if="block.type === 'plugin:traststore:grid'" :limit="Number(block.data.limit || 8)" :columns="String(block.data.columns || '4')" :editing="editing" />
+    <ProductBlock v-else-if="block.type === 'plugin:traststore:product'" :product-slug="String(block.data.productSlug || '')" :editing="editing" />
+    <PricingBlock v-else-if="block.type === 'plugin:trastsaas:pricing'" :product-key="String(block.data.productKey || 'trast-cloud')" :editing="editing" />
+    <LicenseActivationBlock v-else-if="block.type === 'plugin:trastsaas:license'" :product-key="String(block.data.productKey || 'trast-cloud')" :editing="editing" />
     <div v-else-if="String(block.type).startsWith('plugin:')" class="plugin-builder-output" v-html="pluginHtml" />
 
     <hr v-else-if="block.type === 'divider'" :style="dividerStyle">

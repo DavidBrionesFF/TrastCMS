@@ -173,6 +173,8 @@ async function javaAction(plugin: JavaPlugin, action: 'start' | 'stop' | 'delete
   }
 }
 
+function bundledRoute(pluginId: string) { return ({ trastcrm: 'crm', trastpay: 'commerce', traststore: 'store', trastsaas: 'saas' } as Record<string,string>)[pluginId] || '' }
+
 async function toggleBundled(plugin: BundledPlugin) {
   error.value = ''
   notice.value = ''
@@ -237,7 +239,7 @@ onMounted(load)
             </div>
           </div>
           <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
-            <RouterLink v-if="plugin.pluginId === 'trastcrm' && plugin.enabled" :to="{ name: 'crm' }" class="button secondary small"><UiIcon name="external" :size="15"/>Abrir CRM</RouterLink><span v-else class="text-xs text-slate-400">{{ plugin.enabled ? 'Plugin listo para utilizar.' : 'Actívelo para habilitar sus rutas, bloques y eventos.' }}</span>
+            <RouterLink v-if="plugin.enabled && bundledRoute(plugin.pluginId)" :to="{ name: bundledRoute(plugin.pluginId) }" class="button secondary small"><UiIcon name="external" :size="15"/>Abrir {{ plugin.name }}</RouterLink><span v-else class="text-xs text-slate-400">{{ plugin.enabled ? 'Plugin listo para utilizar.' : 'Actívelo para habilitar sus rutas, bloques y eventos.' }}</span>
             <button type="button" :class="['button small', plugin.enabled ? 'danger' : '']" @click="toggleBundled(plugin)">{{ plugin.enabled ? 'Desactivar' : 'Activar' }}</button>
           </div>
         </article>

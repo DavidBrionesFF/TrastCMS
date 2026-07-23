@@ -18,7 +18,7 @@ JPA + Flyway
 H2 / PostgreSQL / MySQL
 ```
 
-Maven compila el frontend durante `generate-resources`, copia `frontend/dist` a `target/classes/static` y Spring Boot produce `target/trastcms-2.5.0-alpha.7.jar`.
+Maven compila el frontend durante `generate-resources`, copia `frontend/dist` a `target/classes/static` y Spring Boot produce `target/trastcms-2.6.0-alpha.8.jar`.
 
 ## Dominios
 

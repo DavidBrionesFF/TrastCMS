@@ -16,6 +16,7 @@ public interface BundledPlugin {
     default String author() { return "NaT Technologies"; }
     default boolean enabledByDefault() { return false; }
     default List<String> capabilities() { return List.of(); }
+    default List<String> requiredPlugins() { return List.of(); }
     default List<Map<String, Object>> blocks() { return List.of(); }
     default List<Map<String, Object>> adminMenuItems() { return List.of(); }
     default List<String> adminActions() { return List.of(); }

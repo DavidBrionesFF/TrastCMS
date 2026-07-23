@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.saas; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; interface SaasProductRepository extends JpaRepository<SaasProduct,String>{Optional<SaasProduct> findByProductKey(String productKey);}

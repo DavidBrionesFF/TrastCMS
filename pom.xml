@@ -13,7 +13,7 @@
 
     <groupId>com.nattechnologies</groupId>
     <artifactId>trastcms</artifactId>
-    <version>2.5.0-alpha.7</version>
+    <version>2.6.0-alpha.8</version>
     <name>TrastCMS</name>
     <description>CMS modular, rápido y extensible construido con Spring Boot y Vue.</description>
     <url>https://github.com/DavidBrionesFF/TrastCMS</url>
@@ -179,6 +179,9 @@
                         <configuration>
                             <sources>
                                 <source>${project.basedir}/plugins/trastcrm/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastpay/src/main/java</source>
+                                <source>${project.basedir}/plugins/traststore/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastsaas/src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -190,6 +193,15 @@
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/plugins/trastcrm/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastpay/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/traststore/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastsaas/src/main/resources</directory>
                                 </resource>
                             </resources>
                         </configuration>

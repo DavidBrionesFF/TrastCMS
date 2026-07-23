@@ -153,3 +153,32 @@ Al desactivar TrastCRM, estas herramientas desaparecen de `tools/list` y dejan d
 - No exponga el token en JavaScript público, logs, temas o repositorios.
 - Revise las anotaciones de cada herramienta antes de permitir operaciones de escritura.
 - Mantenga confirmación humana antes de publicar, borrar o modificar contenido sensible.
+
+## Herramientas comerciales
+
+Cuando los plugins correspondientes están activos se registran:
+
+### TrastPay
+
+```text
+commerce_order_summary
+commerce_list_orders
+```
+
+### TrastStore
+
+```text
+store_inventory_alerts
+store_product_lookup
+```
+
+### TrastSaaS
+
+```text
+saas_subscription_summary
+saas_list_licenses
+```
+
+Todas son herramientas de lectura. La versión inicial no permite confirmar
+pagos, reembolsar órdenes, revocar licencias ni modificar inventario mediante
+MCP. Esas operaciones requieren la API administrativa y confirmación humana.

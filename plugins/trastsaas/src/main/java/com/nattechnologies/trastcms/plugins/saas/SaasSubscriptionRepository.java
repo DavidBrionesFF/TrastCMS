@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.saas; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; interface SaasSubscriptionRepository extends JpaRepository<SaasSubscription,String>{List<SaasSubscription> findByCustomerEmailIgnoreCaseOrderByCreatedAtDesc(String email); List<SaasSubscription> findByOrderId(String orderId);}

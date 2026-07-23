@@ -77,7 +77,10 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/admin/categories/**",
                     "/api/admin/media/**",
-                    "/api/admin/crm/**"
+                    "/api/admin/crm/**",
+                    "/api/admin/commerce/**",
+                    "/api/admin/store/**",
+                    "/api/admin/saas/**"
                 ).hasAnyRole("ADMIN", "EDITOR")
                 .requestMatchers(
                     "/api/admin/**",
@@ -87,7 +90,7 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers(mcpEndpoint)
+                .ignoringRequestMatchers(mcpEndpoint, "/api/public/saas/**")
                 .csrfTokenRepository(csrfRepository)
                 .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
             )

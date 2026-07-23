@@ -11,7 +11,11 @@ const router = createRouter({
         { path: '', name: 'home', component: () => import('@/views/public/HomeView.vue') },
         { path: 'post/:slug', name: 'post-public', component: () => import('@/views/public/PostView.vue') },
         { path: 'page/:slug', name: 'page-public', component: () => import('@/views/public/PageView.vue') },
-        { path: 'developers', name: 'developers', component: () => import('@/views/public/DeveloperPortalView.vue') }
+        { path: 'developers', name: 'developers', component: () => import('@/views/public/DeveloperPortalView.vue') },
+        { path: 'store', name: 'store-public', component: () => import('@/views/public/StorefrontView.vue') },
+        { path: 'cart', name: 'cart-public', component: () => import('@/views/public/CartView.vue') },
+        { path: 'pricing', name: 'pricing-public', component: () => import('@/views/public/PricingView.vue') },
+        { path: 'saas/claim', name: 'saas-claim', component: () => import('@/views/public/LicenseClaimView.vue') }
       ]
     },
     { path: '/admin/login', name: 'login', component: () => import('@/views/admin/LoginView.vue'), meta: { guest: true } },
@@ -29,6 +33,9 @@ const router = createRouter({
         { path: 'themes', name: 'themes', component: () => import('@/views/admin/ThemesView.vue'), meta: { roles: ['ADMIN'] } },
         { path: 'plugins', name: 'plugins', component: () => import('@/views/admin/PluginsView.vue'), meta: { roles: ['ADMIN'] } },
         { path: 'crm', name: 'crm', component: () => import('@plugins/trastcrm/frontend/CrmView.vue'), meta: { roles: ['ADMIN', 'EDITOR'] } },
+        { path: 'commerce', name: 'commerce', component: () => import('@plugins/trastpay/frontend/CommerceView.vue'), meta: { roles: ['ADMIN', 'EDITOR'] } },
+        { path: 'store', name: 'store', component: () => import('@plugins/traststore/frontend/StoreView.vue'), meta: { roles: ['ADMIN', 'EDITOR'] } },
+        { path: 'saas', name: 'saas', component: () => import('@plugins/trastsaas/frontend/SaasView.vue'), meta: { roles: ['ADMIN', 'EDITOR'] } },
         { path: 'extensions/:pluginId/:pageId', name: 'plugin-page', component: () => import('@/views/admin/PluginAdminView.vue'), meta: { roles: ['ADMIN'] } },
         { path: 'users', name: 'users', component: () => import('@/views/admin/UsersView.vue'), meta: { roles: ['ADMIN'] } },
         { path: 'settings', name: 'settings', component: () => import('@/views/admin/SettingsView.vue'), meta: { roles: ['ADMIN'] } },

@@ -118,3 +118,30 @@ La versión alfa mantiene las rutas bajo `/api/public` y `/api/admin`. Antes de 
 - Limite Swagger UI a administradores o a una red interna.
 - No comparta cookies administrativas con aplicaciones de terceros.
 - Use MCP con un token independiente para agentes y automatizaciones.
+
+## Comercio, tienda y SaaS
+
+La versión 2.6 agrega grupos OpenAPI separados:
+
+```text
+/v3/api-docs/commerce
+/v3/api-docs/store
+/v3/api-docs/saas
+```
+
+Áreas principales:
+
+```text
+/api/public/commerce
+/api/admin/commerce
+/api/public/store
+/api/admin/store
+/api/public/saas
+/api/admin/saas
+```
+
+Consulte:
+
+- `docs/COMMERCE.md`
+- `docs/STORE.md`
+- `docs/SAAS.md`

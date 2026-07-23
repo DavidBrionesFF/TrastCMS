@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.store; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; interface StoreVariantRepository extends JpaRepository<StoreVariant,String>{Optional<StoreVariant> findBySku(String sku);List<StoreVariant> findByProductIdOrderByNameAsc(String productId);}

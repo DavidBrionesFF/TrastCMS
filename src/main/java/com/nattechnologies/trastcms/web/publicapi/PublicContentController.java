@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/public")
@@ -22,6 +24,7 @@ public class PublicContentController {
     private final MediaService media;
     private final ThemeService themes;
     private final ThemeMenuService menus;
+    private final BundledPluginService bundledPlugins;
 
     public PublicContentController(
             PostService posts,
@@ -29,13 +32,15 @@ public class PublicContentController {
             SiteSettingService settings,
             MediaService media,
             ThemeService themes,
-            ThemeMenuService menus) {
+            ThemeMenuService menus,
+            BundledPluginService bundledPlugins) {
         this.posts = posts;
         this.categories = categories;
         this.settings = settings;
         this.media = media;
         this.themes = themes;
         this.menus = menus;
+        this.bundledPlugins = bundledPlugins;
     }
 
     @GetMapping("/navigation")
@@ -49,6 +54,14 @@ public class PublicContentController {
     @GetMapping("/site")
     public ApiDtos.SiteInfo site() {
         return settings.siteInfo();
+    }
+
+    @GetMapping("/plugins")
+    public Map<String, Boolean> plugins() {
+        Map<String, Boolean> result = new LinkedHashMap<>();
+        bundledPlugins.list().forEach(plugin ->
+                result.put(plugin.pluginId(), plugin.enabled()));
+        return Map.copyOf(result);
     }
 
     @GetMapping("/posts")

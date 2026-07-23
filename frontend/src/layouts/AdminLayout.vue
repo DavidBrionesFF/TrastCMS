@@ -85,6 +85,8 @@ const currentLabel = computed(() => {
   if (route.name === 'plugin-page') {
     return pluginMenus.value.find(item => item.id === String(route.params.pageId))?.label || 'Plugin'
   }
+  const pluginItem = pluginMenus.value.find(entry => entry.routeName === route.name)
+  if (pluginItem) return pluginItem.label
   const item = baseGroups.flatMap(group => group.items).find(entry =>
     route.name === entry.name || (entry.name && String(route.name).startsWith(entry.name.replace(/s$/, '')))
   )

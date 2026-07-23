@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.saas; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; interface SaasUsageEventRepository extends JpaRepository<SaasUsageEvent,String>{Optional<SaasUsageEvent> findByIdempotencyKey(String idempotencyKey); List<SaasUsageEvent> findTop100BySubscriptionIdOrderByOccurredAtDesc(String subscriptionId);}

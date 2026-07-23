@@ -73,3 +73,41 @@ entidades ni escribir identificadores manualmente.
 ## Herramientas MCP
 
 Un plugin incorporado puede registrar herramientas para agentes implementando `McpExtension`. La extensión debe consultar `BundledPluginService.isEnabled(...)` o sobrescribir `enabled()` para que sus herramientas desaparezcan cuando el plugin se desactive. TrastCRM sirve como ejemplo con herramientas de pipeline, leads y envíos.
+
+## Dependencias entre plugins
+
+Un plugin puede declarar dependencias obligatorias:
+
+```java
+@Override
+public List<String> requiredPlugins() {
+    return List.of("trastpay");
+}
+```
+
+El motor no permite activarlo sin sus dependencias y evita desactivar una
+dependencia mientras haya extensiones activas que la necesiten.
+
+## Plugins comerciales incorporados
+
+```text
+plugins/trastpay
+plugins/traststore
+plugins/trastsaas
+```
+
+TrastPay proporciona contratos reutilizables:
+
+```text
+SellableProvider
+PaymentGateway
+```
+
+TrastStore y TrastSaaS registran productos sin duplicar carrito, checkout,
+órdenes ni pagos.
+
+Documentación:
+
+- `docs/COMMERCE.md`
+- `docs/STORE.md`
+- `docs/SAAS.md`

@@ -3,9 +3,11 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 import type { SiteInfo, ThemeMenuItem, ThemeMenus } from '@/types'
 
 const auth = useAuthStore()
+const cart = useCartStore()
 const router = useRouter()
 const site = ref<SiteInfo>({
   name: 'TrastCMS',
@@ -20,19 +22,23 @@ const site = ref<SiteInfo>({
   contactPhone: ''
 })
 const menus = ref<ThemeMenus>({ header: [], footer: [] })
+const pluginStatus = ref<Record<string, boolean>>({})
 
 const headerMenu = computed(() => menus.value.header.filter(item => item.visible))
 const footerMenu = computed(() => menus.value.footer.filter(item => item.visible))
 const currentYear = new Date().getFullYear()
 
 onMounted(async () => {
-  const [siteInfo, menuInfo] = await Promise.all([
+  const [siteInfo, menuInfo, plugins] = await Promise.all([
     api<SiteInfo>('/api/public/site'),
-    api<ThemeMenus>('/api/public/menus')
+    api<ThemeMenus>('/api/public/menus'),
+    api<Record<string, boolean>>('/api/public/plugins')
   ])
   site.value = siteInfo
   menus.value = menuInfo
+  pluginStatus.value = plugins
   if (!auth.loaded) await auth.load().catch(() => undefined)
+  if (cart.token) await cart.refresh().catch(() => undefined)
 })
 
 watch(() => site.value.activeTheme, (theme) => {
@@ -102,6 +108,9 @@ function internal(item: ThemeMenuItem) {
             {{ item.label }}
           </a>
         </template>
+        <RouterLink v-if="pluginStatus.traststore" to="/store">Tienda</RouterLink>
+        <RouterLink v-if="pluginStatus.trastsaas" to="/pricing">Precios</RouterLink>
+        <RouterLink v-if="pluginStatus.trastpay" to="/cart" class="cart-link">Carrito <span v-if="cart.count">{{ cart.count }}</span></RouterLink>
         <RouterLink v-if="!auth.user.authenticated" to="/admin" class="public-login-link">Administrar</RouterLink>
       </nav>
     </header>

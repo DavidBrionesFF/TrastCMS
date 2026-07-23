@@ -1,0 +1,6 @@
+<script setup lang="ts">
+import{onMounted,ref}from'vue';import{api}from'@/services/api';import{useCartStore}from'@/stores/cart';const plans=ref<any[]>([]);const cart=useCartStore();async function select(p:any){await cart.add('saas',p.id);location.href='/cart'}const money=(v:number,c='USD')=>new Intl.NumberFormat('es-HN',{style:'currency',currency:c}).format(v);onMounted(async()=>plans.value=await api('/api/public/saas/products/trast-cloud/plans'));
+</script>
+
+<template>
+<main><section class="pricing-hero"><span class="eyebrow">TRASTSAAS</span><h1>Venda software con planes que crecen con sus clientes</h1><p>Suscripciones, pruebas, licencias por dispositivo, entitlements y uso medido listos para integrarse.</p></section><section class="pricing-grid"><article v-for="p in plans" :key="p.id" :class="['pricing-card',{featured:p.featured}]"><span v-if="p.featured" class="pricing-badge">Más popular</span><h2>{{p.name}}</h2><p>{{p.description}}</p><strong>{{money(p.price,p.currency)}}<small>/{{p.billingInterval.toLowerCase()}}</small></strong><div class="trial">{{p.trialDays}} días de prueba · {{p.maxActivations}} activaciones</div><ul><li v-for="(value,key) in p.entitlements" :key="key">✓ {{key}}: {{value}}</li></ul><button class="button full" @click="select(p)">Comenzar con {{p.name}}</button></article></section></main></template>

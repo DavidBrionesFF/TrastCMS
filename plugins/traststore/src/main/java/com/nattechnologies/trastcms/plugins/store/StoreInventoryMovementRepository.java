@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.store; import org.springframework.data.jpa.repository.JpaRepository; import org.springframework.data.domain.*; interface StoreInventoryMovementRepository extends JpaRepository<StoreInventoryMovement,String>{Page<StoreInventoryMovement> findAllByOrderByCreatedAtDesc(Pageable pageable);}

@@ -58,6 +58,19 @@ public class BundledPluginService implements ApplicationRunner {
     public ApiDtos.BundledPluginResponse toggle(String pluginId, boolean enabled, String actor) {
         BundledPlugin plugin = require(pluginId);
         BundledPluginState state = requireState(pluginId);
+        if (enabled) {
+            for (String dependency : plugin.requiredPlugins()) {
+                if (!isEnabled(dependency)) {
+                    throw new BadRequestException("Active primero el plugin requerido: " + dependency);
+                }
+            }
+        }
+        if (!enabled) {
+            plugins.values().stream()
+                    .filter(candidate -> isEnabled(candidate.id()) && candidate.requiredPlugins().contains(pluginId))
+                    .findFirst()
+                    .ifPresent(candidate -> { throw new BadRequestException("Desactive primero el plugin dependiente: " + candidate.name()); });
+        }
         if (state.isEnabled() != enabled) {
             state.setEnabled(enabled);
             state.setInstalledVersion(plugin.version());

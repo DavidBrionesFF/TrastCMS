@@ -41,6 +41,11 @@ withDefaults(defineProps<{ name: string; size?: number; strokeWidth?: number }>(
     <template v-else-if="name === 'layers'"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></template>
     <template v-else-if="name === 'code'"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 4l-4 16"/></template>
     <template v-else-if="name === 'package'"><path d="m21 8-9 5-9-5 9-5z"/><path d="m3 8 9 5 9-5v8l-9 5-9-5z"/><path d="M12 13v8"/></template>
+    <template v-else-if="name === 'cart'"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M3 4h2l2 11h12l2-8H6M9 9h8"/></template>
+    <template v-else-if="name === 'store'"><path d="M4 10v11h16V10M3 4h18l-2 6H5z"/><path d="M8 21v-7h8v7"/></template>
+    <template v-else-if="name === 'key'"><circle cx="8" cy="15" r="5"/><path d="m12 12 8-8M17 4l3 3M14 7l3 3"/></template>
+    <template v-else-if="name === 'payment'"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></template>
+    <template v-else-if="name === 'pricing'"><path d="M20 13 11 22l-9-9V4h9z"/><circle cx="7" cy="9" r="1"/></template>
     <template v-else-if="name === 'crm'"><circle cx="7" cy="8" r="3"/><path d="M2 20a5 5 0 0 1 10 0"/><path d="M15 4h6v5h-6zM15 13h6v7h-6z"/><path d="M12 8h3M12 17h3"/></template>
     <template v-else-if="name === 'company'"><path d="M3 21h18M5 21V5h9v16M14 9h5v12"/><path d="M8 8h3M8 12h3M8 16h3M16 12h1M16 16h1"/></template>
     <template v-else-if="name === 'pipeline'"><path d="M4 5h16M7 5v5h10V5M10 10v5h4v-5M12 15v5"/><circle cx="4" cy="5" r="1"/><circle cx="20" cy="5" r="1"/><circle cx="12" cy="20" r="1"/></template>

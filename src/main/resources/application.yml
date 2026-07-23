@@ -63,7 +63,7 @@ trastcms:
     enabled: ${TRASTCMS_MCP_ENABLED:true}
     endpoint: ${TRASTCMS_MCP_ENDPOINT:/mcp}
     token: ${TRASTCMS_MCP_TOKEN:}
-    server-version: 2.5.0-alpha.7
+    server-version: 2.6.0-alpha.8
 
 logging:
   level:
