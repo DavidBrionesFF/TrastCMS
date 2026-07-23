@@ -1,0 +1,13 @@
+:root[data-theme="midnight"] {
+  --primary: #8f7cff;
+  --primary-strong: #a796ff;
+  --surface: #131827;
+  --surface-soft: #090d18;
+  --text: #edf0ff;
+  --muted: #a6afc3;
+  --line: #293047;
+  --success: #48c78e;
+  --danger: #ff7189;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}

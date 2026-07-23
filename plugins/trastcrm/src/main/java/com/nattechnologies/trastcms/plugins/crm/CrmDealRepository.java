@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.crm; import org.springframework.data.domain.*; import org.springframework.data.jpa.repository.JpaRepository; public interface CrmDealRepository extends JpaRepository<CrmDeal,String>{Page<CrmDeal> findAllByOrderByUpdatedAtDesc(Pageable pageable);long countByStageClosedFalse();}

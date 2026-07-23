@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      spring-and-java:
+        patterns: ['org.springframework*', 'org.hibernate*', 'org.flywaydb*']
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    groups:
+      vue-and-vite:
+        patterns: ['vue', 'vue-router', 'pinia', 'vite', '@vitejs/*', 'vue-tsc']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly

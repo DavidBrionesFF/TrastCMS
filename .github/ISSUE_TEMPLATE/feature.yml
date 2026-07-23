@@ -1,0 +1,32 @@
+name: Propuesta
+description: Proponer una funcionalidad o mejora
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema que necesita resolver
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Solución propuesta
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Contenido
+        - Administración
+        - Temas
+        - Plugins
+        - Seguridad
+        - Rendimiento
+        - DevOps
+        - Documentación
+    validations:
+      required: true

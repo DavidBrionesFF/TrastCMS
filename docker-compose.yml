@@ -1,0 +1,40 @@
+services:
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: trastcms
+      POSTGRES_USER: trastcms
+      POSTGRES_PASSWORD: change-me
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trastcms"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  trastcms:
+    build: .
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: postgresql
+      DATABASE_URL: jdbc:postgresql://database:5432/trastcms
+      DATABASE_USERNAME: trastcms
+      DATABASE_PASSWORD: change-me
+      TRASTCMS_ADMIN_EMAIL: admin@example.com
+      TRASTCMS_ADMIN_PASSWORD: Change-this-password-now-2026!
+      TRASTCMS_PLUGIN_MASTER_KEY: Change-this-master-key-with-32-random-characters
+      TRASTCMS_MCP_ENABLED: "true"
+      TRASTCMS_MCP_ENDPOINT: /mcp
+      TRASTCMS_MCP_TOKEN: Change-this-MCP-token-with-32-random-characters
+      SESSION_COOKIE_SECURE: "false"
+    volumes:
+      - trastcms-data:/app/data
+
+volumes:
+  postgres-data:
+  trastcms-data:

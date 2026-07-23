@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.crm; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface CrmFormRepository extends JpaRepository<CrmForm,String>{Optional<CrmForm> findByFormKeyAndActiveTrue(String key);Optional<CrmForm> findByFormKey(String key);List<CrmForm> findAllByOrderByUpdatedAtDesc();}

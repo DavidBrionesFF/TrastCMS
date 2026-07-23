@@ -3,200 +3,73 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:feature" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="5342f7e1-d12b-4e78-87eb-b0ac8daf66e1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/listener/PostListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/controller/mvc/administrator/PublicacionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Categoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/model/entity/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bytecode/tratcms/data/repository/jpa/JpaPostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/categoria.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/administrator/comentario.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/administrator/comentario.html" afterDir="false" />
-    </list>
+    <list default="true" id="2426f46d-c407-4679-a467-cf6598217c0d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="HTML File" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="JpbToolWindowState">
-    <option name="myId2FirstActivated">
-      <map>
-        <entry key="JPA Inspector" value="true" />
-        <entry key="JPA Palette" value="true" />
-        <entry key="JPA Structure" value="true" />
-      </map>
-    </option>
-    <option name="myId2Visible">
-      <map>
-        <entry key="JPA Inspector" value="false" />
-        <entry key="JPA Palette" value="false" />
-        <entry key="JPA Structure" value="false" />
-      </map>
-    </option>
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="1" />
-  </component>
-  <component name="ProjectId" id="1X3Iq1f9D7g8oQo8PchsDU1JFx5" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="3GrB5DsC8Et09sN8FBSlJaBFSfY" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "Maven.trastcms [clean].executor": "Run",
+    "Maven.trastcms [install].executor": "Run",
+    "Maven.trastcms [verify].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/50488/Documents/Nat Technologies/TrastCMS"
+    "Spring Boot.TrastCmsApplication.executor": "Run",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/natte/Documents/GitHub/TrastCMS-2.0.0-alpha.1",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\David\Documents\Software\TrastCMS\src\main\resources\templates\administrator\components\v1" />
-      <recent name="C:\Users\David\Documents\TrastCMS\src\main\resources\templates\administrator" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.Application">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.bytecode.tratcms.Application" />
-      <module name="TrastCMS" />
+  <component name="RunManager">
+    <configuration name="TrastCmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+      <module name="trastcms" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nattechnologies.trastcms.TrastCmsApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.*" />
+          <option name="PATTERN" value="com.nattechnologies.trastcms.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Application (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="TrastCMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bytecode.tratcms.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bytecode.tratcms.Application" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="StartCMS" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.bytecode.tratcms.Application" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Application" />
+        <item itemvalue="Spring Boot.TrastCmsApplication" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5342f7e1-d12b-4e78-87eb-b0ac8daf66e1" name="Default Changelist" comment="" />
-      <created>1580268538560</created>
+      <changelist id="2426f46d-c407-4679-a467-cf6598217c0d" name="Changes" comment="" />
+      <created>1784719622156</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1580268538560</updated>
-      <workItem from="1580268542442" duration="6998000" />
-      <workItem from="1580276646427" duration="843000" />
-      <workItem from="1580318562837" duration="1937000" />
-      <workItem from="1580321174721" duration="1764000" />
-      <workItem from="1580957430451" duration="2355000" />
-      <workItem from="1586897135648" duration="2492000" />
-      <workItem from="1587540999355" duration="2141000" />
-      <workItem from="1587585006018" duration="794000" />
-      <workItem from="1638379515260" duration="9384000" />
-      <workItem from="1639273962693" duration="3858000" />
+      <updated>1784719622156</updated>
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>

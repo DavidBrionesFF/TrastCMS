@@ -1,0 +1,13 @@
+docs/DEVELOPER_PLATFORM.md
+docs/MCP.md
+docs/REST_API.md
+frontend/src/views/admin/DeveloperDocsView.vue
+frontend/src/views/public/DeveloperPortalView.vue
+plugins/trastcrm/src/main/java/com/nattechnologies/trastcms/plugins/crm/CrmMcpExtension.java
+src/main/java/com/nattechnologies/trastcms/config/OpenApiConfiguration.java
+src/main/java/com/nattechnologies/trastcms/mcp/CoreMcpExtension.java
+src/main/java/com/nattechnologies/trastcms/mcp/McpController.java
+src/main/java/com/nattechnologies/trastcms/mcp/McpExtension.java
+src/main/java/com/nattechnologies/trastcms/mcp/McpService.java
+src/main/java/com/nattechnologies/trastcms/web/admin/AdminDeveloperController.java
+src/test/java/com/nattechnologies/trastcms/McpIntegrationTests.java

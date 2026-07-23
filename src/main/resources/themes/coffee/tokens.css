@@ -1,0 +1,13 @@
+:root[data-theme="coffee"] {
+  --primary: #9a5a2d;
+  --primary-strong: #74411f;
+  --surface: #fffaf3;
+  --surface-soft: #f3e8d8;
+  --text: #362519;
+  --muted: #796553;
+  --line: #e5d4bf;
+  --success: #487b50;
+  --danger: #a84439;
+  --shadow: 0 18px 50px rgba(91, 55, 32, .12);
+  color-scheme: light;
+}

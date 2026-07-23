@@ -1,0 +1,44 @@
+name: Error
+description: Reportar un comportamiento incorrecto
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Gracias por ayudar a mejorar TrastCMS.
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      placeholder: 2.2.0-alpha.4
+    validations:
+      required: true
+  - type: dropdown
+    id: distribution
+    attributes:
+      label: Distribución
+      options:
+        - JAR
+        - Native Linux
+        - Native Windows
+        - Native macOS
+        - Docker
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Qué ocurrió
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Pasos para reproducir
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Registros relevantes
+      render: shell

@@ -1,0 +1,13 @@
+:root[data-theme="aurora"] {
+  --primary: #6d4aff;
+  --primary-strong: #5536dc;
+  --surface: #ffffff;
+  --surface-soft: #f5f6fa;
+  --text: #182033;
+  --muted: #667085;
+  --line: #e5e7ef;
+  --success: #157f55;
+  --danger: #c0394b;
+  --shadow: 0 18px 50px rgba(24, 32, 51, .08);
+  color-scheme: light;
+}

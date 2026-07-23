@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.crm; import org.springframework.data.jpa.repository.JpaRepository; import java.util.List; public interface CrmPipelineStageRepository extends JpaRepository<CrmPipelineStage,String>{List<CrmPipelineStage> findAllByOrderByPositionAsc();}

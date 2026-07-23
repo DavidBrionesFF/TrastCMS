@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.crm; import org.springframework.data.domain.*; import org.springframework.data.jpa.repository.JpaRepository; public interface CrmActivityRepository extends JpaRepository<CrmActivity,String>{Page<CrmActivity> findAllByOrderByCreatedAtDesc(Pageable pageable);long countByCompletedAtIsNull();}

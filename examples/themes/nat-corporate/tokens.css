@@ -1,0 +1,12 @@
+:root[data-theme="nat-corporate"] {
+  --primary: #5d43dc;
+  --primary-strong: #4430af;
+  --surface: #ffffff;
+  --surface-soft: #f3f5fb;
+  --text: #171c2b;
+  --muted: #667085;
+  --line: #dfe3ee;
+  --success: #177b57;
+  --danger: #bd3548;
+  --shadow: 0 18px 55px rgba(31, 39, 69, .10);
+}

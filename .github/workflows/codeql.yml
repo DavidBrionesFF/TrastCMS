@@ -1,0 +1,44 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [master, main, feat/trastcms-v2-foundation]
+  pull_request:
+  schedule:
+    - cron: '27 4 * * 1'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['java-kotlin', 'javascript-typescript']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+      - uses: actions/setup-java@v5
+        if: matrix.language == 'java-kotlin'
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Build Java and Vue
+        if: matrix.language == 'java-kotlin'
+        run: ./mvnw --batch-mode --no-transfer-progress -DskipTests clean package
+      - uses: actions/setup-node@v5
+        if: matrix.language == 'javascript-typescript'
+        with:
+          node-version: '24'
+      - name: Install and build Vue
+        if: matrix.language == 'javascript-typescript'
+        working-directory: frontend
+        run: npm install --no-audit --no-fund && npm run build
+      - uses: github/codeql-action/analyze@v4

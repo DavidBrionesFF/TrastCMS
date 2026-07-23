@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/trastcms}
+    username: ${DATABASE_USERNAME:trastcms}
+    password: ${DATABASE_PASSWORD:trastcms}

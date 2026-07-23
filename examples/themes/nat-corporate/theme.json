@@ -1,0 +1,39 @@
+{
+  "id": "nat-corporate",
+  "name": "NaT Corporate",
+  "description": "Tema corporativo de ejemplo para empresas y agencias.",
+  "version": "1.0.0",
+  "author": "NaT Technologies",
+  "homepage": "https://nattechnologiesagency.com",
+  "license": "GPL-3.0",
+  "screenshot": "screenshot.svg",
+  "templates": ["default", "full-width", "landing", "blank"],
+  "features": ["responsive", "pages", "blog", "builder", "menus"],
+  "settingsSchema": {
+    "primaryColor": {
+      "type": "color",
+      "label": "Color principal",
+      "description": "Color usado en enlaces, botones y elementos destacados.",
+      "default": "#6d4aff"
+    },
+    "fontFamily": {
+      "type": "select",
+      "label": "Tipografía",
+      "default": "outfit",
+      "options": ["outfit", "system", "serif"]
+    },
+    "containerWidth": {
+      "type": "number",
+      "label": "Ancho máximo",
+      "default": 1180,
+      "min": 720,
+      "max": 1920,
+      "step": 10
+    },
+    "showPoweredBy": {
+      "type": "boolean",
+      "label": "Mostrar crédito de TrastCMS",
+      "default": true
+    }
+  }
+}

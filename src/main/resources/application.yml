@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: trastcms
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:file:${trastcms.data-dir:./data}/db/trastcms;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/css,application/javascript,image/svg+xml
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        same-site: lax
+        secure: ${SESSION_COOKIE_SECURE:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+trastcms:
+  data-dir: ${TRASTCMS_DATA_DIR:./data}
+  base-url: ${TRASTCMS_BASE_URL:http://localhost:8080}
+  admin:
+    email: ${TRASTCMS_ADMIN_EMAIL:admin@trastcms.local}
+    password: ${TRASTCMS_ADMIN_PASSWORD:ChangeMeNow-2026!}
+    name: ${TRASTCMS_ADMIN_NAME:Administrador}
+  plugins:
+    master-key: ${TRASTCMS_PLUGIN_MASTER_KEY:change-this-plugin-master-key-before-production}
+    connect-timeout-seconds: 5
+    request-timeout-seconds: 10
+    java-enabled: ${TRASTCMS_JAVA_PLUGINS_ENABLED:true}
+    directory: ${TRASTCMS_PLUGIN_DIR:plugins}
+  media:
+    max-bytes: ${TRASTCMS_MEDIA_MAX_BYTES:104857600}
+    max-batch-files: ${TRASTCMS_MEDIA_MAX_BATCH_FILES:20}
+  mcp:
+    enabled: ${TRASTCMS_MCP_ENABLED:true}
+    endpoint: ${TRASTCMS_MCP_ENDPOINT:/mcp}
+    token: ${TRASTCMS_MCP_TOKEN:}
+    server-version: 2.5.0-alpha.7
+
+logging:
+  level:
+    root: INFO
+    com.nattechnologies.trastcms: INFO

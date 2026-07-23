@@ -1,0 +1,3 @@
+package com.nattechnologies.trastcms.plugins.crm;
+import org.springframework.data.domain.*; import org.springframework.data.jpa.repository.*; import org.springframework.data.repository.query.Param; import java.util.Optional;
+public interface CrmCompanyRepository extends JpaRepository<CrmCompany,String> { @Query("select c from CrmCompany c where :q='' or lower(c.name) like lower(concat('%',:q,'%')) or lower(coalesce(c.domain,'')) like lower(concat('%',:q,'%')) order by c.updatedAt desc") Page<CrmCompany> search(@Param("q") String q, Pageable pageable); Optional<CrmCompany> findByNameIgnoreCase(String name); }

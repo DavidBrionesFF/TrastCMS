@@ -1,0 +1,1190 @@
+{
+  "version": "4",
+  "homePageSlug": "inicio",
+  "pages": [
+    {
+      "title": "Inicio",
+      "slug": "inicio",
+      "excerpt": "Una demostración profesional del potencial de TrastCMS.",
+      "body": "",
+      "editorMode": "VISUAL_BUILDER",
+      "builder": {
+        "version": 1,
+        "blocks": [
+          {
+            "id": "home-hero",
+            "type": "section",
+            "label": "Hero profesional",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 76,
+              "paddingBottom": 76,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-hero",
+              "backgroundColor": "#f8f7ff",
+              "borderRadius": 34
+            },
+            "children": [
+              {
+                "id": "home-hero-columns",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 2,
+                  "gap": 44,
+                  "verticalAlign": "center"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "home-kicker",
+                    "type": "html",
+                    "label": "Componente visual",
+                    "data": {
+                      "html": "<span class=\"starter-kicker\">Negocios que valoran cercanía · Open source</span>",
+                      "column": 1
+                    },
+                    "style": {}
+                  },
+                  {
+                    "id": "home-title",
+                    "type": "heading",
+                    "label": "Título",
+                    "data": {
+                      "text": "Sitios con carácter, velocidad y una base que puede crecer",
+                      "subtitle": "Una experiencia editorial cálida y profesional, impulsada por Spring Boot, Vue, temas y plugins.",
+                      "level": 1,
+                      "column": 1
+                    },
+                    "style": {
+                      "textAlign": "left"
+                    }
+                  },
+                  {
+                    "id": "home-copy",
+                    "type": "richText",
+                    "label": "Texto enriquecido",
+                    "data": {
+                      "html": "<p>Edite cada sección desde el constructor visual, conecte formularios con TrastCRM y extienda la plataforma mediante plugins, REST o MCP.</p>",
+                      "column": 1
+                    },
+                    "style": {
+                      "textAlign": "left"
+                    }
+                  },
+                  {
+                    "id": "home-actions",
+                    "type": "html",
+                    "label": "Componente visual",
+                    "data": {
+                      "html": "<div class=\"starter-actions\"><a href=\"/admin/pages\">Construir una página</a><a href=\"/developers\">Explorar la plataforma</a></div><div class=\"starter-proof\"><span>Java 21</span><span>Vue 3</span><span>Un solo JAR</span><span>Native Image</span></div>",
+                      "column": 1
+                    },
+                    "style": {}
+                  },
+                  {
+                    "id": "home-product",
+                    "type": "html",
+                    "label": "Componente visual",
+                    "data": {
+                      "html": "<div class=\"cms-window\"><div class=\"cms-window__bar\"><i></i><i></i><i></i><span>TrastCMS · panel</span></div><div class=\"cms-window__body\"><aside class=\"cms-window__sidebar\"><div class=\"cms-window__logo\">T</div><div class=\"cms-window__nav\"><i class=\"active\"></i><i></i><i></i><i></i><i></i><i></i></div></aside><main class=\"cms-window__canvas\"><div class=\"cms-window__top\"><b>Resumen del sitio</b><span></span></div><div class=\"cms-window__metrics\"><div><strong>24</strong><small>Páginas</small></div><div><strong>1.8k</strong><small>Visitas</small></div><div><strong>18</strong><small>Leads</small></div></div><div class=\"cms-window__chart\"></div><div class=\"cms-window__rows\"><i></i><i></i><i></i></div></main></div></div>",
+                      "column": 2
+                    },
+                    "style": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "home-trust",
+            "type": "section",
+            "label": "Confianza",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 24,
+              "paddingBottom": 24,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "home-trust-cloud",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-logo-cloud\"><span>Spring Boot</span><span>Vue</span><span>GraalVM</span><span>OpenAPI</span><span>Model Context Protocol</span></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "home-capabilities",
+            "type": "section",
+            "label": "Capacidades",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 96,
+              "paddingBottom": 96,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "home-cap-title",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">UNA PLATAFORMA, MUCHAS POSIBILIDADES</span><h2>Todo lo que necesita para publicar, vender y crecer</h2><p>El núcleo mantiene la velocidad; los temas y plugins agregan las capacidades que cada proyecto requiere.</p></div>"
+                },
+                "style": {}
+              },
+              {
+                "id": "home-features-a",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 3,
+                  "gap": 22,
+                  "verticalAlign": "stretch"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "f1",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "✦",
+                      "title": "Constructor visual",
+                      "text": "Cree landing pages, sitios corporativos y experiencias por bloques.",
+                      "column": 1
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "f2",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "✎",
+                      "title": "Publicación profesional",
+                      "text": "Tiptap, revisiones, SEO, categorías, medios y flujos editoriales.",
+                      "column": 2
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "f3",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "◈",
+                      "title": "Temas editables",
+                      "text": "Páginas iniciales, menús, personalización y assets locales.",
+                      "column": 3
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "home-features-b",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 3,
+                  "gap": 22,
+                  "verticalAlign": "stretch"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "f4",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "⌁",
+                      "title": "TrastCRM",
+                      "text": "Formularios, leads, empresas, oportunidades, tareas y pipeline.",
+                      "column": 1
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "f5",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "</>",
+                      "title": "REST y MCP",
+                      "text": "Integre aplicaciones, automatizaciones y agentes de IA.",
+                      "column": 2
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "f6",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "⚡",
+                      "title": "Despliegue ligero",
+                      "text": "Un JAR, contenedor o ejecutable nativo por plataforma.",
+                      "column": 3
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "home-workflow",
+            "type": "section",
+            "label": "Flujo",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 90,
+              "paddingBottom": 90,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "backgroundColor": "#f8fafc"
+            },
+            "children": [
+              {
+                "id": "workflow-title",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">DE LA IDEA A PRODUCCIÓN</span><h2>Un flujo de trabajo que el equipo puede entender</h2><p>Diseñe, publique, conecte y mida sin fragmentar el proyecto entre múltiples plataformas.</p></div>"
+                },
+                "style": {}
+              },
+              {
+                "id": "workflow",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-workflow\"><article><b>Diseñe</b><p>Elija un tema o construya páginas con bloques.</p></article><article><b>Publique</b><p>Administre contenido, SEO, medios y revisiones.</p></article><article><b>Conecte</b><p>Capture leads con CRM, REST, webhooks y MCP.</p></article><article><b>Despliegue</b><p>Compile el frontend dentro del mismo JAR.</p></article></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "home-developer",
+            "type": "section",
+            "label": "Arquitectura",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 96,
+              "paddingBottom": 96,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "home-dev-columns",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 2,
+                  "gap": 42,
+                  "verticalAlign": "center"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "home-code",
+                    "type": "html",
+                    "label": "Componente visual",
+                    "data": {
+                      "html": "<div class=\"starter-code-panel\"><header><span>TrastCMS Platform</span><i>application.yml</i></header><pre><code><i># Backend, frontend y extensiones</i>\nspring:\n  application:\n    name: <em>trastcms</em>\ntrastcms:\n  mcp:\n    enabled: <strong>true</strong>\n  plugins:\n    java-enabled: <strong>true</strong>\n\nGET  /api/public/posts\nPOST /mcp\nGET  /swagger-ui/index.html</code></pre></div>",
+                      "column": 1
+                    },
+                    "style": {}
+                  },
+                  {
+                    "id": "home-dev-copy",
+                    "type": "html",
+                    "label": "Componente visual",
+                    "data": {
+                      "html": "<span class=\"starter-kicker\">PARA DESARROLLADORES</span><h2>Una base moderna que no le encierra</h2><p>Use Spring Boot, Vue, OpenAPI, MCP, hooks, plugins incorporados, PF4J o webhooks. TrastCMS está diseñado para que el proyecto pueda evolucionar sin reescribirlo todo.</p><div class=\"starter-actions\"><a href=\"/developers\">Ver documentación</a><a href=\"/admin/plugins\">Administrar plugins</a></div>",
+                      "column": 2
+                    },
+                    "style": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "home-numbers",
+            "type": "section",
+            "label": "Resultados",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 68,
+              "paddingBottom": 68,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "backgroundColor": "#f5f3ff",
+              "borderRadius": 28
+            },
+            "children": [
+              {
+                "id": "home-stats",
+                "type": "stats",
+                "label": "Indicadores",
+                "data": {
+                  "items": [
+                    {
+                      "value": "1 JAR",
+                      "label": "Aplicación integrada"
+                    },
+                    {
+                      "value": "4",
+                      "label": "Modelos de extensibilidad"
+                    },
+                    {
+                      "value": "100%",
+                      "label": "Código abierto"
+                    }
+                  ]
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "home-proof",
+            "type": "section",
+            "label": "Testimonio",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 72,
+              "paddingBottom": 72,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "home-testimonial",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-testimonial\"><div class=\"starter-testimonial__avatar\">N</div><div><blockquote>“La plataforma demuestra cómo un CMS Java puede sentirse moderno, visual y preparado para convertirse en una solución de negocio real.”</blockquote><footer>Equipo NaT Technologies · Ingeniería de producto</footer></div></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "home-cta",
+            "type": "section",
+            "label": "CTA",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 84,
+              "paddingBottom": 84,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-cta-pro",
+              "backgroundColor": "#111827",
+              "borderRadius": 30
+            },
+            "children": [
+              {
+                "id": "home-cta-title",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Su próximo sitio puede empezar aquí",
+                  "subtitle": "Restaure estas páginas, cambie el contenido y convierta la demostración en una experiencia propia.",
+                  "level": 2
+                },
+                "style": {
+                  "textAlign": "center"
+                }
+              },
+              {
+                "id": "home-cta-buttons",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-actions\" style=\"justify-content:center\"><a href=\"/admin/pages\">Abrir constructor</a><a href=\"/page/contactanos\">Solicitar una demostración</a></div>"
+                },
+                "style": {}
+              }
+            ]
+          }
+        ],
+        "global": {
+          "containerWidth": 1180,
+          "gap": 24
+        }
+      },
+      "customCss": "",
+      "seoTitle": "Inicio | TrastCMS",
+      "seoDescription": "CMS Java con constructor visual, temas, plugins, CRM, REST y MCP.",
+      "template": "full-width",
+      "showInMenu": true,
+      "menuOrder": 0,
+      "role": "HOME"
+    },
+    {
+      "title": "Quiénes somos",
+      "slug": "quienes-somos",
+      "excerpt": "Visión, arquitectura y principios del proyecto.",
+      "body": "",
+      "editorMode": "VISUAL_BUILDER",
+      "builder": {
+        "version": 1,
+        "blocks": [
+          {
+            "id": "about-hero",
+            "type": "section",
+            "label": "Hero",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 96,
+              "paddingBottom": 96,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-page-hero"
+            },
+            "children": [
+              {
+                "id": "about-kicker",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<span class=\"starter-kicker\">PROPÓSITO Y ARQUITECTURA</span>"
+                },
+                "style": {}
+              },
+              {
+                "id": "about-title",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Construimos software abierto para proyectos que deben durar",
+                  "subtitle": "TrastCMS nació como un proyecto educativo y evoluciona hacia una plataforma sostenible para la comunidad, agencias y equipos de producto.",
+                  "level": 1
+                },
+                "style": {
+                  "textAlign": "left"
+                }
+              },
+              {
+                "id": "about-copy",
+                "type": "richText",
+                "label": "Texto enriquecido",
+                "data": {
+                  "html": "<p>La meta no es copiar WordPress línea por línea. Es ofrecer una experiencia moderna con Java, Vue y contratos de extensión claros.</p>"
+                },
+                "style": {
+                  "textAlign": "left",
+                  "maxWidth": 780
+                }
+              }
+            ]
+          },
+          {
+            "id": "about-manifesto",
+            "type": "section",
+            "label": "Manifiesto",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 80,
+              "paddingBottom": 80,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "manifesto",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-manifesto\"><div class=\"starter-manifesto__number\">01</div><div><span class=\"starter-kicker\">NUESTRA IDEA CENTRAL</span><h2>El núcleo debe ser predecible; la innovación debe vivir en extensiones.</h2><p>Por eso el contenido, la seguridad y las APIs permanecen estables mientras los temas, plugins y herramientas MCP agregan nuevas capacidades.</p></div></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "about-principles",
+            "type": "section",
+            "label": "Principios",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 88,
+              "paddingBottom": 88,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "backgroundColor": "#f8fafc"
+            },
+            "children": [
+              {
+                "id": "about-title2",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">PRINCIPIOS</span><h2>Decisiones que guían cada módulo</h2></div>"
+                },
+                "style": {}
+              },
+              {
+                "id": "about-cards",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 3,
+                  "gap": 22,
+                  "verticalAlign": "stretch"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "ap1",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "◉",
+                      "title": "Abierto",
+                      "text": "Código que se puede estudiar, adaptar y mejorar.",
+                      "column": 1
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "ap2",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "◆",
+                      "title": "Robusto",
+                      "text": "Seguridad, migraciones, pruebas y contratos explícitos.",
+                      "column": 2
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "ap3",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "♻",
+                      "title": "Sostenible",
+                      "text": "Tecnología útil para negocios y comunidades.",
+                      "column": 3
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "about-timeline",
+            "type": "section",
+            "label": "Evolución",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 88,
+              "paddingBottom": 88,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "timeline",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">EVOLUCIÓN</span><h2>De curso de Spring Boot a plataforma extensible</h2></div><div class=\"starter-timeline\"><article><b>Origen</b><p>Un CMS educativo para aprender arquitectura web con Java.</p></article><article><b>Modernización</b><p>Vue, Tailwind, editor profesional, medios y constructor visual.</p></article><article><b>Ecosistema</b><p>Temas, plugins, TrastCRM, REST, MCP y compilación nativa.</p></article><article><b>Comunidad</b><p>Documentación, ejemplos y una ruta clara para contribuir.</p></article></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "about-cta",
+            "type": "section",
+            "label": "CTA",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 80,
+              "paddingBottom": 80,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-cta-pro",
+              "backgroundColor": "#111827",
+              "borderRadius": 30
+            },
+            "children": [
+              {
+                "id": "about-cta-h",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Ayude a construir la siguiente etapa",
+                  "subtitle": "Explore el código, pruebe los contratos y proponga nuevas extensiones.",
+                  "level": 2
+                },
+                "style": {
+                  "textAlign": "center"
+                }
+              },
+              {
+                "id": "about-cta-a",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-actions\" style=\"justify-content:center\"><a href=\"/developers\">Documentación técnica</a><a href=\"/page/contactanos\">Hablar con el equipo</a></div>"
+                },
+                "style": {}
+              }
+            ]
+          }
+        ],
+        "global": {
+          "containerWidth": 1180,
+          "gap": 24
+        }
+      },
+      "customCss": "",
+      "seoTitle": "Quiénes somos | TrastCMS",
+      "seoDescription": "Conozca la visión open source, la arquitectura y la evolución de TrastCMS.",
+      "template": "full-width",
+      "showInMenu": true,
+      "menuOrder": 10,
+      "role": "ABOUT"
+    },
+    {
+      "title": "Servicios",
+      "slug": "servicios",
+      "excerpt": "Soluciones que puede construir con TrastCMS.",
+      "body": "",
+      "editorMode": "VISUAL_BUILDER",
+      "builder": {
+        "version": 1,
+        "blocks": [
+          {
+            "id": "services-hero",
+            "type": "section",
+            "label": "Hero",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 96,
+              "paddingBottom": 96,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-page-hero"
+            },
+            "children": [
+              {
+                "id": "services-kicker",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<span class=\"starter-kicker\">SOLUCIONES MODULARES</span>"
+                },
+                "style": {}
+              },
+              {
+                "id": "services-title",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Construya desde un sitio corporativo hasta una plataforma especializada",
+                  "subtitle": "Empiece con contenido y agregue únicamente las capacidades que su proyecto necesita.",
+                  "level": 1
+                },
+                "style": {
+                  "textAlign": "left"
+                }
+              },
+              {
+                "id": "services-actions",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-actions\"><a href=\"/page/contactanos\">Cotizar un proyecto</a><a href=\"/developers\">Ver arquitectura</a></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "services-grid",
+            "type": "section",
+            "label": "Servicios",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 90,
+              "paddingBottom": 90,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "services-heading",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">CAPACIDADES</span><h2>Una base para múltiples modelos de negocio</h2><p>El CMS no impone una sola forma de trabajar. Los plugins convierten el núcleo en la solución que el negocio necesita.</p></div><div class=\"starter-services-grid\"><article class=\"starter-service-card\"><span>◫</span><h3>Sitios corporativos</h3><p>Páginas, menús, medios, SEO y formularios profesionales.</p><a href=\"/page/contactanos\">Explorar →</a></article><article class=\"starter-service-card\"><span>✎</span><h3>Contenido y blog</h3><p>Editor enriquecido, categorías, revisiones y publicación.</p><a href=\"/page/contactanos\">Explorar →</a></article><article class=\"starter-service-card\"><span>⌁</span><h3>CRM y captación</h3><p>Formularios, leads, oportunidades, actividades y seguimiento.</p><a href=\"/page/contactanos\">Explorar →</a></article><article class=\"starter-service-card\"><span>◇</span><h3>Tiendas y reservas</h3><p>Extienda el CMS mediante plugins especializados.</p><a href=\"/page/contactanos\">Explorar →</a></article><article class=\"starter-service-card\"><span></></span><h3>Integraciones</h3><p>REST, MCP, webhooks HMAC y plugins Java.</p><a href=\"/page/contactanos\">Explorar →</a></article><article class=\"starter-service-card\"><span>⚡</span><h3>Despliegue</h3><p>JAR integrado, contenedor o Native Image por plataforma.</p><a href=\"/page/contactanos\">Explorar →</a></article></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "services-process",
+            "type": "section",
+            "label": "Proceso",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 88,
+              "paddingBottom": 88,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "backgroundColor": "#f8fafc"
+            },
+            "children": [
+              {
+                "id": "services-process-html",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">IMPLEMENTACIÓN</span><h2>Del descubrimiento al lanzamiento</h2></div><div class=\"starter-workflow\"><article><b>Descubrimiento</b><p>Objetivos, contenido, público y conversiones.</p></article><article><b>Diseño</b><p>Tema, páginas, componentes y experiencia.</p></article><article><b>Integración</b><p>CRM, APIs, pagos, analítica o automatización.</p></article><article><b>Entrega</b><p>Pruebas, documentación y despliegue.</p></article></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "services-cta",
+            "type": "section",
+            "label": "CTA",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 82,
+              "paddingBottom": 82,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-cta-pro",
+              "backgroundColor": "#111827",
+              "borderRadius": 30
+            },
+            "children": [
+              {
+                "id": "services-cta-h",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Convierta TrastCMS en la plataforma de su negocio",
+                  "subtitle": "Cuéntenos qué desea construir y TrastCRM organizará el seguimiento.",
+                  "level": 2
+                },
+                "style": {
+                  "textAlign": "center"
+                }
+              },
+              {
+                "id": "services-cta-a",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-actions\" style=\"justify-content:center\"><a href=\"/page/contactanos\">Iniciar conversación</a><a href=\"/admin/plugins\">Explorar plugins</a></div>"
+                },
+                "style": {}
+              }
+            ]
+          }
+        ],
+        "global": {
+          "containerWidth": 1180,
+          "gap": 24
+        }
+      },
+      "customCss": "",
+      "seoTitle": "Servicios | TrastCMS",
+      "seoDescription": "Sitios, blogs, CRM, integraciones y plataformas especializadas con TrastCMS.",
+      "template": "full-width",
+      "showInMenu": true,
+      "menuOrder": 20,
+      "role": "SERVICES"
+    },
+    {
+      "title": "Blog",
+      "slug": "blog",
+      "excerpt": "Ideas, novedades y aprendizajes de la comunidad.",
+      "body": "",
+      "editorMode": "VISUAL_BUILDER",
+      "builder": {
+        "version": 1,
+        "blocks": [
+          {
+            "id": "blog-hero",
+            "type": "section",
+            "label": "Hero",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 92,
+              "paddingBottom": 92,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-page-hero"
+            },
+            "children": [
+              {
+                "id": "blog-kicker",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<span class=\"starter-kicker\">IDEAS, CÓDIGO Y PRODUCTO</span>"
+                },
+                "style": {}
+              },
+              {
+                "id": "blog-title",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Aprendizajes para construir mejores experiencias web",
+                  "subtitle": "Las publicaciones aparecen automáticamente debajo de esta introducción y pueden organizarse por categorías.",
+                  "level": 1
+                },
+                "style": {
+                  "textAlign": "left"
+                }
+              },
+              {
+                "id": "blog-actions",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-actions\"><a href=\"#publicaciones\">Ver publicaciones</a><a href=\"/admin/posts/new\">Escribir artículo</a></div>"
+                },
+                "style": {}
+              }
+            ]
+          },
+          {
+            "id": "blog-topics",
+            "type": "section",
+            "label": "Temas",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 76,
+              "paddingBottom": 76,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "blog-topics-html",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">TEMAS EDITORIALES</span><h2>Contenido que aporta valor a la comunidad</h2></div>"
+                },
+                "style": {}
+              },
+              {
+                "id": "blog-topic-cards",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 3,
+                  "gap": 22,
+                  "verticalAlign": "stretch"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "bt1",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "⚙",
+                      "title": "Spring Boot",
+                      "text": "Arquitectura, seguridad, datos y despliegue.",
+                      "column": 1
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "bt2",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "◫",
+                      "title": "Experiencia web",
+                      "text": "Vue, diseño, accesibilidad y rendimiento.",
+                      "column": 2
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  },
+                  {
+                    "id": "bt3",
+                    "type": "iconBox",
+                    "label": "Beneficio",
+                    "data": {
+                      "icon": "⌁",
+                      "title": "Negocio digital",
+                      "text": "CMS, CRM, automatización y casos reales.",
+                      "column": 3
+                    },
+                    "style": {
+                      "cssClass": "starter-feature-card"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "global": {
+          "containerWidth": 1180,
+          "gap": 24
+        }
+      },
+      "customCss": "",
+      "seoTitle": "Blog | TrastCMS",
+      "seoDescription": "Artículos sobre Spring Boot, Vue, CMS, plugins, IA y producto digital.",
+      "template": "full-width",
+      "showInMenu": true,
+      "menuOrder": 30,
+      "role": "BLOG"
+    },
+    {
+      "title": "Contáctanos",
+      "slug": "contactanos",
+      "excerpt": "Formulario conectado con TrastCRM para captar oportunidades.",
+      "body": "",
+      "editorMode": "VISUAL_BUILDER",
+      "builder": {
+        "version": 1,
+        "blocks": [
+          {
+            "id": "contact-hero",
+            "type": "section",
+            "label": "Hero",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 86,
+              "paddingBottom": 86,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "cssClass": "starter-page-hero"
+            },
+            "children": [
+              {
+                "id": "contact-kicker",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<span class=\"starter-kicker\">HABLEMOS DE SU PROYECTO</span>"
+                },
+                "style": {}
+              },
+              {
+                "id": "contact-title",
+                "type": "heading",
+                "label": "Título",
+                "data": {
+                  "text": "Cuéntenos qué quiere construir y preparemos el siguiente paso",
+                  "subtitle": "El formulario pertenece a TrastCRM: puede editar campos, automatizaciones y mensajes sin modificar el núcleo.",
+                  "level": 1
+                },
+                "style": {
+                  "textAlign": "left"
+                }
+              }
+            ]
+          },
+          {
+            "id": "contact-main",
+            "type": "section",
+            "label": "Contacto",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 82,
+              "paddingBottom": 82,
+              "paddingLeft": 32,
+              "paddingRight": 32
+            },
+            "children": [
+              {
+                "id": "contact-columns",
+                "type": "columns",
+                "label": "Columnas",
+                "data": {
+                  "columns": 2,
+                  "gap": 40,
+                  "verticalAlign": "start"
+                },
+                "style": {},
+                "children": [
+                  {
+                    "id": "contact-copy",
+                    "type": "html",
+                    "label": "Componente visual",
+                    "data": {
+                      "html": "<span class=\"starter-kicker\">UNA CONVERSACIÓN ÚTIL</span><h2>De una idea general a un proyecto claro</h2><p>Comparta el tipo de solución, presupuesto aproximado, plazo y objetivos. TrastCRM creará el lead, la oportunidad y una tarea de seguimiento.</p><div class=\"starter-proof\"><span>Sitios corporativos</span><span>Tiendas</span><span>Portales</span><span>Integraciones</span></div><div class=\"starter-faq\" style=\"margin-top:1.5rem\"><details open><summary>¿Puedo editar este formulario?</summary><p>Sí. Ingrese a CRM → Formularios y configure campos, automatizaciones y mensajes.</p></details><details><summary>¿Los datos quedan en el CMS?</summary><p>Sí. El envío, contacto, empresa, oportunidad y actividad quedan almacenados localmente.</p></details><details><summary>¿Puedo conectarlo con otras herramientas?</summary><p>Use eventos, REST, webhooks o las herramientas MCP del plugin.</p></details></div>",
+                      "column": 1
+                    },
+                    "style": {}
+                  },
+                  {
+                    "id": "contact-form",
+                    "type": "plugin:trastcrm:form",
+                    "label": "Formulario de proyecto",
+                    "data": {
+                      "formKey": "proyecto-web",
+                      "title": "Solicite una evaluación inicial",
+                      "showTitle": true,
+                      "style": "card",
+                      "column": 2
+                    },
+                    "style": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "contact-tech",
+            "type": "section",
+            "label": "Integración",
+            "data": {
+              "width": "boxed"
+            },
+            "style": {
+              "paddingTop": 72,
+              "paddingBottom": 72,
+              "paddingLeft": 32,
+              "paddingRight": 32,
+              "backgroundColor": "#f5f3ff",
+              "borderRadius": 28
+            },
+            "children": [
+              {
+                "id": "contact-tech-html",
+                "type": "html",
+                "label": "Componente visual",
+                "data": {
+                  "html": "<div class=\"starter-section-title\"><span class=\"starter-kicker\">INTEGRACIÓN REAL</span><h2>El formulario no es un elemento aislado</h2><p>Cada envío puede alimentar el CRM, abrir un negocio, programar seguimiento y quedar disponible para automatizaciones o agentes MCP.</p></div>"
+                },
+                "style": {}
+              },
+              {
+                "id": "contact-stats",
+                "type": "stats",
+                "label": "Indicadores",
+                "data": {
+                  "items": [
+                    {
+                      "value": "1",
+                      "label": "Lead creado"
+                    },
+                    {
+                      "value": "1",
+                      "label": "Oportunidad abierta"
+                    },
+                    {
+                      "value": "24 h",
+                      "label": "Seguimiento programado"
+                    }
+                  ]
+                },
+                "style": {}
+              }
+            ]
+          }
+        ],
+        "global": {
+          "containerWidth": 1180,
+          "gap": 24
+        }
+      },
+      "customCss": "",
+      "seoTitle": "Contáctanos | TrastCMS",
+      "seoDescription": "Cuéntenos qué desea construir y organice el seguimiento con TrastCRM.",
+      "template": "full-width",
+      "showInMenu": true,
+      "menuOrder": 40,
+      "role": "CONTACT"
+    }
+  ]
+}
