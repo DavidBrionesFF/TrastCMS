@@ -55,7 +55,7 @@ public class TrastCmsProperties {
         private boolean enabled = true;
         private String endpoint = "/mcp";
         private String token = "";
-        private String serverVersion = "2.6.0-alpha.8";
+        private String serverVersion = "2.7.0-alpha.9.5";
 
         public boolean isEnabled() { return enabled; }
         public void setEnabled(boolean enabled) { this.enabled = enabled; }
@@ -67,7 +67,17 @@ public class TrastCmsProperties {
             return value.startsWith("/") ? value : "/" + value;
         }
         public void setEndpoint(String endpoint) { this.endpoint = endpoint; }
-        public String getToken() { return token; }
+        public String getToken() { return normalizedToken(); }
+        public String normalizedToken() {
+            if (token == null) return "";
+            String value = token.trim();
+            if (value.length() >= 2
+                    && ((value.startsWith("\"") && value.endsWith("\""))
+                    || (value.startsWith("'") && value.endsWith("'")))) {
+                value = value.substring(1, value.length() - 1).trim();
+            }
+            return value;
+        }
         public void setToken(String token) { this.token = token; }
         public String getServerVersion() { return serverVersion; }
         public void setServerVersion(String serverVersion) { this.serverVersion = serverVersion; }

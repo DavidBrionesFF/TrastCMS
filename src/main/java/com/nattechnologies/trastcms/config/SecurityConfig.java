@@ -90,7 +90,10 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers(mcpEndpoint, "/api/public/saas/**")
+                .ignoringRequestMatchers(
+                    mcpEndpoint,
+                    "/api/public/saas/**",
+                    "/api/public/commerce/paypal/webhook")
                 .csrfTokenRepository(csrfRepository)
                 .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
             )

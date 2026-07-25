@@ -117,6 +117,18 @@ class McpIntegrationTests {
                         hasItem("site_overview")));
     }
 
+
+    @Test
+    void mcpAcceptsAlternativeTokenHeader() throws Exception {
+        mvc.perform(post("/mcp")
+                .header("X-MCP-Token", TOKEN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(initializeRequest()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.serverInfo.name")
+                        .value("TrastCMS"));
+    }
+
     @Test
     void invalidMethodUsesJsonRpcMethodNotFoundCode() throws Exception {
         mvc.perform(post("/mcp")

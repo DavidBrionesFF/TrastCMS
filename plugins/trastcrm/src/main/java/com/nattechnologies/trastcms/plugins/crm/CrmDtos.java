@@ -21,5 +21,6 @@ public final class CrmDtos { private CrmDtos(){}
  public record SubmissionRequest(@NotNull Map<String,Object> values,@Size(max=1000) String sourceUrl){}
  public record SubmissionResponse(String id,String formId,String formName,Map<String,Object> values,CrmSubmissionStatus status,String contactId,String sourceUrl,Instant createdAt){}
  public record SubmissionStatusRequest(@NotNull CrmSubmissionStatus status){}
+ public record DemoDataResponse(String message,int companies,int contacts,int deals,int activities){}
  public record Message(String message){}
 }

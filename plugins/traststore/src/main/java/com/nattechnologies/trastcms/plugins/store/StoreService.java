@@ -6,6 +6,7 @@ import com.nattechnologies.trastcms.plugin.api.PluginEvent;
 import com.nattechnologies.trastcms.service.BadRequestException;
 import com.nattechnologies.trastcms.service.NotFoundException;
 import com.nattechnologies.trastcms.service.PluginEventDispatcher;
+import com.nattechnologies.trastcms.service.SiteSettingService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,17 +22,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
+    private static final String DEMO_DISMISSED_KEY = "plugins.traststore.demo.dismissed";
     private final StoreProductRepository products;
     private final StoreVariantRepository variants;
     private final StoreInventoryMovementRepository movements;
     private final ObjectMapper mapper;
     private final PluginEventDispatcher events;
     private final StorePluginGuard guard;
+    private final SiteSettingService siteSettings;
 
     StoreService(
             StoreProductRepository products,
@@ -39,70 +43,86 @@ public class StoreService {
             StoreInventoryMovementRepository movements,
             ObjectMapper mapper,
             PluginEventDispatcher events,
-            StorePluginGuard guard) {
+            StorePluginGuard guard,
+            SiteSettingService siteSettings) {
         this.products = products;
         this.variants = variants;
         this.movements = movements;
         this.mapper = mapper;
         this.events = events;
         this.guard = guard;
+        this.siteSettings = siteSettings;
     }
 
     @Transactional
     public void initializeDefaults() {
-        if (products.count() != 0) return;
+        if (products.count() == 0
+                && !siteSettings.getBoolean(DEMO_DISMISSED_KEY, false)) {
+            generateDemoDataInternal();
+        }
+    }
 
-        save(null, new StoreDtos.ProductRequest(
-                "Plantilla corporativa premium",
-                "plantilla-corporativa",
-                "TRAST-THEME-PRO",
-                "Tema profesional para empresas, agencias y consultores.",
-                "Tema responsive con secciones editables.",
-                ProductType.DIGITAL,
-                ProductStatus.ACTIVE,
-                new BigDecimal("79.00"),
-                new BigDecimal("99.00"),
-                "USD",
-                "Temas",
-                "TrastCMS",
-                null,
-                List.of(),
-                Map.of("delivery", "download"),
-                Map.of(),
-                true,
-                false,
-                true,
-                999,
-                5,
-                null,
-                "/downloads/theme.zip",
-                List.of()));
+    @Transactional
+    public synchronized StoreDtos.DemoDataResponse generateDemoData() {
+        guard.requireEnabled();
+        siteSettings.put(DEMO_DISMISSED_KEY, "false");
+        return generateDemoDataInternal();
+    }
 
-        save(null, new StoreDtos.ProductRequest(
-                "Implementación de sitio web",
-                "implementacion-web",
-                "TRAST-SERVICE-WEB",
-                "Servicio profesional para configurar, diseñar y publicar un sitio con TrastCMS.",
-                "Configuración y lanzamiento guiado.",
-                ProductType.SERVICE,
-                ProductStatus.ACTIVE,
-                new BigDecimal("499.00"),
-                null,
-                "USD",
-                "Servicios",
-                "NaT Technologies",
-                null,
-                List.of(),
-                Map.of("duration", "10 días"),
-                Map.of(),
-                true,
-                false,
-                true,
-                999,
-                5,
-                null,
-                null,
-                List.of()));
+    private StoreDtos.DemoDataResponse generateDemoDataInternal() {
+        int created = 0;
+        int existing = 0;
+
+        for (DemoProduct demo : demoCatalog()) {
+            Optional<StoreProduct> bySku = products.findBySku(demo.sku());
+            Optional<StoreProduct> bySlug =
+                    products.findBySlug(demo.request().slug());
+
+            if (bySku.isPresent() || bySlug.isPresent()) {
+                existing++;
+                continue;
+            }
+
+            StoreDtos.ProductResponse response = save(null, demo.request());
+            StoreProduct product = require(response.id());
+            product.demoData = true;
+            products.save(product);
+            created++;
+        }
+
+        events.publish(PluginEvent.of(
+                "store.demo.generated",
+                Map.of("created", created, "existing", existing)));
+        return new StoreDtos.DemoDataResponse(
+                created,
+                existing,
+                0,
+                created == 0
+                        ? "Los datos demostrativos ya estaban cargados."
+                        : "Se cargaron productos demostrativos para explorar la tienda.");
+    }
+
+    @Transactional
+    public StoreDtos.DemoDataResponse deleteDemoData() {
+        guard.requireEnabled();
+        List<StoreProduct> demoProducts = products.findByDemoDataTrue();
+        siteSettings.put(DEMO_DISMISSED_KEY, "true");
+        if (demoProducts.isEmpty()) {
+            return new StoreDtos.DemoDataResponse(
+                    0, 0, 0, "No hay productos demostrativos para eliminar.");
+        }
+
+        List<String> ids = demoProducts.stream().map(product -> product.id).toList();
+        movements.deleteByProductIdIn(ids);
+        products.deleteAll(demoProducts);
+        events.publish(PluginEvent.of(
+                "store.demo.deleted",
+                Map.of("deleted", demoProducts.size())));
+        return new StoreDtos.DemoDataResponse(
+                0,
+                0,
+                demoProducts.size(),
+                "Se eliminaron únicamente los productos demostrativos.");
     }
 
     @Transactional(readOnly = true)
@@ -210,6 +230,11 @@ public class StoreService {
         product.lowStockThreshold = request.lowStockThreshold();
         product.weightGrams = request.weightGrams();
         product.digitalUrl = blank(request.digitalUrl());
+        product.taxable = request.taxable();
+        product.taxClass = normalizeTaxClass(request.taxClass());
+        product.taxRateOverride = request.taxRateOverride() == null
+                ? null
+                : percent(request.taxRateOverride());
 
         mergeVariants(product, request.variants());
         product = products.save(product);
@@ -219,14 +244,17 @@ public class StoreService {
                 Map.of(
                         "id", product.id,
                         "sku", product.sku,
-                        "status", product.status.name())));
+                        "status", product.status.name(),
+                        "taxable", product.taxable)));
         return response(product);
     }
 
     @Transactional
     public void delete(String id) {
         guard.requireEnabled();
-        products.delete(require(id));
+        StoreProduct product = require(id);
+        movements.deleteByProductIdIn(List.of(product.id));
+        products.delete(product);
     }
 
     @Transactional
@@ -245,9 +273,19 @@ public class StoreService {
         int current = variant == null
                 ? product.stockQuantity
                 : variant.stockQuantity;
-        int delta = request.type().equalsIgnoreCase("SET")
-                ? request.quantity() - current
-                : request.quantity();
+        String movementType = request.type() == null
+                ? "SET"
+                : request.type().trim().toUpperCase(Locale.ROOT);
+        int requestedQuantity = Math.max(0, request.quantity());
+        int delta = switch (movementType) {
+            case "SET" -> requestedQuantity - current;
+            case "REMOVE", "DAMAGE", "SALE", "TRANSFER_OUT" ->
+                    -requestedQuantity;
+            case "ADD", "RETURN", "PURCHASE", "TRANSFER_IN" ->
+                    requestedQuantity;
+            default -> throw new BadRequestException(
+                    "Tipo de movimiento de inventario no válido");
+        };
         int next = Math.max(0, current + delta);
 
         if (variant == null) product.stockQuantity = next;
@@ -256,7 +294,7 @@ public class StoreService {
         StoreInventoryMovement movement = new StoreInventoryMovement();
         movement.product = product;
         movement.variant = variant;
-        movement.type = request.type().toUpperCase(Locale.ROOT);
+        movement.type = movementType;
         movement.quantity = delta;
         movement.reason = request.reason();
         movement.referenceType = blank(request.referenceType());
@@ -321,12 +359,14 @@ public class StoreService {
                 all.stream().filter(product ->
                         product.status == ProductStatus.ACTIVE).count(),
                 all.stream().filter(product -> product.trackInventory
-                        && product.stockQuantity > 0
-                        && product.stockQuantity <= product.lowStockThreshold)
+                                && product.stockQuantity > 0
+                                && product.stockQuantity <= product.lowStockThreshold)
                         .count(),
                 all.stream().filter(product -> product.trackInventory
                         && product.stockQuantity == 0).count(),
                 variants.count(),
+                all.stream().filter(product -> product.taxable).count(),
+                all.stream().filter(product -> product.demoData).count(),
                 products.findTop12ByStatusAndFeaturedTrueOrderByUpdatedAtDesc(
                                 ProductStatus.ACTIVE)
                         .stream()
@@ -341,6 +381,9 @@ public class StoreService {
     }
 
     StoreDtos.ProductResponse response(StoreProduct product) {
+        BigDecimal effectiveTaxRate = product.taxable
+                ? Objects.requireNonNullElse(product.taxRateOverride, BigDecimal.ZERO)
+                : BigDecimal.ZERO;
         return new StoreDtos.ProductResponse(
                 product.id,
                 product.name,
@@ -366,6 +409,11 @@ public class StoreService {
                 product.lowStockThreshold,
                 product.weightGrams,
                 product.digitalUrl,
+                product.taxable,
+                product.taxClass,
+                product.taxRateOverride,
+                effectiveTaxRate,
+                product.demoData,
                 product.variants.stream()
                         .map(variant -> new StoreDtos.VariantResponse(
                                 variant.id,
@@ -462,6 +510,129 @@ public class StoreService {
                 page.getTotalPages());
     }
 
+    private List<DemoProduct> demoCatalog() {
+        return List.of(
+                demo("Plantilla corporativa premium", "plantilla-corporativa", "DEMO-THEME-CORP",
+                        "Tema profesional para empresas, agencias y consultores.", "Diseño responsive con páginas y secciones editables.",
+                        ProductType.DIGITAL, "Temas", "TrastCMS", "79.00", "99.00", 999,
+                        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Entrega", "Descarga inmediata", "Compatibilidad", "Constructor visual"), true, "15.00"),
+                demo("Implementación de sitio web", "implementacion-web", "DEMO-SERVICE-WEB",
+                        "Servicio profesional para configurar, diseñar y publicar un sitio con TrastCMS.", "Configuración, personalización y lanzamiento guiado.",
+                        ProductType.SERVICE, "Servicios", "NaT Technologies", "499.00", null, 999,
+                        "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Duración", "10 días", "Reuniones", "3 sesiones"), true, "15.00"),
+                demo("Auditoría UX y rendimiento", "auditoria-ux", "DEMO-SERVICE-UX",
+                        "Revisión técnica y visual con oportunidades priorizadas para mejorar la conversión.", "Informe de rendimiento, accesibilidad, navegación y contenido.",
+                        ProductType.SERVICE, "Consultoría", "NaT Technologies", "149.00", "189.00", 999,
+                        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Entregable", "Informe PDF", "Sesión", "60 minutos"), false, "15.00"),
+                demo("Kit de marca digital", "kit-marca-digital", "DEMO-DIGITAL-BRAND",
+                        "Recursos visuales editables para lanzar una marca con coherencia.", "Paleta, tipografías, portadas y plantillas para redes.",
+                        ProductType.DIGITAL, "Recursos", "TrastCMS Studio", "49.00", "69.00", 999,
+                        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Formatos", "SVG, PNG y Figma", "Licencia", "Comercial"), false, "15.00"),
+                demo("Plugin de analítica editorial", "plugin-analitica", "DEMO-PLUGIN-ANALYTICS",
+                        "Panel de métricas para páginas, campañas y publicaciones.", "Indicadores editoriales, conversiones y fuentes de tráfico.",
+                        ProductType.DIGITAL, "Plugins", "TrastCMS Labs", "59.00", null, 999,
+                        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Actualizaciones", "12 meses", "Sitios", "1"), true, "15.00"),
+                demo("Soporte técnico prioritario", "soporte-prioritario", "DEMO-SERVICE-SUPPORT",
+                        "Bolsa de acompañamiento para configuraciones, despliegues y extensiones.", "Cinco horas de soporte especializado.",
+                        ProductType.SERVICE, "Soporte", "NaT Technologies", "199.00", null, 999,
+                        "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Horas", "5", "Vigencia", "90 días"), false, "15.00"),
+                demo("Camiseta TrastCMS", "camiseta-trastcms", "DEMO-PHYSICAL-SHIRT",
+                        "Camiseta de algodón para la comunidad TrastCMS.", "Disponible en varias tallas con inventario controlado.",
+                        ProductType.PHYSICAL, "Merchandising", "TrastCMS", "24.90", "29.90", 34,
+                        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Material", "Algodón", "Color", "Negro"), true, "15.00"),
+                demo("Taza para desarrolladores", "taza-desarrolladores", "DEMO-PHYSICAL-MUG",
+                        "Taza cerámica con identidad TrastCMS.", "Ideal para oficinas, equipos y comunidades tecnológicas.",
+                        ProductType.PHYSICAL, "Merchandising", "TrastCMS", "16.00", null, 18,
+                        "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Capacidad", "350 ml", "Material", "Cerámica"), false, "15.00"),
+                demo("Paquete de iconos para dashboard", "iconos-dashboard", "DEMO-DIGITAL-ICONS",
+                        "Colección de iconos SVG optimizados para aplicaciones administrativas.", "Más de 180 iconos organizados y listos para personalizar.",
+                        ProductType.DIGITAL, "Recursos", "TrastCMS Studio", "29.00", null, 999,
+                        "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Iconos", "180+", "Formato", "SVG"), false, "0.00"),
+                demo("Mantenimiento mensual", "mantenimiento-mensual", "DEMO-SERVICE-MAINTENANCE",
+                        "Revisión recurrente de seguridad, respaldos y actualizaciones.", "Acompañamiento operativo para mantener el sitio estable.",
+                        ProductType.SERVICE, "Soporte", "NaT Technologies", "89.00", null, 999,
+                        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+                        Map.of("Frecuencia", "Mensual", "Reportes", "Incluidos"), true, "15.00"));
+    }
+
+    private DemoProduct demo(
+            String name,
+            String slug,
+            String sku,
+            String description,
+            String shortDescription,
+            ProductType type,
+            String category,
+            String brand,
+            String price,
+            String compareAt,
+            int stock,
+            String image,
+            Map<String, Object> attributes,
+            boolean featured,
+            String taxRate) {
+        return new DemoProduct(
+                sku,
+                new StoreDtos.ProductRequest(
+                        name,
+                        slug,
+                        sku,
+                        description,
+                        shortDescription,
+                        type,
+                        ProductStatus.ACTIVE,
+                        new BigDecimal(price),
+                        compareAt == null ? null : new BigDecimal(compareAt),
+                        "USD",
+                        category,
+                        brand,
+                        image,
+                        List.of(image),
+                        attributes,
+                        Map.of(
+                                "title", name,
+                                "description", shortDescription),
+                        featured,
+                        type == ProductType.PHYSICAL,
+                        false,
+                        stock,
+                        5,
+                        type == ProductType.PHYSICAL ? 350 : null,
+                        type == ProductType.DIGITAL ? "/downloads/demo" : null,
+                        !"0.00".equals(taxRate),
+                        "0.00".equals(taxRate) ? "EXEMPT" : "STANDARD",
+                        new BigDecimal(taxRate),
+                        List.of()));
+    }
+
+    private String normalizeTaxClass(String value) {
+        String normalized = value == null || value.isBlank()
+                ? "STANDARD"
+                : value.trim().toUpperCase(Locale.ROOT);
+        if (!normalized.matches("[A-Z0-9_-]{2,40}")) {
+            throw new BadRequestException("Clase de impuesto inválida");
+        }
+        return normalized;
+    }
+
+    private BigDecimal percent(BigDecimal value) {
+        BigDecimal normalized = value.setScale(4, RoundingMode.HALF_UP);
+        if (normalized.compareTo(BigDecimal.ZERO) < 0
+                || normalized.compareTo(new BigDecimal("100")) > 0) {
+            throw new BadRequestException("La tasa debe estar entre 0 y 100");
+        }
+        return normalized;
+    }
+
     private String slug(String value, String fallback) {
         return (value == null || value.isBlank() ? fallback : value)
                 .toLowerCase(Locale.ROOT)
@@ -510,4 +681,8 @@ public class StoreService {
             return List.of();
         }
     }
+
+    private record DemoProduct(
+            String sku,
+            StoreDtos.ProductRequest request) { }
 }

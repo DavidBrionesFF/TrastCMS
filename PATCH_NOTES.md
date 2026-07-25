@@ -1,76 +1,81 @@
-# TrastCMS 2.5.0-alpha.7 — Parche incremental
+# TrastCMS 2.7.0-alpha.9.5
+
+Parche incremental funcional y visual para Store, TrastPay, TrastSaaS,
+TrastCRM y el tema Midnight.
 
 ## Base requerida
 
-Aplique este paquete sobre **TrastCMS 2.4.0-alpha.6**.
+Debe aplicarse después de los hotfixes 2.7.0-alpha.9.2, 9.3 y 9.4.
 
-## Alcance
+## Inventario
 
-- Archivos agregados: 13
-- Archivos modificados: 28
-- Archivos eliminados: 0
+- Agregados: **1**
+- Modificados: **29**
+- Eliminados: **0**
 
-## Páginas públicas profesionales
+## Cambios principales
 
-Los tres temas incorporados incluyen una nueva demostración editable:
+### Store público
 
-- Inicio con hero de producto, panel simulado, capacidades, flujo, arquitectura,
-  métricas, prueba social y CTA.
-- Quiénes somos con manifiesto, principios, evolución y CTA.
-- Servicios con soluciones, proceso e integración con TrastCRM.
-- Blog con portada editorial y categorías temáticas.
-- Contáctanos con formulario de proyecto web, automatización CRM y métricas.
-- Footer profesional y acceso a la documentación para desarrolladores.
+- Catálogo de cuatro columnas en escritorio.
+- Ficha profesional con galería, variantes, impuestos y disponibilidad.
+- Cantidad mediante campo numérico y controles `+` y `−`.
+- Descripción, especificaciones y entrega organizadas en pestañas.
 
-Las páginas ya existentes no se sobrescriben automáticamente. Después de
-actualizar, use:
+### Checkout
+
+Flujo real de tres etapas:
 
 ```text
-Administración → Temas → Restaurar páginas demo
+1. Carrito
+2. Datos y pago
+3. Revisión
 ```
 
-La restauración solo reemplaza páginas que todavía pertenecen al tema activo.
+Incluye cupón, datos del cliente, método de pago, impuestos, revisión final y
+explicaciones específicas para suscripciones y licencias.
 
-## REST API y MCP
+### Store administrativo
 
-- OpenAPI enriquecido y Swagger UI.
-- Portal público `/developers`.
-- Sección administrativa **API y MCP**.
-- Servidor MCP integrado al mismo JAR en `/mcp`.
-- Streamable HTTP stateless y JSON-RPC 2.0.
-- Autenticación Bearer independiente mediante `TRASTCMS_MCP_TOKEN`.
-- Herramientas, recursos y prompts del núcleo.
-- Herramientas MCP de TrastCRM disponibles solo cuando el plugin está activo.
-- Soporte para lotes JSON-RPC y notificaciones.
-- Documentación en `docs/REST_API.md`, `docs/MCP.md` y
-  `docs/DEVELOPER_PLATFORM.md`.
+- Productos en cuadrícula.
+- Editor mediante drawer lateral.
+- Drawer de movimientos de inventario.
+- Entradas, salidas, daños, devoluciones y ajustes.
+- Historial de movimientos.
+- Las salidas y daños ahora disminuyen correctamente la existencia.
 
-## Configuración MCP
+### TrastSaaS
 
-Agregue al entorno de ejecución:
+- Ruta `/pricing/{productKey}/{planKey}`.
+- Detalle de plan sin error 404.
+- Diferenciación explícita entre suscripción y licencia perpetua.
+- Portal de licencias más claro.
+- Carga parcial con `Promise.allSettled`.
+- Relaciones JPA de producto, plan y suscripción precargadas.
 
-```text
-TRASTCMS_MCP_ENABLED=true
-TRASTCMS_MCP_ENDPOINT=/mcp
-TRASTCMS_MCP_TOKEN=un-secreto-largo-y-aleatorio
-```
+### TrastCRM
+
+- Carga parcial tolerante a fallos.
+- Pipeline seguro cuando una etapa no viene cargada.
+- Negocios con etapa, contacto y empresa precargados mediante `@EntityGraph`.
+
+### Midnight
+
+- Contraste corregido en hero, títulos, párrafos, tarjetas, métricas,
+  navegación, footer y formularios.
 
 ## Instalación
 
-1. Detenga TrastCMS.
-2. Haga una copia de seguridad de la base y de `data/`.
-3. Copie el contenido del ZIP sobre la raíz del proyecto.
-4. Permita reemplazar archivos.
-5. Ejecute:
+Este ZIP es un overlay plano. Extraiga directamente donde está `pom.xml`.
 
 ```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\VERIFY_PATCH_2_7_0_ALPHA_9_5.ps1
 .\mvnw.cmd clean verify
 ```
 
-6. Inicie:
+JAR esperado:
 
-```powershell
-java -jar target\trastcms-2.5.0-alpha.7.jar
+```text
+target\trastcms-2.7.0-alpha.9.5.jar
 ```
-
-No se agregan migraciones de base de datos en esta revisión.

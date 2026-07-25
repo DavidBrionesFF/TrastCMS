@@ -13,8 +13,10 @@ const router = createRouter({
         { path: 'page/:slug', name: 'page-public', component: () => import('@/views/public/PageView.vue') },
         { path: 'developers', name: 'developers', component: () => import('@/views/public/DeveloperPortalView.vue') },
         { path: 'store', name: 'store-public', component: () => import('@/views/public/StorefrontView.vue') },
+        { path: 'store/product/:slug', name: 'store-product', component: () => import('@/views/public/ProductView.vue') },
         { path: 'cart', name: 'cart-public', component: () => import('@/views/public/CartView.vue') },
         { path: 'pricing', name: 'pricing-public', component: () => import('@/views/public/PricingView.vue') },
+        { path: 'pricing/:productKey/:planKey', name: 'pricing-plan', component: () => import('@/views/public/PlanDetailView.vue') },
         { path: 'saas/claim', name: 'saas-claim', component: () => import('@/views/public/LicenseClaimView.vue') }
       ]
     },

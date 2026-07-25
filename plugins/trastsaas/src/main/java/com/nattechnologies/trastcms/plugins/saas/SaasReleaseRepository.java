@@ -1,1 +1,17 @@
-package com.nattechnologies.trastcms.plugins.saas; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; interface SaasReleaseRepository extends JpaRepository<SaasRelease,String>{Optional<SaasRelease> findFirstByProductIdAndPlatformAndChannelAndActiveTrueOrderByPublishedAtDesc(String productId,String platform,String channel); List<SaasRelease> findByProductIdOrderByPublishedAtDesc(String productId);}
+package com.nattechnologies.trastcms.plugins.saas;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.*;
+
+interface SaasReleaseRepository extends JpaRepository<SaasRelease, String> {
+    Optional<SaasRelease> findFirstByProductIdAndPlatformAndChannelAndActiveTrueOrderByPublishedAtDesc(
+            String productId, String platform, String channel);
+    List<SaasRelease> findByProductIdOrderByPublishedAtDesc(String productId);
+    Optional<SaasRelease>
+            findFirstByProductIdAndVersionAndPlatformAndChannel(
+                    String productId,
+                    String version,
+                    String platform,
+                    String channel);
+    void deleteByProductIdIn(Collection<String> productIds);
+}

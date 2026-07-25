@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
-import { api } from '@/services/api'
+import { api, ApiError } from '@/services/api'
+import { useToastStore } from '@/stores/toast'
+import SkeletonBlock from '@/components/common/SkeletonBlock.vue'
 import AdminPageHeader from '@/components/common/AdminPageHeader.vue'
 import UiIcon from '@/components/common/UiIcon.vue'
 import type {
@@ -21,6 +23,7 @@ import type {
 type Tab = 'dashboard' | 'contacts' | 'companies' | 'deals' | 'activities' | 'forms' | 'submissions'
 type Editor = 'contact' | 'company' | 'deal' | 'activity' | 'form' | 'stage' | null
 
+const toast = useToastStore()
 const tab = ref<Tab>('dashboard')
 const loading = ref(false)
 const error = ref('')
@@ -38,6 +41,7 @@ const submissions = ref<CrmSubmission[]>([])
 const editor = ref<Editor>(null)
 const draft = reactive<Record<string, any>>({})
 const saving = ref(false)
+const demoBusy = ref(false)
 const selectedSubmission = ref<CrmSubmission | null>(null)
 
 const tabs: Array<{ id: Tab; label: string; icon: string }> = [
@@ -78,34 +82,54 @@ const formSubmissionCount = computed(() => {
 async function load() {
   loading.value = true
   error.value = ''
-  try {
-    dashboard.value = await api<CrmDashboard>('/api/admin/crm/dashboard')
-    const [contactPage, companyPage, stageList] = await Promise.all([
-      api<PageResponse<CrmContact>>('/api/admin/crm/contacts?size=100'),
-      api<PageResponse<CrmCompany>>('/api/admin/crm/companies?size=100'),
-      api<CrmStage[]>('/api/admin/crm/stages')
-    ])
-    contacts.value = contactPage.content
-    companies.value = companyPage.content
-    stages.value = stageList
 
-    if (tab.value === 'dashboard' || tab.value === 'deals' || tab.value === 'activities') {
-      deals.value = (await api<PageResponse<CrmDeal>>('/api/admin/crm/deals?size=100')).content
-    }
-    if (tab.value === 'dashboard' || tab.value === 'activities') {
-      activities.value = (await api<PageResponse<CrmActivity>>('/api/admin/crm/activities?size=100')).content
-    }
-    if (tab.value === 'forms' || tab.value === 'dashboard') {
-      forms.value = await api<CrmForm[]>('/api/admin/crm/forms')
-    }
-    if (tab.value === 'submissions' || tab.value === 'forms' || tab.value === 'dashboard') {
-      submissions.value = (await api<PageResponse<CrmSubmission>>('/api/admin/crm/submissions?size=100')).content
-    }
-  } catch (exception) {
-    error.value = exception instanceof Error ? exception.message : 'No se pudo cargar TrastCRM'
-  } finally {
-    loading.value = false
+  const coreRequests = await Promise.allSettled([
+    api<CrmDashboard>('/api/admin/crm/dashboard'),
+    api<PageResponse<CrmContact>>('/api/admin/crm/contacts?size=100'),
+    api<PageResponse<CrmCompany>>('/api/admin/crm/companies?size=100'),
+    api<CrmStage[]>('/api/admin/crm/stages')
+  ])
+
+  const [dashboardResult, contactsResult, companiesResult, stagesResult] = coreRequests
+  if (dashboardResult.status === 'fulfilled') dashboard.value = dashboardResult.value
+  if (contactsResult.status === 'fulfilled') contacts.value = contactsResult.value.content
+  if (companiesResult.status === 'fulfilled') companies.value = companiesResult.value.content
+  if (stagesResult.status === 'fulfilled') stages.value = stagesResult.value
+
+  const optionalRequests: Promise<unknown>[] = []
+  const optionalHandlers: Array<(value: any) => void> = []
+
+  if (tab.value === 'dashboard' || tab.value === 'deals' || tab.value === 'activities') {
+    optionalRequests.push(api<PageResponse<CrmDeal>>('/api/admin/crm/deals?size=100'))
+    optionalHandlers.push(value => { deals.value = value.content })
   }
+  if (tab.value === 'dashboard' || tab.value === 'activities') {
+    optionalRequests.push(api<PageResponse<CrmActivity>>('/api/admin/crm/activities?size=100'))
+    optionalHandlers.push(value => { activities.value = value.content })
+  }
+  if (tab.value === 'forms' || tab.value === 'dashboard') {
+    optionalRequests.push(api<CrmForm[]>('/api/admin/crm/forms'))
+    optionalHandlers.push(value => { forms.value = value })
+  }
+  if (tab.value === 'submissions' || tab.value === 'forms' || tab.value === 'dashboard') {
+    optionalRequests.push(api<PageResponse<CrmSubmission>>('/api/admin/crm/submissions?size=100'))
+    optionalHandlers.push(value => { submissions.value = value.content })
+  }
+
+  const optionalResults = await Promise.allSettled(optionalRequests)
+  optionalResults.forEach((result, index) => {
+    if (result.status === 'fulfilled') optionalHandlers[index](result.value)
+  })
+
+  const failures = [...coreRequests, ...optionalResults].filter(result => result.status === 'rejected')
+  if (failures.length) {
+    const firstFailure = failures[0] as PromiseRejectedResult
+    error.value = firstFailure.reason instanceof ApiError
+      ? firstFailure.reason.message
+      : 'Algunas secciones del CRM no respondieron. Los datos disponibles sí se muestran.'
+  }
+
+  loading.value = false
 }
 
 watch(tab, () => {
@@ -245,6 +269,23 @@ function createsFollowUp(item: CrmForm): boolean {
   return item.settings.createFollowUp !== false
 }
 
+
+async function demo(action: 'generate' | 'delete') {
+  if (action === 'delete' && !window.confirm('¿Eliminar empresas, contactos, negocios y actividades demo?')) return
+  demoBusy.value = true
+  try {
+    const result = await api<Record<string, any>>('/api/admin/crm/demo-data', {
+      method: action === 'generate' ? 'POST' : 'DELETE'
+    })
+    toast.success(action === 'generate' ? 'Demo CRM generado' : 'Demo CRM eliminado', result.message)
+    await load()
+  } catch (caught: unknown) {
+    toast.error('No se pudieron procesar los datos demo', caught instanceof ApiError ? caught.message : undefined)
+  } finally {
+    demoBusy.value = false
+  }
+}
+
 function openContextAction() {
   const type = actionType()
   if (type) openNew(type)
@@ -263,6 +304,8 @@ function actionType(): Exclude<Editor, null> | null {
 <template>
   <AdminPageHeader eyebrow="Plugin incorporado" title="TrastCRM" description="Convierta formularios del sitio en contactos, oportunidades y actividades de seguimiento.">
     <template #actions>
+      <button class="button secondary" :disabled="demoBusy" @click="demo('generate')"><UiIcon name="sparkles" :size="16"/>Generar demo</button>
+      <button class="button ghost" :disabled="demoBusy" @click="demo('delete')">Eliminar demo</button>
       <button v-if="actionType()" class="button" @click="openContextAction"><UiIcon name="plus" :size="16"/>{{ actionLabel() }}</button>
     </template>
   </AdminPageHeader>
@@ -278,7 +321,7 @@ function actionType(): Exclude<Editor, null> | null {
 
   <p v-if="notice" class="form-success mt-4">{{ notice }}</p>
   <p v-if="error" class="form-error mt-4">{{ error }}</p>
-  <div v-if="loading" class="panel mt-5 empty">Actualizando TrastCRM…</div>
+  <div v-if="loading" class="crm-loading-grid mt-5"><article v-for="item in 4" :key="item" class="metric-card"><SkeletonBlock :lines="3" /></article></div>
 
   <template v-else>
     <section v-if="tab==='dashboard' && dashboard" class="crm-dashboard">
@@ -323,7 +366,7 @@ function actionType(): Exclude<Editor, null> | null {
 
     <section v-else-if="tab==='deals'" class="crm-pipeline-board">
       <header><div><span class="eyebrow">Pipeline</span><h2>Oportunidades comerciales</h2><p>Mueva cada negociación por etapas y mantenga visible el valor esperado.</p></div><button class="button secondary" @click="openNew('stage')"><UiIcon name="plus" :size="16"/>Nueva etapa</button></header>
-      <div class="crm-pipeline-scroll"><section v-for="stage in stages" :key="stage.id" class="crm-pipeline-column"><header><div><span :style="{ background: stage.color }"></span><strong>{{ stage.name }}</strong></div><button title="Editar etapa" @click="edit('stage',stage)"><UiIcon name="settings" :size="15"/></button></header><div class="crm-pipeline-column__summary"><b>{{ deals.filter(deal => deal.stage.id === stage.id).length }} negocios</b><span>{{ money(deals.filter(deal => deal.stage.id === stage.id).reduce((sum,deal)=>sum+Number(deal.value),0)) }}</span></div><article v-for="item in deals.filter(deal=>deal.stage.id===stage.id)" :key="item.id" class="crm-deal-card"><div class="crm-deal-card__top"><span>{{ item.company?.name || contactName(item.contact) }}</span><button @click="edit('deal',item)"><UiIcon name="more" :size="17"/></button></div><h3>{{ item.title }}</h3><strong>{{ money(item.value,item.currency) }}</strong><p v-if="item.expectedCloseDate">Cierre esperado: {{ new Date(`${item.expectedCloseDate}T00:00:00`).toLocaleDateString() }}</p><footer><button @click="edit('deal',item)">Editar</button><button class="danger" @click="remove('deals',item.id,item.title)">Eliminar</button></footer></article><div v-if="!deals.some(deal=>deal.stage.id===stage.id)" class="crm-column-empty">Sin negocios en esta etapa</div></section></div>
+      <div class="crm-pipeline-scroll"><section v-for="stage in stages" :key="stage.id" class="crm-pipeline-column"><header><div><span :style="{ background: stage.color }"></span><strong>{{ stage.name }}</strong></div><button title="Editar etapa" @click="edit('stage',stage)"><UiIcon name="settings" :size="15"/></button></header><div class="crm-pipeline-column__summary"><b>{{ deals.filter(deal => deal.stage?.id === stage.id).length }} negocios</b><span>{{ money(deals.filter(deal => deal.stage?.id === stage.id).reduce((sum,deal)=>sum+Number(deal.value),0)) }}</span></div><article v-for="item in deals.filter(deal=>deal.stage?.id===stage.id)" :key="item.id" class="crm-deal-card"><div class="crm-deal-card__top"><span>{{ item.company?.name || contactName(item.contact) }}</span><button @click="edit('deal',item)"><UiIcon name="more" :size="17"/></button></div><h3>{{ item.title }}</h3><strong>{{ money(item.value,item.currency) }}</strong><p v-if="item.expectedCloseDate">Cierre esperado: {{ new Date(`${item.expectedCloseDate}T00:00:00`).toLocaleDateString() }}</p><footer><button @click="edit('deal',item)">Editar</button><button class="danger" @click="remove('deals',item.id,item.title)">Eliminar</button></footer></article><div v-if="!deals.some(deal=>deal.stage?.id===stage.id)" class="crm-column-empty">Sin negocios en esta etapa</div></section></div>
     </section>
 
     <section v-else-if="tab==='activities'" class="crm-surface">

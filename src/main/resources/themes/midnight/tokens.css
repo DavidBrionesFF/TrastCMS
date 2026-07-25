@@ -11,3 +11,20 @@
   --shadow: 0 18px 50px rgba(0, 0, 0, .3);
   color-scheme: dark;
 }
+
+:root[data-theme="midnight"] {
+  --surface-muted: #1b2236;
+  --surface-soft: #080c16;
+}
+
+:root[data-theme="midnight"] a {
+  color: #bdb3ff;
+}
+
+:root[data-theme="midnight"] input,
+:root[data-theme="midnight"] select,
+:root[data-theme="midnight"] textarea {
+  color: #f8fafc;
+  border-color: #303953;
+  background: #111827;
+}

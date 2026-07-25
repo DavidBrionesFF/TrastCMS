@@ -23,7 +23,16 @@ class CommerceSettings {
     String defaultCurrency = "USD";
 
     @Column(name = "tax_rate", nullable = false, precision = 8, scale = 4)
-    BigDecimal taxRate = BigDecimal.ZERO;
+    BigDecimal taxRate = new BigDecimal("15.00");
+
+    @Column(name = "prices_include_tax", nullable = false)
+    boolean pricesIncludeTax = false;
+
+    @Column(name = "tax_label", nullable = false, length = 80)
+    String taxLabel = "ISV";
+
+    @Column(name = "tax_country", nullable = false, length = 2)
+    String taxCountry = "HN";
 
     @Column(name = "cart_expiration_days", nullable = false)
     int cartExpirationDays = 14;
@@ -45,6 +54,21 @@ class CommerceSettings {
 
     @Column(name = "bank_instructions", length = 4000)
     String bankInstructions;
+
+    @Column(name = "paypal_enabled", nullable = false)
+    boolean paypalEnabled = false;
+
+    @Column(name = "paypal_mode", nullable = false, length = 20)
+    String paypalMode = "SANDBOX";
+
+    @Column(name = "paypal_client_id", length = 500)
+    String paypalClientId;
+
+    @Column(name = "paypal_client_secret_cipher", length = 4000)
+    String paypalClientSecretCipher;
+
+    @Column(name = "paypal_webhook_id", length = 200)
+    String paypalWebhookId;
 
     @Column(name = "updated_at", nullable = false)
     Instant updatedAt;

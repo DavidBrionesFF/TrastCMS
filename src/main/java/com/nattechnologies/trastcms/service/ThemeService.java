@@ -89,6 +89,18 @@ public class ThemeService {
                     "screenshot.svg",
                     List.of("default", "full-width", "menu", "landing"),
                     List.of("responsive", "commerce-ready", "gallery", "pages"),
+                    DEFAULT_SETTINGS),
+            new ThemeManifest(
+                    "nexus",
+                    "Nexus",
+                    "Tema premium para productos digitales, SaaS, agencias y plataformas comerciales.",
+                    "1.0.0",
+                    "NaT Technologies",
+                    "https://nattechnologiesagency.com",
+                    "GPL-3.0",
+                    "screenshot.svg",
+                    List.of("default", "full-width", "landing", "commerce", "saas"),
+                    List.of("responsive", "commerce-ready", "saas-ready", "crm", "developer-portal", "dark-sections"),
                     DEFAULT_SETTINGS));
 
     private final SiteSettingService settings;
@@ -124,7 +136,7 @@ public class ThemeService {
 
     @Transactional(readOnly = true)
     public List<ApiDtos.ThemeResponse> list() {
-        String active = settings.get("theme.active", "aurora");
+        String active = settings.get("theme.active", "nexus");
         List<ApiDtos.ThemeResponse> result = new ArrayList<>();
         BUILT_INS.forEach(theme ->
                 result.add(toResponse(theme, active, false)));
@@ -254,7 +266,7 @@ public class ThemeService {
                     manifest.id(),
                     manifest.name() + " " + manifest.version());
 
-            String active = settings.get("theme.active", "aurora");
+            String active = settings.get("theme.active", "nexus");
             return toResponse(manifest, active, true);
         } catch (BadRequestException | ConflictException exception) {
             deleteTreeQuietly(staging);
@@ -272,7 +284,7 @@ public class ThemeService {
             throw new BadRequestException(
                     "Los temas incorporados no pueden eliminarse");
         }
-        if (themeId.equals(settings.get("theme.active", "aurora"))) {
+        if (themeId.equals(settings.get("theme.active", "nexus"))) {
             throw new ConflictException(
                     "Active otro tema antes de eliminar este paquete");
         }

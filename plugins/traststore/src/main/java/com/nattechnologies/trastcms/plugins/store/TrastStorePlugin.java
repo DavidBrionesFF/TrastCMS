@@ -26,7 +26,7 @@ public class TrastStorePlugin implements BundledPlugin {
 
     @Override
     public String version() {
-        return "1.0.0";
+        return "1.2.0";
     }
 
     @Override

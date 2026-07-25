@@ -1,0 +1,7 @@
+trastcms:
+  plugins:
+    java-enabled: false
+
+spring:
+  main:
+    lazy-initialization: false

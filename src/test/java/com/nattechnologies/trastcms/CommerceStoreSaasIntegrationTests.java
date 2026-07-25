@@ -128,6 +128,8 @@ class CommerceStoreSaasIntegrationTests {
                         .param("token", orderToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.licenses[0].licenseKey").isNotEmpty())
+                .andExpect(jsonPath("$.licenses[0].productKey")
+                        .value("trast-cloud"))
                 .andExpect(jsonPath("$.subscriptions[0].status").exists())
                 .andReturn());
 
@@ -151,6 +153,109 @@ class CommerceStoreSaasIntegrationTests {
                 .andExpect(jsonPath("$.status").value("ACTIVE"))
                 .andExpect(jsonPath("$.activationId").isNotEmpty())
                 .andExpect(jsonPath("$.entitlements").isMap());
+    }
+
+
+    @Test
+    @WithMockUser(username = "admin@trastcms.local", roles = "ADMIN")
+    void demoGenerationIsIdempotentForStoreAndSaas() throws Exception {
+        mvc.perform(post("/api/admin/store/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/admin/store/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+
+        mvc.perform(post("/api/admin/saas/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/admin/saas/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/api/public/store/products").param("size", "60"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(8)));
+
+        mvc.perform(get("/api/public/saas/products/trast-cloud/plans"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(3)));
+    }
+
+    @Test
+    @WithMockUser(username = "admin@trastcms.local", roles = "ADMIN")
+    void saasAdministrationAndInventoryMovementsRemainOperational()
+            throws Exception {
+        mvc.perform(post("/api/admin/store/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/admin/saas/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/api/admin/saas/dashboard"))
+                .andExpect(status().isOk());
+        mvc.perform(get("/api/admin/saas/products"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(1)));
+        mvc.perform(get("/api/admin/saas/plans"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(3)));
+        mvc.perform(get("/api/admin/saas/licenses"))
+                .andExpect(status().isOk());
+        mvc.perform(get("/api/admin/saas/subscriptions"))
+                .andExpect(status().isOk());
+
+        JsonNode products = json(mvc.perform(
+                        get("/api/admin/store/products")
+                                .param("size", "60"))
+                .andExpect(status().isOk())
+                .andReturn());
+
+        JsonNode inventoryProduct = null;
+        for (JsonNode product : products.path("content")) {
+            if (product.path("trackInventory").asBoolean()) {
+                inventoryProduct = product;
+                break;
+            }
+        }
+
+        org.junit.jupiter.api.Assertions.assertNotNull(
+                inventoryProduct,
+                "El demo debe incluir un producto con inventario controlado");
+
+        String productId = inventoryProduct.path("id").asText();
+        int initialStock = inventoryProduct.path("stockQuantity").asInt();
+
+        mvc.perform(post(
+                        "/api/admin/store/products/{id}/inventory",
+                        productId)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                              "type":"ADD",
+                              "quantity":3,
+                              "reason":"Prueba de entrada"
+                            }
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.stockQuantity")
+                        .value(initialStock + 3));
+
+        mvc.perform(post(
+                        "/api/admin/store/products/{id}/inventory",
+                        productId)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                              "type":"REMOVE",
+                              "quantity":2,
+                              "reason":"Prueba de salida"
+                            }
+                            """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.stockQuantity")
+                        .value(initialStock + 1));
     }
 
     private String createCart() throws Exception {

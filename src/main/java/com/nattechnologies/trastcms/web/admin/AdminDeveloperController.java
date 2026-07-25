@@ -2,6 +2,7 @@ package com.nattechnologies.trastcms.web.admin;
 
 import com.nattechnologies.trastcms.mcp.McpService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,4 +26,10 @@ public class AdminDeveloperController {
                         "documentation", "/developers#rest"),
                 "mcp", mcp.catalog());
     }
+
+    @PostMapping("/mcp/test")
+    public Map<String, Object> testMcp() {
+        return mcp.selfTest();
+    }
+
 }

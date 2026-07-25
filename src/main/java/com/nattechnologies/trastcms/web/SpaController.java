@@ -5,9 +5,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class SpaController {
-    @GetMapping({"/", "/admin", "/post/{slug}", "/page/{slug}", "/category/{slug}", "/developers"})
-    public String index() { return "forward:/index.html"; }
 
-    @GetMapping("/admin/{*path}")
-    public String admin() { return "forward:/index.html"; }
+    @GetMapping({
+        "/",
+        "/store",
+        "/store/**",
+        "/cart",
+        "/pricing",
+        "/developers",
+        "/saas/**",
+        "/post/**",
+        "/page/**",
+        "/category/**",
+        "/admin",
+        "/admin/**"
+    })
+    public String index() {
+        return "forward:/index.html";
+    }
+
+    @GetMapping(value = "/{path:^(?!api|actuator|swagger|v3|assets|favicon\\.ico|index\\.html|error).*$}/**")
+    public String fallback() {
+        return "forward:/index.html";
+    }
 }

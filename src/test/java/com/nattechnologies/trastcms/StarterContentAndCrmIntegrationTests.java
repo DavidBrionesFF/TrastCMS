@@ -32,7 +32,7 @@ class StarterContentAndCrmIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.contentType").value("PAGE"))
                 .andExpect(jsonPath("$.pageRole").value("HOME"))
-                .andExpect(jsonPath("$.themeOrigin").value("aurora"))
+                .andExpect(jsonPath("$.themeOrigin").value("nexus"))
                 .andExpect(jsonPath("$.builderData",
                         containsString("starter-hero")))
                 .andExpect(jsonPath("$.builderData",
@@ -52,6 +52,21 @@ class StarterContentAndCrmIntegrationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].pluginId").value("trastcrm"))
                 .andExpect(jsonPath("$[0].enabled").value(true));
+    }
+
+    @Test
+    @WithMockUser(username = "admin@trastcms.local", roles = "ADMIN")
+    void crmDemoCreatesReadablePipelineDeals() throws Exception {
+        mvc.perform(post("/api/admin/crm/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+        mvc.perform(post("/api/admin/crm/demo-data").with(csrf()))
+                .andExpect(status().isOk());
+
+        mvc.perform(get("/api/admin/crm/deals").param("size", "100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements")
+                        .value(org.hamcrest.Matchers.greaterThanOrEqualTo(3)))
+                .andExpect(jsonPath("$.content[0].stage.id").isNotEmpty());
     }
 
     @Test

@@ -3,9 +3,7 @@ package com.nattechnologies.trastcms.plugins.saas;
 import com.nattechnologies.trastcms.plugin.api.SellableProvider;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class SaasSellableProvider implements SellableProvider {
@@ -31,25 +29,35 @@ public class SaasSellableProvider implements SellableProvider {
     public Optional<SellableItem> resolve(String reference) {
         return plans.findById(reference)
                 .filter(plan -> plan.active && plan.product.active)
-                .map(plan -> new SellableItem(
-                        providerKey(),
-                        plan.id,
-                        "SAAS_PLAN",
-                        plan.product.name + " · " + plan.name,
-                        plan.description,
-                        plan.price,
-                        plan.currency,
-                        !"ONE_TIME".equals(plan.billingInterval),
-                        plan.billingInterval,
-                        false,
-                        plan.product.logoUrl,
-                        true,
-                        Map.of(
-                                "productKey", plan.product.productKey,
-                                "planKey", plan.planKey,
-                                "trialDays", plan.trialDays,
-                                "maxActivations", plan.maxActivations,
-                                "entitlements", service.entitlements(plan))));
+                .map(plan -> {
+                    LinkedHashMap<String, Object> metadata = new LinkedHashMap<>();
+                    metadata.put("productKey", plan.product.productKey);
+                    metadata.put("productName", plan.product.name);
+                    metadata.put("planKey", plan.planKey);
+                    metadata.put("trialDays", Math.max(plan.trialDays, 0));
+                    metadata.put("maxActivations", Math.max(plan.maxActivations, 1));
+                    metadata.put("billingInterval", plan.billingInterval);
+                    metadata.put("intervalCount", Math.max(plan.intervalCount, 1));
+                    metadata.put("licenseType", "ONE_TIME".equals(plan.billingInterval)
+                            ? "PERPETUAL"
+                            : "SUBSCRIPTION");
+                    metadata.put("entitlements", service.entitlements(plan));
+                    metadata.put("demoData", plan.demoData);
+                    return new SellableItem(
+                            providerKey(),
+                            plan.id,
+                            "SAAS_PLAN",
+                            plan.product.name + " · " + plan.name,
+                            plan.description,
+                            plan.price,
+                            plan.currency,
+                            !"ONE_TIME".equals(plan.billingInterval),
+                            plan.billingInterval,
+                            false,
+                            plan.product.logoUrl,
+                            true,
+                            Collections.unmodifiableMap(metadata));
+                });
     }
 
     @Override

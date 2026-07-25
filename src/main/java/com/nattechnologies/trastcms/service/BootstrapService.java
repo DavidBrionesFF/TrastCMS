@@ -73,7 +73,7 @@ public class BootstrapService implements ApplicationRunner {
             Map.entry("site.description", "Un CMS open source construido con Spring Boot y Vue."),
             Map.entry("site.locale", "es-HN"),
             Map.entry("site.timezone", "America/Tegucigalpa"),
-            Map.entry("theme.active", "aurora"),
+            Map.entry("theme.active", "nexus"),
             Map.entry("branding.logoUrl", ""),
             Map.entry("branding.faviconUrl", ""),
             Map.entry("branding.accentColor", "#6d4aff"),

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
@@ -9,6 +9,10 @@ import type { SiteInfo, ThemeMenuItem, ThemeMenus } from '@/types'
 const auth = useAuthStore()
 const cart = useCartStore()
 const router = useRouter()
+const route = useRoute()
+
+const isMobileNavOpen = ref(false)
+
 const site = ref<SiteInfo>({
   name: 'TrastCMS',
   tagline: '',
@@ -30,9 +34,9 @@ const currentYear = new Date().getFullYear()
 
 onMounted(async () => {
   const [siteInfo, menuInfo, plugins] = await Promise.all([
-    api<SiteInfo>('/api/public/site'),
-    api<ThemeMenus>('/api/public/menus'),
-    api<Record<string, boolean>>('/api/public/plugins')
+    api<SiteInfo>('/api/public/site').catch(() => site.value),
+    api<ThemeMenus>('/api/public/menus').catch(() => menus.value),
+    api<Record<string, boolean>>('/api/public/plugins').catch(() => ({}))
   ])
   site.value = siteInfo
   menus.value = menuInfo
@@ -53,6 +57,10 @@ watch(() => site.value.activeTheme, (theme) => {
   link.href = `/api/public/themes/${encodeURIComponent(theme)}/tokens.css`
 }, { immediate: true })
 
+watch(() => route.path, () => {
+  isMobileNavOpen.value = false
+})
+
 onUnmounted(() => document.querySelector('#trastcms-theme')?.remove())
 
 async function signOut() {
@@ -69,10 +77,15 @@ function internal(item: ThemeMenuItem) {
   const url = menuUrl(item)
   return item.type === 'PAGE' || url.startsWith('/') || url.startsWith('#')
 }
+
+function toggleMobileNav() {
+  isMobileNavOpen.value = !isMobileNavOpen.value
+}
 </script>
 
 <template>
-  <div class="public-shell" :class="{ 'has-admin-bar': auth.user.authenticated && site.showAdminBar }">
+  <div class="public-shell" :class="{ 'has-admin-bar': auth.user.authenticated && site.showAdminBar, 'mobile-nav-active': isMobileNavOpen }">
+    <!-- Admin Bar -->
     <div v-if="auth.user.authenticated && site.showAdminBar" class="public-admin-bar">
       <div class="public-admin-bar__inner">
         <RouterLink to="/admin" class="public-admin-bar__brand">
@@ -93,13 +106,16 @@ function internal(item: ThemeMenuItem) {
       </div>
     </div>
 
+    <!-- Desktop & Mobile Main Header -->
     <header class="public-header">
       <RouterLink to="/" class="brand">
         <img v-if="site.logoUrl" :src="site.logoUrl" :alt="site.name" class="site-logo">
         <span v-else class="brand-mark">T</span>
         <span>{{ site.name }}</span>
       </RouterLink>
-      <nav class="public-navigation" aria-label="Navegación principal">
+
+      <!-- Desktop Navigation -->
+      <nav class="public-navigation desktop-only" aria-label="Navegación principal">
         <template v-for="item in headerMenu" :key="item.id">
           <RouterLink v-if="internal(item)" :to="menuUrl(item)" :target="item.newTab ? '_blank' : undefined">
             {{ item.label }}
@@ -108,15 +124,141 @@ function internal(item: ThemeMenuItem) {
             {{ item.label }}
           </a>
         </template>
-        <RouterLink v-if="pluginStatus.traststore" to="/store">Tienda</RouterLink>
-        <RouterLink v-if="pluginStatus.trastsaas" to="/pricing">Precios</RouterLink>
-        <RouterLink v-if="pluginStatus.trastpay" to="/cart" class="cart-link">Carrito <span v-if="cart.count">{{ cart.count }}</span></RouterLink>
+        <RouterLink v-if="pluginStatus.traststore !== false" to="/store">Tienda</RouterLink>
+        <RouterLink v-if="pluginStatus.trastsaas !== false" to="/pricing">Precios</RouterLink>
+        <RouterLink to="/cart" class="cart-link">
+          Carrito
+          <span v-if="cart.count" class="cart-badge-pill">{{ cart.count }}</span>
+        </RouterLink>
         <RouterLink v-if="!auth.user.authenticated" to="/admin" class="public-login-link">Administrar</RouterLink>
       </nav>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button
+        type="button"
+        class="mobile-hamburger-btn mobile-only"
+        :aria-expanded="isMobileNavOpen"
+        aria-label="Abrir menú de navegación"
+        @click="toggleMobileNav"
+      >
+        <svg v-if="!isMobileNavOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </header>
 
+    <!-- Mobile Navigation Side Drawer (Sidenav) -->
+    <div
+      class="mobile-nav-backdrop"
+      :class="{ open: isMobileNavOpen }"
+      @click="isMobileNavOpen = false"
+    />
+    <aside class="mobile-sidenav" :class="{ open: isMobileNavOpen }">
+      <div class="mobile-sidenav__header">
+        <RouterLink to="/" class="brand" @click="isMobileNavOpen = false">
+          <img v-if="site.logoUrl" :src="site.logoUrl" :alt="site.name" class="site-logo">
+          <span v-else class="brand-mark">T</span>
+          <span>{{ site.name }}</span>
+        </RouterLink>
+        <button type="button" class="mobile-sidenav__close" aria-label="Cerrar menú" @click="isMobileNavOpen = false">
+          ✕
+        </button>
+      </div>
+
+      <nav class="mobile-sidenav__menu">
+        <span class="mobile-sidenav__section-title">Navegación</span>
+        <template v-for="item in headerMenu" :key="item.id">
+          <RouterLink v-if="internal(item)" :to="menuUrl(item)" class="mobile-sidenav__item">
+            {{ item.label }}
+          </RouterLink>
+          <a v-else :href="menuUrl(item)" class="mobile-sidenav__item">
+            {{ item.label }}
+          </a>
+        </template>
+
+        <div class="mobile-sidenav__divider" />
+        <span class="mobile-sidenav__section-title">Secciones</span>
+
+        <RouterLink to="/store" class="mobile-sidenav__item">
+          <span>🛍️ Tienda</span>
+        </RouterLink>
+        <RouterLink to="/pricing" class="mobile-sidenav__item">
+          <span>🏷️ Precios y SaaS</span>
+        </RouterLink>
+        <RouterLink to="/cart" class="mobile-sidenav__item">
+          <span>🛒 Carrito</span>
+          <span v-if="cart.count" class="cart-badge-pill">{{ cart.count }}</span>
+        </RouterLink>
+        <RouterLink v-if="!auth.user.authenticated" to="/admin" class="mobile-sidenav__item highlight">
+          <span>⚡ Administrar CMS</span>
+        </RouterLink>
+      </nav>
+
+      <div class="mobile-sidenav__footer">
+        <p>{{ site.tagline || 'Plataforma CMS con comercio y SaaS' }}</p>
+        <small>© {{ currentYear }} {{ site.name }}</small>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
     <main><RouterView :site="site" /></main>
 
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-bar" aria-label="Navegación rápida inferior">
+      <RouterLink to="/" class="mobile-bottom-bar__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Inicio</span>
+      </RouterLink>
+
+      <RouterLink to="/store" class="mobile-bottom-bar__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Tienda</span>
+      </RouterLink>
+
+      <RouterLink to="/pricing" class="mobile-bottom-bar__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <span>Precios</span>
+      </RouterLink>
+
+      <RouterLink to="/cart" class="mobile-bottom-bar__item cart-bottom-item">
+        <div class="cart-icon-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span v-if="cart.count" class="bottom-bar-badge">{{ cart.count }}</span>
+        </div>
+        <span>Carrito</span>
+      </RouterLink>
+
+      <button type="button" class="mobile-bottom-bar__item" @click="toggleMobileNav">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <span>Menú</span>
+      </button>
+    </nav>
+
+    <!-- Footer -->
     <footer class="site-footer">
       <div class="site-footer__grid">
         <section class="site-footer__brand">

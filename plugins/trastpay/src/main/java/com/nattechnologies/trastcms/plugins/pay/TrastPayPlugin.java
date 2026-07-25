@@ -26,7 +26,7 @@ public class TrastPayPlugin implements BundledPlugin {
 
     @Override
     public String version() {
-        return "1.0.0";
+        return "1.2.0";
     }
 
     @Override
@@ -49,6 +49,7 @@ public class TrastPayPlugin implements BundledPlugin {
                 "commerce.coupons",
                 "commerce.settings",
                 "payment.gateways",
+                "payment.paypal",
                 "builder.blocks",
                 "mcp.tools");
     }

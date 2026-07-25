@@ -1,50 +1,39 @@
-# Trazabilidad — TrastCMS 2.5.0-alpha.7
+# Trazabilidad — TrastCMS 2.7.0-alpha.9.5
 
-## Agregados (13)
+## Agregados (1)
 
-- `docs/DEVELOPER_PLATFORM.md`
-- `docs/MCP.md`
-- `docs/REST_API.md`
-- `frontend/src/views/admin/DeveloperDocsView.vue`
-- `frontend/src/views/public/DeveloperPortalView.vue`
-- `plugins/trastcrm/src/main/java/com/nattechnologies/trastcms/plugins/crm/CrmMcpExtension.java`
-- `src/main/java/com/nattechnologies/trastcms/config/OpenApiConfiguration.java`
-- `src/main/java/com/nattechnologies/trastcms/mcp/CoreMcpExtension.java`
-- `src/main/java/com/nattechnologies/trastcms/mcp/McpController.java`
-- `src/main/java/com/nattechnologies/trastcms/mcp/McpExtension.java`
-- `src/main/java/com/nattechnologies/trastcms/mcp/McpService.java`
-- `src/main/java/com/nattechnologies/trastcms/web/admin/AdminDeveloperController.java`
-- `src/test/java/com/nattechnologies/trastcms/McpIntegrationTests.java`
+- `frontend/src/views/public/PlanDetailView.vue`
 
-## Modificados (28)
+## Modificados (29)
 
-- `.env.example`
 - `CHANGELOG.md`
 - `README.md`
-- `docker-compose.yml`
-- `docs/API.md`
 - `docs/ARCHITECTURE.md`
-- `docs/BUNDLED_PLUGINS.md`
-- `docs/THEMES.md`
+- `docs/NATIVE_IMAGE.md`
 - `examples/plugins/hello-java-plugin/pom.xml`
 - `frontend/package.json`
-- `frontend/src/layouts/AdminLayout.vue`
-- `frontend/src/layouts/PublicLayout.vue`
 - `frontend/src/router/index.ts`
 - `frontend/src/styles.css`
-- `plugins/trastcrm/src/main/java/com/nattechnologies/trastcms/plugins/crm/TrastCrmPlugin.java`
+- `frontend/src/views/public/CartView.vue`
+- `frontend/src/views/public/LicenseClaimView.vue`
+- `frontend/src/views/public/PricingView.vue`
+- `frontend/src/views/public/ProductView.vue`
+- `plugins/trastcrm/frontend/CrmView.vue`
+- `plugins/trastcrm/src/main/java/com/nattechnologies/trastcms/plugins/crm/CrmDealRepository.java`
+- `plugins/trastsaas/frontend/SaasView.vue`
+- `plugins/trastsaas/src/main/java/com/nattechnologies/trastcms/plugins/saas/SaasLicenseRepository.java`
+- `plugins/trastsaas/src/main/java/com/nattechnologies/trastcms/plugins/saas/SaasPlanRepository.java`
+- `plugins/trastsaas/src/main/java/com/nattechnologies/trastcms/plugins/saas/SaasSellableProvider.java`
+- `plugins/trastsaas/src/main/java/com/nattechnologies/trastcms/plugins/saas/SaasSubscriptionRepository.java`
+- `plugins/traststore/frontend/StoreView.vue`
+- `plugins/traststore/src/main/java/com/nattechnologies/trastcms/plugins/store/StoreService.java`
 - `pom.xml`
 - `scripts/build.ps1`
 - `scripts/build.sh`
-- `src/main/java/com/nattechnologies/trastcms/config/SecurityConfig.java`
 - `src/main/java/com/nattechnologies/trastcms/config/TrastCmsProperties.java`
-- `src/main/java/com/nattechnologies/trastcms/domain/post/PostRepository.java`
-- `src/main/java/com/nattechnologies/trastcms/service/PostService.java`
-- `src/main/java/com/nattechnologies/trastcms/web/SpaController.java`
 - `src/main/resources/application.yml`
-- `src/main/resources/themes/aurora/starter-content.json`
-- `src/main/resources/themes/coffee/starter-content.json`
-- `src/main/resources/themes/midnight/starter-content.json`
+- `src/main/resources/themes/midnight/tokens.css`
+- `src/test/java/com/nattechnologies/trastcms/CommerceStoreSaasIntegrationTests.java`
 - `src/test/java/com/nattechnologies/trastcms/StarterContentAndCrmIntegrationTests.java`
 
 ## Eliminados (0)

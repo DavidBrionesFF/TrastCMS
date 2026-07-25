@@ -3,11 +3,14 @@ package com.nattechnologies.trastcms;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.context.annotation.ImportRuntimeHints;
+import com.nattechnologies.trastcms.config.NativeRuntimeHints;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @EnableAsync
+@ImportRuntimeHints(NativeRuntimeHints.class)
 @SpringBootApplication
 public class TrastCmsApplication {
     public static void main(String[] args) {

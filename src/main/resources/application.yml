@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: trastcms
   datasource:
@@ -63,7 +65,7 @@ trastcms:
     enabled: ${TRASTCMS_MCP_ENABLED:true}
     endpoint: ${TRASTCMS_MCP_ENDPOINT:/mcp}
     token: ${TRASTCMS_MCP_TOKEN:}
-    server-version: 2.6.0-alpha.8
+    server-version: 2.7.0-alpha.9.5
 
 logging:
   level:

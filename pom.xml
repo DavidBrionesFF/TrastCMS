@@ -13,7 +13,7 @@
 
     <groupId>com.nattechnologies</groupId>
     <artifactId>trastcms</artifactId>
-    <version>2.6.0-alpha.8</version>
+    <version>2.7.0-alpha.9.5</version>
     <name>TrastCMS</name>
     <description>CMS modular, rápido y extensible construido con Spring Boot y Vue.</description>
     <url>https://github.com/DavidBrionesFF/TrastCMS</url>

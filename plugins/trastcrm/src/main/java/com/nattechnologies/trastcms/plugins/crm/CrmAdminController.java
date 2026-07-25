@@ -13,6 +13,8 @@ public class CrmAdminController {
     public CrmAdminController(CrmService service, CrmPluginGuard guard){this.service=service;this.guard=guard;}
     @ModelAttribute void requireEnabled(){guard.requireEnabled();}
     @GetMapping("/dashboard") public CrmDtos.Dashboard dashboard(){return service.dashboard();}
+    @PostMapping("/demo-data") public CrmDtos.DemoDataResponse generateDemoData(){return service.generateDemoData();}
+    @DeleteMapping("/demo-data") public CrmDtos.DemoDataResponse deleteDemoData(){return service.deleteDemoData();}
 
     @GetMapping("/contacts") public CrmDtos.PageResponse<CrmDtos.ContactResponse> contacts(@RequestParam(required=false)String search,@RequestParam(required=false)CrmContactStatus status,@RequestParam(defaultValue="0")int page,@RequestParam(defaultValue="25")int size){return service.contacts(search,status,page,size);}
     @PostMapping("/contacts") @ResponseStatus(HttpStatus.CREATED) public CrmDtos.ContactResponse createContact(@Valid @RequestBody CrmDtos.ContactRequest request){return service.saveContact(null,request);}

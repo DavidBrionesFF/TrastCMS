@@ -1,0 +1,54 @@
+:root {
+  --theme-primary: #5b3df5;
+  --theme-primary-strong: #3924c7;
+  --theme-accent: #00b8a9;
+  --theme-bg: #f7f8ff;
+  --theme-surface: #ffffff;
+  --theme-text: #101828;
+  --theme-muted: #667085;
+  --theme-line: #e6e8f0;
+  --theme-radius: 24px;
+  --theme-shadow: 0 30px 80px rgba(25, 35, 70, .12);
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 4%, rgba(91, 61, 245, .08), transparent 28rem),
+    radial-gradient(circle at 96% 20%, rgba(0, 184, 169, .06), transparent 24rem),
+    var(--theme-bg);
+}
+
+.public-header {
+  background: rgba(255, 255, 255, .84);
+  backdrop-filter: blur(18px);
+}
+
+.public-shell .brand-mark {
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+}
+
+.button {
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-primary-strong));
+  box-shadow: 0 14px 30px rgba(91, 61, 245, .22);
+}
+
+.nexus-hero {
+  background:
+    radial-gradient(circle at 85% 20%, rgba(0, 184, 169, .18), transparent 25%),
+    radial-gradient(circle at 15% 90%, rgba(91, 61, 245, .20), transparent 32%),
+    linear-gradient(145deg, #ffffff, #f3f2ff);
+  box-shadow: var(--theme-shadow);
+}
+
+.nexus-dark-section {
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 15%, rgba(0, 184, 169, .25), transparent 30%),
+    linear-gradient(135deg, #101828, #23165f);
+}
+
+.nexus-dark-section h2,
+.nexus-dark-section h3,
+.nexus-dark-section p {
+  color: inherit;
+}

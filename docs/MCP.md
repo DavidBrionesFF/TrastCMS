@@ -22,16 +22,30 @@ GET /.well-known/mcp.json
 
 ## Configuración
 
+TrastCMS carga automáticamente un archivo `.env` ubicado en la raíz del
+proyecto. También puede configurar las mismas variables desde IntelliJ, el
+sistema operativo o el servicio que ejecuta el JAR.
+
 ```bash
 TRASTCMS_MCP_ENABLED=true
 TRASTCMS_MCP_ENDPOINT=/mcp
 TRASTCMS_MCP_TOKEN=un-secreto-largo-y-aleatorio
 ```
 
+Después de modificar `.env` debe reiniciar la aplicación. El token admite
+valores con o sin comillas exteriores; internamente se eliminan espacios y
+comillas accidentales.
+
 El token MCP debe ser distinto de la contraseña administrativa y se envía así:
 
 ```http
 Authorization: Bearer <TRASTCMS_MCP_TOKEN>
+```
+
+También se admite el encabezado alternativo:
+
+```http
+X-MCP-Token: <TRASTCMS_MCP_TOKEN>
 ```
 
 Si no se configura el token, el servidor devuelve `503 Service Unavailable` y no ejecuta solicitudes MCP.
@@ -182,3 +196,48 @@ saas_list_licenses
 Todas son herramientas de lectura. La versión inicial no permite confirmar
 pagos, reembolsar órdenes, revocar licencias ni modificar inventario mediante
 MCP. Esas operaciones requieren la API administrativa y confirmación humana.
+
+
+## Diagnóstico desde el panel
+
+Abra:
+
+```text
+Administración → API y MCP
+```
+
+El panel muestra si MCP está habilitado, si el token fue reconocido, la URL
+absoluta y la cantidad de herramientas. El botón **Probar servidor MCP**
+ejecuta una inicialización interna sin exponer el secreto.
+
+Prueba desde PowerShell en Windows:
+
+```powershell
+$token = "su-token-mcp"
+$body = @{
+  jsonrpc = "2.0"
+  id = 1
+  method = "initialize"
+  params = @{
+    protocolVersion = "2025-11-25"
+    capabilities = @{}
+    clientInfo = @{ name = "powershell"; version = "1.0.0" }
+  }
+} | ConvertTo-Json -Depth 8
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:8080/mcp" `
+  -Headers @{ Authorization = "Bearer $token" } `
+  -ContentType "application/json" `
+  -Body $body
+```
+
+Respuestas frecuentes:
+
+| Estado | Causa |
+|---:|---|
+| `401` | Token ausente o distinto del configurado. |
+| `503` | MCP deshabilitado o token no cargado. Reinicie después de editar `.env`. |
+| `400` | JSON-RPC o versión de protocolo inválidos. |
+| `200` | Solicitud MCP procesada. |

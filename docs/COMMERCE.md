@@ -67,14 +67,16 @@ public interface PaymentGateway {
 }
 ```
 
-La versión inicial incluye:
+La versión incluye:
 
 - `sandbox`: confirma inmediatamente y sirve para pruebas automatizadas;
 - `bank_transfer`: deja la orden pendiente y muestra instrucciones;
-- `cash`: pago contra entrega.
+- `cash`: pago contra entrega;
+- `paypal`: crea una orden PayPal Orders v2, redirige al comprador y captura
+  el pago en el servidor después de la aprobación.
 
-Los proveedores con tarjeta, billeteras o banca regional deben implementarse
-como adaptadores separados. TrastCMS no almacena números de tarjeta ni CVC.
+TrastCMS no almacena números de tarjeta ni CVC. PayPal utiliza OAuth 2.0,
+idempotencia, captura del lado servidor y verificación de webhooks.
 
 ## Configuración
 
@@ -94,7 +96,35 @@ Opciones:
 - nombre comercial;
 - correo de soporte;
 - URL de términos;
-- instrucciones bancarias.
+- instrucciones bancarias;
+- entorno PayPal Sandbox o Live;
+- Client ID;
+- Client Secret cifrado con la clave maestra del motor de plugins;
+- Webhook ID para verificar eventos.
+
+## Configurar PayPal
+
+1. Cree una aplicación REST en PayPal Developer.
+2. Copie el Client ID y el Client Secret.
+3. En TrastCMS abra **Comercio y pagos → Configuración → PayPal**.
+4. Comience en `SANDBOX` y active PayPal.
+5. Registre este webhook en la aplicación de PayPal:
+
+```text
+https://su-dominio.com/api/public/commerce/paypal/webhook
+```
+
+Eventos recomendados:
+
+```text
+CHECKOUT.ORDER.APPROVED
+PAYMENT.CAPTURE.COMPLETED
+PAYMENT.CAPTURE.DENIED
+PAYMENT.CAPTURE.REFUNDED
+```
+
+El Client Secret nunca se devuelve a la interfaz. Si el campo se deja vacío
+al actualizar la configuración, se conserva el secreto cifrado existente.
 
 ## API pública
 
@@ -106,6 +136,8 @@ PUT    /api/public/commerce/carts/{token}/items/{itemId}
 DELETE /api/public/commerce/carts/{token}/items
 POST   /api/public/commerce/carts/{token}/checkout
 GET    /api/public/commerce/gateways
+GET    /api/public/commerce/paypal/return
+POST   /api/public/commerce/paypal/webhook
 ```
 
 ### Crear un carrito

@@ -1,8 +1,8 @@
-# TrastCMS 2.5
+# TrastCMS 2.7
 
 TrastCMS es un CMS open source y autohospedable construido con **Spring Boot**, **Java 21** y **Vue 3**. El backend, el sitio público y todo el panel administrativo se compilan dentro de un **único JAR ejecutable**.
 
-> Estado: `2.5.0-alpha.7`. Esta versión incorpora páginas demostrativas profesionales, un portal integrado para desarrolladores, documentación OpenAPI y un servidor MCP extensible por plugins dentro del mismo JAR. Es una base funcional y extensible; todavía no pretende reproducir todo el ecosistema histórico de WordPress.
+> Estado: `2.7.0-alpha.9.5`. Esta versión incorpora páginas demostrativas profesionales, un portal integrado para desarrolladores, documentación OpenAPI y un servidor MCP extensible por plugins dentro del mismo JAR. Es una base funcional y extensible; todavía no pretende reproducir todo el ecosistema histórico de WordPress.
 
 ## Qué incluye esta versión
 
@@ -50,9 +50,9 @@ TrastCMS es un CMS open source y autohospedable construido con **Spring Boot**, 
 ### Temas
 
 - Centro de temas con previsualización, búsqueda, activación e instalación ZIP.
-- Temas incorporados: Aurora, Midnight y Coffee.
+- Temas incorporados: Aurora, Midnight, Coffee y **Nexus**.
 - Cada tema puede declarar contenido inicial en `starter-content.json`.
-- Aurora, Midnight y Coffee crean páginas locales editables para Inicio, Quiénes somos, Servicios, Blog y Contáctanos.
+- Aurora, Midnight, Coffee y Nexus crean páginas locales editables para Inicio, Quiénes somos, Servicios, Blog y Contáctanos.
 - La activación es idempotente: no sobrescribe contenido ni recrea páginas eliminadas en cada reinicio.
 - Personalizador generado desde `settingsSchema`.
 - Colores, tipografía, ancho del sitio y otras opciones tipadas.
@@ -78,6 +78,25 @@ Los plugins Java pueden declarar:
 - Formularios y acciones Java autenticadas.
 
 Se incluye un plugin PF4J completo en `examples/plugins/hello-java-plugin`.
+
+### Datos demostrativos por plugin
+
+Cada plugin incorporado puede preparar o retirar su propio entorno de demostración sin borrar información real:
+
+- TrastCRM: empresas, contactos, negocios, actividades y formulario de diagnóstico.
+- TrastPay: cupones y configuración fiscal de ejemplo.
+- TrastStore: catálogo amplio, inventario, categorías, variantes e impuestos.
+- TrastSaaS: productos de software, planes, pruebas, suscripciones, licencias y releases.
+
+Las acciones están disponibles en el encabezado de cada panel mediante **Generar demo** y **Eliminar demo**. Los registros se identifican con `demo_data`, por lo que la limpieza no depende de eliminar la base completa. Cuando el administrador elimina el demo, la decisión queda persistida y los ejemplos no reaparecen al reiniciar; pueden recuperarse en cualquier momento con **Generar demo**.
+
+### Commerce Suite incorporada
+
+- **TrastPay** aporta carrito, checkout, órdenes, impuestos, cupones y gateways, incluida una integración PayPal configurable.
+- **TrastStore** aporta productos, variantes, inventario y catálogo público.
+- **TrastSaaS** aporta planes, suscripciones, licencias, activaciones y uso medido.
+- Los tres plugins se integran mediante `SellableProvider`, `PaymentGateway` y eventos de fulfillment.
+- La experiencia pública utiliza toasts, skeletons, vistas responsivas y estados vacíos.
 
 ### TrastCRM incorporado
 
@@ -106,6 +125,24 @@ El código de TrastCRM vive en `plugins/trastcrm` y se puede activar o desactiva
 
 Maven descarga Node.js dentro de `target/node`; no es obligatorio instalar Node manualmente.
 
+## Compilar un ejecutable nativo
+
+Con GraalVM 25+ y `native-image` disponibles:
+
+Windows PowerShell:
+
+```powershell
+.\scripts\build-native.ps1
+```
+
+Linux/macOS:
+
+```bash
+./scripts/build-native.sh
+```
+
+La guía completa está en [`docs/NATIVE_IMAGE.md`](docs/NATIVE_IMAGE.md). El ejecutable incluye Vue, los temas, MCP y los plugins incorporados. Los plugins PF4J instalados dinámicamente se reservan para la distribución JVM.
+
 ## Compilar el JAR único
 
 Windows:
@@ -133,13 +170,13 @@ El proceso:
 Resultado:
 
 ```text
-target/trastcms-2.5.0-alpha.7.jar
+target/trastcms-2.7.0-alpha.9.5.jar
 ```
 
 ## Ejecutar
 
 ```bash
-java -jar target/trastcms-2.5.0-alpha.7.jar
+java -jar target/trastcms-2.7.0-alpha.9.5.jar
 ```
 
 - Sitio: `http://localhost:8080`
@@ -161,6 +198,40 @@ TRASTCMS_ADMIN_EMAIL
 TRASTCMS_ADMIN_PASSWORD
 TRASTCMS_PLUGIN_MASTER_KEY
 ```
+
+## Desarrollo Frontend Independiente (Recarga en vivo / HMR)
+
+Para evitar recompilar todo el proyecto con `mvn verify` en cada cambio visual de Vue:
+
+1. Inicie el backend de Spring Boot normalmente desde su IDE o mediante Maven (`./mvnw spring-boot:run -Pbackend-only`).
+2. En una terminal independiente, ejecute el script de desarrollo:
+
+Linux / macOS / Git Bash:
+
+```bash
+./dev.sh
+```
+
+PowerShell (Windows):
+
+```powershell
+.\dev.ps1
+```
+
+Opcionalmente, puede especificar la URL del API y el puerto de desarrollo:
+
+```bash
+./dev.sh http://localhost:8080 5173
+```
+
+O configurar las variables en su archivo `.env`:
+
+```env
+VITE_API_URL=http://localhost:8080
+VITE_PORT=5173
+```
+
+El servidor Vite (`http://localhost:5173`) actualizará los componentes al instante mediante **Hot Module Replacement (HMR)** y redirigirá las peticiones `/api` y `/actuator` hacia el backend configurado.
 
 ## MySQL
 
@@ -257,3 +328,27 @@ Documentación del repositorio:
 - [`docs/DEVELOPER_PLATFORM.md`](docs/DEVELOPER_PLATFORM.md)
 
 La documentación navegable también está disponible en `/developers` y, para administradores, en **API y MCP** dentro del panel.
+
+## Ecosistema comercial incorporado
+
+TrastCMS incluye tres plugins independientes y activables:
+
+| Plugin | Responsabilidad |
+|---|---|
+| TrastPay | Carrito, checkout, órdenes, impuestos, cupones, PayPal y pasarelas. |
+| TrastStore | Catálogo, variantes, productos digitales e inventario. |
+| TrastSaaS | Planes, suscripciones, licencias, activaciones y uso medido. |
+
+TrastStore y TrastSaaS dependen de TrastPay. Los tres se compilan dentro del
+mismo JAR y aportan paneles Vue, API REST, bloques del constructor y
+herramientas MCP.
+
+Documentación técnica:
+
+- [TrastPay](docs/COMMERCE.md)
+- [TrastStore](docs/STORE.md)
+- [TrastSaaS](docs/SAAS.md)
+
+### Comercio, SaaS y CRM
+
+La versión 2.7.0-alpha.9.5 incorpora una experiencia comercial completa con catálogo responsive, ficha de producto, checkout por pasos, portal de licencias, detalle de planes, inventario administrable y paneles tolerantes a fallos parciales. Los temas incluidos, especialmente Midnight, aplican tokens y reglas de contraste compatibles con las páginas demo y los bloques del constructor.

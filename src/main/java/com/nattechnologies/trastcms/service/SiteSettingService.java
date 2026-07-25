@@ -67,7 +67,7 @@ public class SiteSettingService {
                 get("site.tagline", ""),
                 get("site.description", ""),
                 get("site.locale", "es-HN"),
-                get("theme.active", "aurora"),
+                get("theme.active", "nexus"),
                 get("branding.logoUrl", ""),
                 get("reading.homePageSlug", "inicio"),
                 getBoolean("reading.showAdminBar", true),

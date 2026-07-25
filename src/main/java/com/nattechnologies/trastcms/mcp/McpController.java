@@ -114,9 +114,13 @@ public class McpController {
         }
         String authorization = headers.getFirst(HttpHeaders.AUTHORIZATION);
         String received = authorization != null
-                && authorization.startsWith("Bearer ")
+                && authorization.regionMatches(true, 0, "Bearer ", 0, 7)
                 ? authorization.substring(7).trim()
                 : "";
+        if (received.isBlank()) {
+            received = java.util.Objects.toString(
+                    headers.getFirst("X-MCP-Token"), "").trim();
+        }
         boolean matches = MessageDigest.isEqual(
                 configured.getBytes(StandardCharsets.UTF_8),
                 received.getBytes(StandardCharsets.UTF_8));

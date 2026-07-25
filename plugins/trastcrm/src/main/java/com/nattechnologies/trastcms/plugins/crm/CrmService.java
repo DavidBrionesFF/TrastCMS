@@ -6,6 +6,7 @@ import com.nattechnologies.trastcms.plugin.api.PluginEvent;
 import com.nattechnologies.trastcms.service.BadRequestException;
 import com.nattechnologies.trastcms.service.NotFoundException;
 import com.nattechnologies.trastcms.service.PluginEventDispatcher;
+import com.nattechnologies.trastcms.service.SiteSettingService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class CrmService {
+    private static final String DEMO_DISMISSED_KEY = "plugins.trastcrm.demo.dismissed";
     private final CrmCompanyRepository companies;
     private final CrmContactRepository contacts;
     private final CrmPipelineStageRepository stages;
@@ -28,12 +32,14 @@ public class CrmService {
     private final ObjectMapper mapper;
     private final PluginEventDispatcher events;
     private final CrmPluginGuard guard;
+    private final SiteSettingService siteSettings;
 
     public CrmService(CrmCompanyRepository companies, CrmContactRepository contacts,
                       CrmPipelineStageRepository stages, CrmDealRepository deals,
                       CrmActivityRepository activities, CrmFormRepository forms,
                       CrmSubmissionRepository submissions, ObjectMapper mapper,
-                      PluginEventDispatcher events, CrmPluginGuard guard) {
+                      PluginEventDispatcher events, CrmPluginGuard guard,
+                      SiteSettingService siteSettings) {
         this.companies = companies;
         this.contacts = contacts;
         this.stages = stages;
@@ -44,6 +50,7 @@ public class CrmService {
         this.mapper = mapper;
         this.events = events;
         this.guard = guard;
+        this.siteSettings = siteSettings;
     }
 
     @Transactional
@@ -102,6 +109,221 @@ public class CrmService {
                     "leadSource", "Formulario: Proyecto web"), true);
             saveForm(null, request, false);
         }
+        if (companies.count() == 0
+                && contacts.count() == 0
+                && deals.count() == 0
+                && !siteSettings.getBoolean(DEMO_DISMISSED_KEY, false)) {
+            generateDemoData();
+        }
+    }
+
+    @Transactional
+    public synchronized CrmDtos.DemoDataResponse generateDemoData() {
+        guard.requireEnabled();
+        siteSettings.put(DEMO_DISMISSED_KEY, "false");
+        if (!companies.findByDemoDataTrue().isEmpty()) {
+            return demoResponse("Los datos demo de TrastCRM ya están disponibles.");
+        }
+
+        CrmCompany coffee = demoCompany(
+                "Café Montaña Azul", "montana-azul.demo", "ventas@montana-azul.demo",
+                "+504 9990-1101", "Santa Rosa de Copán", "Honduras",
+                "Productor interesado en tienda online y seguimiento comercial.");
+        CrmCompany tours = demoCompany(
+                "Roatán Experience", "roatan-experience.demo", "reservas@roatan-experience.demo",
+                "+504 9990-2202", "Roatán", "Honduras",
+                "Operador turístico evaluando portal de reservas y CRM.");
+        CrmCompany accounting = demoCompany(
+                "Contabilidad Ágil", "contabilidad-agil.demo", "direccion@contabilidad-agil.demo",
+                "+504 9990-3303", "San Pedro Sula", "Honduras",
+                "Firma interesada en SaaS de gestión para sus clientes.");
+
+        CrmContact ana = demoContact(coffee, "Ana", "López", "ana@montana-azul.demo",
+                "+504 9901-1001", "Gerente general", CrmContactStatus.PROSPECT,
+                "Formulario: Proyecto web");
+        CrmContact kevin = demoContact(tours, "Kevin", "Bodden", "kevin@roatan-experience.demo",
+                "+504 9902-2002", "Director comercial", CrmContactStatus.LEAD,
+                "Formulario: Contacto");
+        CrmContact sofia = demoContact(accounting, "Sofía", "Martínez", "sofia@contabilidad-agil.demo",
+                "+504 9903-3003", "Socia directora", CrmContactStatus.CUSTOMER,
+                "Referencia");
+        demoContact(null, "Miguel", "Castillo", "miguel@startup-demo.com",
+                "+504 9904-4004", "Fundador", CrmContactStatus.LEAD,
+                "Página de precios SaaS");
+
+        List<CrmPipelineStage> pipeline = stages.findAllByOrderByPositionAsc();
+        CrmDeal web = demoDeal(
+                "Tienda online para Café Montaña Azul", new BigDecimal("3200.00"), "USD",
+                ana, coffee, stageByName(pipeline, "Propuesta"), 21,
+                "Diseño, catálogo, pagos, TrastCRM y capacitación.");
+        CrmDeal portal = demoDeal(
+                "Portal de reservas Roatán Experience", new BigDecimal("6800.00"), "USD",
+                kevin, tours, stageByName(pipeline, "Calificado"), 45,
+                "Portal turístico con disponibilidad, pagos y automatización.");
+        CrmDeal saas = demoDeal(
+                "Licenciamiento SaaS para Contabilidad Ágil", new BigDecimal("12000.00"), "USD",
+                sofia, accounting, stageByName(pipeline, "Ganado"), 0,
+                "Implementación anual de TrastSaaS para múltiples clientes.");
+
+        demoActivity(CrmActivityType.MEETING, "Presentación de propuesta comercial",
+                "Revisar alcance, cronograma y condiciones de pago.", Instant.now().plus(Duration.ofDays(2)),
+                ana, coffee, web, false);
+        demoActivity(CrmActivityType.CALL, "Llamada de descubrimiento",
+                "Confirmar número de tours, temporadas y métodos de pago.", Instant.now().plus(Duration.ofDays(1)),
+                kevin, tours, portal, false);
+        demoActivity(CrmActivityType.TASK, "Preparar contrato anual",
+                "Enviar contrato y credenciales del portal SaaS.", Instant.now().minus(Duration.ofDays(1)),
+                sofia, accounting, saas, true);
+
+        if (forms.findByFormKey("diagnostico-digital-demo").isEmpty()) {
+            CrmDtos.FormRequest request = new CrmDtos.FormRequest(
+                    "diagnostico-digital-demo",
+                    "Diagnóstico digital",
+                    "Formulario demo para calificar negocios interesados en una web, tienda o SaaS.",
+                    "Gracias. Prepararemos un diagnóstico inicial y le contactaremos.",
+                    "",
+                    List.of(
+                            new CrmDtos.FormField("nombre", "Nombre", "text", true, "Su nombre", List.of()),
+                            new CrmDtos.FormField("email", "Correo", "email", true, "correo@empresa.com", List.of()),
+                            new CrmDtos.FormField("solucion", "Solución de interés", "select", true, "", List.of(
+                                    "Sitio web", "Tienda online", "Software SaaS", "CRM", "Aún no estoy seguro")),
+                            new CrmDtos.FormField("objetivo", "Objetivo", "textarea", true,
+                                    "¿Qué necesita mejorar?", List.of())),
+                    Map.of(
+                            "submitLabel", "Solicitar diagnóstico",
+                            "createLead", true,
+                            "createDeal", true,
+                            "createFollowUp", true,
+                            "leadSource", "Formulario demo: Diagnóstico digital"),
+                    true);
+            CrmForm form = new CrmForm();
+            form.formKey = request.formKey();
+            form.name = request.name();
+            form.description = request.description();
+            form.successMessage = request.successMessage();
+            form.notifyEmails = request.notifyEmails();
+            form.fieldsJson = write(request.fields());
+            form.settingsJson = write(request.settings());
+            form.active = true;
+            form.demoData = true;
+            forms.save(form);
+        }
+
+        events.publish(PluginEvent.of("crm.demo.generated", Map.of(
+                "companies", companies.findByDemoDataTrue().size(),
+                "contacts", contacts.findByDemoDataTrue().size(),
+                "deals", deals.findByDemoDataTrue().size())));
+        return demoResponse("Datos demo de TrastCRM generados correctamente.");
+    }
+
+    @Transactional
+    public CrmDtos.DemoDataResponse deleteDemoData() {
+        guard.requireEnabled();
+        siteSettings.put(DEMO_DISMISSED_KEY, "true");
+        List<CrmActivity> demoActivities = activities.findByDemoDataTrue();
+        List<CrmDeal> demoDeals = deals.findByDemoDataTrue();
+        List<CrmContact> demoContacts = contacts.findByDemoDataTrue();
+        List<CrmCompany> demoCompanies = companies.findByDemoDataTrue();
+        List<CrmForm> demoForms = forms.findByDemoDataTrue();
+
+        activities.deleteAll(demoActivities);
+        deals.deleteAll(demoDeals);
+        contacts.deleteAll(demoContacts);
+        companies.deleteAll(demoCompanies);
+        demoForms.stream()
+                .filter(form -> submissions.findAll().stream()
+                        .noneMatch(submission -> submission.form.id.equals(form.id)))
+                .forEach(forms::delete);
+
+        events.publish(PluginEvent.of("crm.demo.deleted", Map.of(
+                "companies", demoCompanies.size(),
+                "contacts", demoContacts.size(),
+                "deals", demoDeals.size(),
+                "activities", demoActivities.size())));
+        return new CrmDtos.DemoDataResponse(
+                "Datos demo de TrastCRM eliminados.", 0, 0, 0, 0);
+    }
+
+    private CrmDtos.DemoDataResponse demoResponse(String message) {
+        return new CrmDtos.DemoDataResponse(
+                message,
+                companies.findByDemoDataTrue().size(),
+                contacts.findByDemoDataTrue().size(),
+                deals.findByDemoDataTrue().size(),
+                activities.findByDemoDataTrue().size());
+    }
+
+    private CrmCompany demoCompany(
+            String name, String domain, String email, String phone,
+            String city, String country, String notes) {
+        CrmCompany company = new CrmCompany();
+        company.name = name;
+        company.domain = domain;
+        company.email = email;
+        company.phone = phone;
+        company.city = city;
+        company.country = country;
+        company.status = CrmCompanyStatus.PROSPECT;
+        company.notes = notes;
+        company.demoData = true;
+        return companies.save(company);
+    }
+
+    private CrmContact demoContact(
+            CrmCompany company, String firstName, String lastName, String email,
+            String phone, String jobTitle, CrmContactStatus status, String source) {
+        CrmContact contact = new CrmContact();
+        contact.company = company;
+        contact.firstName = firstName;
+        contact.lastName = lastName;
+        contact.email = email;
+        contact.phone = phone;
+        contact.jobTitle = jobTitle;
+        contact.status = status;
+        contact.source = source;
+        contact.tags = "demo, prospecto";
+        contact.demoData = true;
+        return contacts.save(contact);
+    }
+
+    private CrmDeal demoDeal(
+            String title, BigDecimal value, String currency, CrmContact contact,
+            CrmCompany company, CrmPipelineStage stage, int closeInDays,
+            String description) {
+        CrmDeal deal = new CrmDeal();
+        deal.title = title;
+        deal.value = value;
+        deal.currency = currency;
+        deal.contact = contact;
+        deal.company = company;
+        deal.stage = stage;
+        deal.expectedCloseDate = closeInDays == 0 ? LocalDate.now() : LocalDate.now().plusDays(closeInDays);
+        deal.description = description;
+        deal.demoData = true;
+        return deals.save(deal);
+    }
+
+    private void demoActivity(
+            CrmActivityType type, String subject, String description, Instant dueAt,
+            CrmContact contact, CrmCompany company, CrmDeal deal, boolean completed) {
+        CrmActivity activity = new CrmActivity();
+        activity.type = type;
+        activity.subject = subject;
+        activity.description = description;
+        activity.dueAt = dueAt;
+        activity.contact = contact;
+        activity.company = company;
+        activity.deal = deal;
+        activity.completedAt = completed ? Instant.now() : null;
+        activity.demoData = true;
+        activities.save(activity);
+    }
+
+    private CrmPipelineStage stageByName(List<CrmPipelineStage> pipeline, String name) {
+        return pipeline.stream()
+                .filter(stage -> stage.name.equalsIgnoreCase(name))
+                .findFirst()
+                .orElseGet(() -> pipeline.get(0));
     }
 
     @Transactional(readOnly = true)

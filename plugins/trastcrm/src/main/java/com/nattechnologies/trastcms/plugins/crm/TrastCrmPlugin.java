@@ -10,7 +10,7 @@ public class TrastCrmPlugin implements BundledPlugin {
     public TrastCrmPlugin(CrmService crm) { this.crm = crm; }
     @Override public String id() { return "trastcrm"; }
     @Override public String name() { return "TrastCRM"; }
-    @Override public String version() { return "1.3.0"; }
+    @Override public String version() { return "1.5.0"; }
     @Override public String description() { return "CRM integrado con contactos, empresas, oportunidades, actividades, formularios y captación de leads."; }
     @Override public boolean enabledByDefault() { return true; }
     @Override public List<String> capabilities() { return List.of("crm.contacts","crm.companies","crm.pipeline","crm.activities","crm.forms","builder.blocks","public.forms"); }
