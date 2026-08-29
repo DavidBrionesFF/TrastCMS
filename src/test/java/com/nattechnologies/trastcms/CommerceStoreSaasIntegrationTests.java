@@ -87,6 +87,7 @@ class CommerceStoreSaasIntegrationTests {
     }
 
     @Test
+    @WithMockUser(username = "license@example.com")
     void saasCheckoutIssuesAClaimableAndActivatableLicense() throws Exception {
         JsonNode planList = json(mvc.perform(
                         get("/api/public/saas/products/trast-cloud/plans"))

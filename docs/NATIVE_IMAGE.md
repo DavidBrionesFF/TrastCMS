@@ -60,13 +60,13 @@ El resultado queda en `target/` y el script lo copia también a `dist/`.
 Linux o macOS:
 
 ```bash
-./dist/trastcms-2.7.0-alpha.9.5
+./dist/trastcms-3.6.1
 ```
 
 Windows:
 
 ```powershell
-.\dist\trastcms-2.7.0-alpha.9.5.exe
+.\dist\trastcms-3.6.1.exe
 ```
 
 Variables mínimas recomendadas:

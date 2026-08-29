@@ -1,0 +1,31 @@
+# CODEOWNERS
+
+# Maintainers principales — revisan todo el repositorio
+* @DavidBrionesFF
+
+# Backend Java
+src/main/java/com/nattechnologies/trastcms/config/ @DavidBrionesFF
+src/main/java/com/nattechnologies/trastcms/domain/ @DavidBrionesFF
+src/main/java/com/nattechnologies/trastcms/service/ @DavidBrionesFF
+src/main/java/com/nattechnologies/trastcms/web/ @DavidBrionesFF
+src/main/java/com/nattechnologies/trastcms/mcp/ @DavidBrionesFF
+src/main/java/com/nattechnologies/trastcms/plugin/ @DavidBrionesFF
+
+# Plugins incorporados
+plugins/trastcrm/ @DavidBrionesFF
+plugins/trastpay/ @DavidBrionesFF
+plugins/trastsaas/ @DavidBrionesFF
+plugins/traststore/ @DavidBrionesFF
+plugins/trasttravel/ @DavidBrionesFF
+plugins/trastaccount/ @DavidBrionesFF
+
+# Frontend Vue
+frontend/src/ @DavidBrionesFF
+
+# Documentación
+docs/ @DavidBrionesFF
+README.md @DavidBrionesFF
+CONTRIBUTING.md @DavidBrionesFF
+
+# CI/CD
+.github/ @DavidBrionesFF

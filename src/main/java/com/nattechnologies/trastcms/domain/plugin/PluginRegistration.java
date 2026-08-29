@@ -7,9 +7,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "plugin_registration")
 public class PluginRegistration {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id @Column(length = 36)
     private String id;
-    @Column(name = "plugin_key", nullable = false, unique = true, length = 120)
+    @Column(name = "plugin_key", nullable = false, length = 120)
     private String pluginKey;
     @Column(nullable = false, length = 160)
     private String name;

@@ -57,14 +57,25 @@ const settings = reactive<JsonRecord>({
   taxLabel: 'ISV', taxCountry: 'HN', cartExpirationDays: 14,
   guestCheckout: true, collectShipping: false, companyName: '',
   supportEmail: '', termsUrl: '', bankInstructions: '',
+  bankTransferEnabled: true, cashEnabled: true, sandboxEnabled: true,
   paypalEnabled: false, paypalMode: 'SANDBOX', paypalClientId: '',
-  paypalClientSecret: '', paypalConfigured: false, paypalWebhookId: ''
+  paypalClientSecret: '', paypalConfigured: false, paypalWebhookId: '',
+  paypalReceiverEmail: '',
+  clinpaysEnabled: false, clinpaysEnvironment: 'STAGE', clinpaysAccessToken: '',
+  clinpaysAccountId: '', clinpaysWebhookSecret: '', clinpaysPreviousWebhookSecret: '',
+  clinpaysConfigured: false
 })
 
 const paypalWebhookUrl = computed(() =>
   typeof window === 'undefined'
     ? '/api/public/commerce/paypal/webhook'
     : `${window.location.origin}/api/public/commerce/paypal/webhook`
+)
+
+const clinpaysWebhookUrl = computed(() =>
+  typeof window === 'undefined'
+    ? '/api/public/commerce/clinpays/webhook'
+    : `${window.location.origin}/api/public/commerce/clinpays/webhook`
 )
 
 const filteredOrders = computed(() => orders.value.filter(order => {
@@ -91,7 +102,10 @@ async function load(): Promise<void> {
     data.value = dashboard
     orders.value = orderPage.content
     coupons.value = loadedCoupons
-    Object.assign(settings, configuration, { paypalClientSecret: '' })
+    Object.assign(settings, configuration, {
+      paypalClientSecret: '', clinpaysAccessToken: '',
+      clinpaysWebhookSecret: '', clinpaysPreviousWebhookSecret: ''
+    })
   } catch (caught: unknown) {
     toast.error('No se pudo cargar TrastPay', caught instanceof ApiError ? caught.message : undefined)
   } finally {
@@ -159,7 +173,10 @@ async function saveSettings(): Promise<void> {
   try {
     Object.assign(settings, await api<JsonRecord>('/api/admin/commerce/settings', {
       method: 'PUT', body: JSON.stringify(settings)
-    }), { paypalClientSecret: '' })
+    }), {
+      paypalClientSecret: '', clinpaysAccessToken: '',
+      clinpaysWebhookSecret: '', clinpaysPreviousWebhookSecret: ''
+    })
     toast.success('Configuración guardada', 'Los nuevos cálculos se aplicarán a los próximos carritos.')
   } catch (caught: unknown) {
     toast.error('No se pudo guardar', caught instanceof ApiError ? caught.message : undefined)
@@ -264,17 +281,22 @@ onMounted(load)
 
       <section v-else-if="tab === 'gateways'" class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <article v-for="gateway in data.gateways" :key="gateway.key" class="gateway-card">
-          <div class="gateway-card__icon"><UiIcon name="credit-card" /></div><span class="status-pill ok">Disponible</span><h2>{{ gateway.name }}</h2><p>{{ gateway.description }}</p><div class="gateway-card__features"><span>{{ gateway.recurring ? 'Cobros recurrentes' : 'Pago único' }}</span><span>{{ gateway.refunds ? 'Reembolsos API' : 'Gestión manual de reembolso' }}</span></div>
+          <div class="gateway-card__icon"><UiIcon name="credit-card" /></div>
+          <span :class="['status-pill', gateway.enabled ? 'ok' : 'muted']">{{ gateway.enabled ? 'Disponible' : 'Desactivada' }}</span>
+          <h2>{{ gateway.name }}</h2><p>{{ gateway.description }}</p>
+          <div class="gateway-card__features"><span>{{ gateway.recurring ? 'Cobros recurrentes' : 'Pago único' }}</span><span>{{ gateway.refunds ? 'Reembolsos API' : 'Gestión manual de reembolso' }}</span></div>
         </article>
       </section>
 
       <section v-else class="panel max-w-6xl">
-        <div class="panel-heading"><div><span class="eyebrow">CHECKOUT</span><h2>Configuración comercial</h2><p>Controle impuestos, moneda, datos legales y comportamiento del carrito.</p></div></div>
+        <div class="panel-heading"><div><span class="eyebrow">CHECKOUT</span><h2>Configuración comercial</h2><p>Controle cuentas, pasarelas, impuestos y comportamiento del carrito.</p></div></div>
         <form class="settings-grid" @submit.prevent="saveSettings">
           <fieldset><legend>Fiscalidad</legend><div class="grid gap-4 md:grid-cols-2"><label>Moneda<input v-model="settings.defaultCurrency" maxlength="3" required></label><label>Tasa (%)<input v-model.number="settings.taxRate" type="number" min="0" max="100" step="0.01"></label><label>Nombre del impuesto<input v-model="settings.taxLabel" placeholder="ISV"></label><label>País fiscal<input v-model="settings.taxCountry" maxlength="2" placeholder="HN"></label><label class="check-row md:col-span-2"><input v-model="settings.pricesIncludeTax" type="checkbox">Los precios del catálogo ya incluyen impuestos</label></div></fieldset>
-          <fieldset><legend>Experiencia del checkout</legend><div class="grid gap-4 md:grid-cols-2"><label>Vigencia del carrito<input v-model.number="settings.cartExpirationDays" type="number" min="1" max="90"></label><label class="check-row"><input v-model="settings.guestCheckout" type="checkbox">Compra como invitado</label><label class="check-row"><input v-model="settings.collectShipping" type="checkbox">Solicitar dirección de envío</label><label>URL de términos<input v-model="settings.termsUrl" type="url"></label></div></fieldset>
-          <fieldset><legend>Negocio y soporte</legend><div class="grid gap-4 md:grid-cols-2"><label>Nombre comercial<input v-model="settings.companyName"></label><label>Correo de soporte<input v-model="settings.supportEmail" type="email"></label><label class="md:col-span-2">Instrucciones de transferencia<textarea v-model="settings.bankInstructions" rows="5" placeholder="Banco, cuenta, titular y pasos para confirmar"></textarea></label></div></fieldset>
-          <fieldset><legend>PayPal</legend><div class="grid gap-4 md:grid-cols-2"><label class="check-row md:col-span-2"><input v-model="settings.paypalEnabled" type="checkbox">Activar PayPal en el checkout</label><label>Entorno<select v-model="settings.paypalMode"><option value="SANDBOX">Sandbox</option><option value="LIVE">Producción</option></select></label><label>Client ID<input v-model="settings.paypalClientId" autocomplete="off" placeholder="Client ID de la aplicación REST"></label><label>Client Secret<input v-model="settings.paypalClientSecret" type="password" autocomplete="new-password" :placeholder="settings.paypalConfigured ? 'Dejar vacío para conservar el secreto' : 'Client Secret requerido'"></label><label>Webhook ID<input v-model="settings.paypalWebhookId" autocomplete="off" placeholder="ID del webhook configurado en PayPal"></label><div class="paypal-config-state md:col-span-2"><span :class="['status-pill', settings.paypalConfigured ? 'ok' : 'muted']">{{ settings.paypalConfigured ? 'Credenciales guardadas' : 'Pendiente de configurar' }}</span><p>URL del webhook: <code>{{ paypalWebhookUrl }}</code></p></div></div></fieldset>
+          <fieldset><legend>Cuenta y checkout</legend><div class="grid gap-4 md:grid-cols-2"><label>Vigencia del carrito<input v-model.number="settings.cartExpirationDays" type="number" min="1" max="90"></label><label class="check-row"><input v-model="settings.guestCheckout" type="checkbox">Permitir compra como invitado</label><label class="check-row"><input v-model="settings.collectShipping" type="checkbox">Solicitar dirección de envío</label><label>URL de términos<input v-model="settings.termsUrl" type="url"></label><p class="md:col-span-2 text-sm text-slate-500">Las licencias y suscripciones SaaS siempre requieren una cuenta, aunque la compra como invitado esté habilitada.</p></div></fieldset>
+          <fieldset><legend>Métodos manuales</legend><div class="grid gap-4 md:grid-cols-2"><label class="check-row"><input v-model="settings.bankTransferEnabled" type="checkbox">Transferencia bancaria</label><label class="check-row"><input v-model="settings.cashEnabled" type="checkbox">Pago contra entrega</label><label class="check-row"><input v-model="settings.sandboxEnabled" type="checkbox">Pago de prueba</label><label class="md:col-span-2">Instrucciones de transferencia<textarea v-model="settings.bankInstructions" rows="5" placeholder="Banco, cuenta, titular y pasos para confirmar"></textarea></label></div></fieldset>
+          <fieldset><legend>Negocio y soporte</legend><div class="grid gap-4 md:grid-cols-2"><label>Nombre comercial<input v-model="settings.companyName"></label><label>Correo de soporte<input v-model="settings.supportEmail" type="email"></label></div></fieldset>
+          <fieldset><legend>PayPal</legend><div class="grid gap-4 md:grid-cols-2"><label class="check-row md:col-span-2"><input v-model="settings.paypalEnabled" type="checkbox">Activar PayPal en el checkout</label><label>Entorno<select v-model="settings.paypalMode"><option value="SANDBOX">Sandbox</option><option value="LIVE">Producción</option></select></label><label>Correo receptor<input v-model="settings.paypalReceiverEmail" type="email" placeholder="pagos@empresa.com"></label><label>Client ID<input v-model="settings.paypalClientId" autocomplete="off" placeholder="Client ID de la aplicación REST"></label><label>Client Secret<input v-model="settings.paypalClientSecret" type="password" autocomplete="new-password" :placeholder="settings.paypalConfigured ? 'Dejar vacío para conservar el secreto' : 'Client Secret requerido'"></label><label>Webhook ID<input v-model="settings.paypalWebhookId" autocomplete="off" placeholder="ID del webhook configurado en PayPal"></label><div class="paypal-config-state md:col-span-2"><span :class="['status-pill', settings.paypalConfigured ? 'ok' : 'muted']">{{ settings.paypalConfigured ? 'Credenciales guardadas' : 'Pendiente de configurar' }}</span><p>URL del webhook: <code>{{ paypalWebhookUrl }}</code></p></div></div></fieldset>
+          <fieldset><legend>Clinpays / Promerica 3DS</legend><div class="grid gap-4 md:grid-cols-2"><label class="check-row md:col-span-2"><input v-model="settings.clinpaysEnabled" type="checkbox">Activar cobro con tarjeta y autenticación 3DS</label><label>Entorno<select v-model="settings.clinpaysEnvironment"><option value="STAGE">Pruebas</option><option value="PRODUCTION">Producción</option></select></label><label>ID de cuenta antifraude<input v-model="settings.clinpaysAccountId" autocomplete="off" placeholder="Account ID proporcionado por Clinpays"></label><label class="md:col-span-2">Bearer access token<input v-model="settings.clinpaysAccessToken" type="password" autocomplete="new-password" :placeholder="settings.clinpaysConfigured ? 'Dejar vacío para conservar el token' : 'Token requerido'"></label><label>Secreto actual del webhook<input v-model="settings.clinpaysWebhookSecret" type="password" autocomplete="new-password" :placeholder="settings.clinpaysConfigured ? 'Dejar vacío para conservarlo' : 'Secreto requerido'"></label><label>Secreto anterior (rotación)<input v-model="settings.clinpaysPreviousWebhookSecret" type="password" autocomplete="new-password" placeholder="Opcional durante 72 horas"></label><div class="paypal-config-state md:col-span-2"><span :class="['status-pill', settings.clinpaysConfigured ? 'ok' : 'muted']">{{ settings.clinpaysConfigured ? 'Token y firma configurados' : 'Pendiente de configurar' }}</span><p>Webhook: <code>{{ clinpaysWebhookUrl }}</code></p><p>El resultado final se confirma únicamente mediante el webhook firmado.</p></div></div></fieldset>
           <button class="button" :disabled="saving">{{ saving ? 'Guardando…' : 'Guardar configuración' }}</button>
         </form>
       </section>

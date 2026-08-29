@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nattechnologies.trastcms.config.TrastCmsProperties;
 import com.nattechnologies.trastcms.domain.post.ContentType;
+import com.nattechnologies.trastcms.multisite.SiteContext;
 import com.nattechnologies.trastcms.service.PostService;
 import com.nattechnologies.trastcms.service.SiteSettingService;
+import com.nattechnologies.trastcms.service.SiteUrlService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class McpService {
     private final TrastCmsProperties properties;
     private final SiteSettingService settings;
     private final PostService posts;
+    private final SiteUrlService siteUrls;
     private final List<McpExtension> extensions;
 
     public McpService(
@@ -30,11 +33,13 @@ public class McpService {
         TrastCmsProperties properties,
         SiteSettingService settings,
         PostService posts,
+        SiteUrlService siteUrls,
         List<McpExtension> extensions) {
         this.mapper = mapper;
         this.properties = properties;
         this.settings = settings;
         this.posts = posts;
+        this.siteUrls = siteUrls;
         this.extensions = extensions.stream()
             .sorted(Comparator.comparingInt(McpExtension::order))
             .toList();
@@ -95,9 +100,7 @@ public class McpService {
 
     public Map<String, Object> catalog() {
         String endpoint = properties.getMcp().normalizedEndpoint();
-        String baseUrl = properties.getBaseUrl() == null
-            ? "http://localhost:8080"
-            : properties.getBaseUrl().replaceAll("/+$", "");
+        String baseUrl = siteUrls.currentBaseUrl();
         String token = properties.getMcp().getToken();
 
         Map<String, Object> catalog = new LinkedHashMap<>();
@@ -108,6 +111,10 @@ public class McpService {
         catalog.put("endpoint", endpoint);
         catalog.put("absoluteEndpoint", baseUrl + endpoint);
         catalog.put("protocolVersion", PROTOCOL_VERSION);
+        catalog.put("site", Map.of(
+            "id", SiteContext.siteId(),
+            "key", SiteContext.siteKey(),
+            "name", SiteContext.siteName()));
         catalog.put(
             "serverVersion",
             properties.getMcp().getServerVersion());
@@ -142,6 +149,7 @@ public class McpService {
             "enabled", properties.getMcp().isEnabled(),
             "configured", !properties.getMcp().getToken().isBlank(),
             "endpoint", properties.getMcp().normalizedEndpoint(),
+            "site", SiteContext.siteKey(),
             "tools", tools().size(),
             "resources", resources().size(),
             "message", response == null
@@ -178,8 +186,9 @@ public class McpService {
                 "prompts", Map.of("listChanged", false)),
             "serverInfo", Map.of(
                 "name", "TrastCMS",
-                "title", "TrastCMS MCP Server",
-                "version", properties.getMcp().getServerVersion()),
+                "title", "TrastCMS MCP · " + SiteContext.siteName(),
+                "version", properties.getMcp().getServerVersion(),
+                "siteKey", SiteContext.siteKey()),
             "instructions", "Use las herramientas para consultar el sitio, administrar borradores y trabajar con las extensiones activas. Confirme con el usuario antes de ejecutar operaciones de escritura.");
     }
 

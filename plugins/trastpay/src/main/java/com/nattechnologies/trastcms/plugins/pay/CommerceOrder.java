@@ -1,7 +1,11 @@
 package com.nattechnologies.trastcms.plugins.pay;
 import jakarta.persistence.*; import java.math.BigDecimal; import java.time.Instant; import java.util.*;
 @Entity @Table(name="commerce_order") class CommerceOrder {
- @Id @Column(length=36) String id; @Column(name="order_number",nullable=false,unique=true,length=40) String orderNumber; @Column(name="public_token",nullable=false,unique=true,length=80) String publicToken;
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
+ @Id @Column(length=36) String id; @Column(name="order_number",nullable=false,length=40) String orderNumber; @Column(name="public_token",nullable=false,unique=true,length=80) String publicToken;
  @Enumerated(EnumType.STRING) @Column(nullable=false,length=40) OrderStatus status=OrderStatus.PENDING_PAYMENT; @Column(nullable=false,length=3) String currency;
  @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="customer_id") CommerceCustomer customer; @Column(name="customer_email",nullable=false,length=190) String customerEmail;
  @Column(name="customer_name",length=190) String customerName; @Column(name="subtotal",nullable=false,precision=19,scale=4) BigDecimal subtotal;

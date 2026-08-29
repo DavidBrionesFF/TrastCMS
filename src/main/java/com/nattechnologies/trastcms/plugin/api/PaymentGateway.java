@@ -3,7 +3,7 @@ package com.nattechnologies.trastcms.plugin.api;
 import java.math.BigDecimal;
 import java.util.Map;
 
-/** Payment adapter contract used by TrastPay. Providers never receive raw card details. */
+/** Payment adapter contract used by TrastPay. Card gateways may receive ephemeral payment data in metadata; adapters must never log or persist raw card numbers or CVV values. */
 public interface PaymentGateway {
     String key();
     String name();

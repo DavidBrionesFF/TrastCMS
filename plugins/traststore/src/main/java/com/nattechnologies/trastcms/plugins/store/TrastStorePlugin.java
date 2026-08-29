@@ -26,7 +26,7 @@ public class TrastStorePlugin implements BundledPlugin {
 
     @Override
     public String version() {
-        return "1.2.0";
+        return "1.2.2";
     }
 
     @Override
@@ -38,6 +38,8 @@ public class TrastStorePlugin implements BundledPlugin {
     public List<String> requiredPlugins() {
         return List.of("trastpay");
     }
+
+    @Override public List<String> optionalPlugins() { return List.of("trastaccount"); }
 
     @Override
     public String description() {
@@ -60,6 +62,26 @@ public class TrastStorePlugin implements BundledPlugin {
     @Override
     public void onEnabled() {
         service.initializeDefaults();
+    }
+
+    @Override
+    public List<String> adminActions() {
+        return List.of("demo.restore", "source.restore");
+    }
+
+    @Override
+    public Map<String, Object> handleAdminAction(String action, Map<String, Object> input) {
+        if (!List.of("demo.restore", "source.restore").contains(action)) {
+            return BundledPlugin.super.handleAdminAction(action, input);
+        }
+        StoreDtos.DemoDataResponse result = "source.restore".equals(action)
+                ? service.restoreSourceSnapshot()
+                : service.generateDemoData();
+        return Map.of(
+                "created", result.created(),
+                "existing", result.existing(),
+                "deleted", result.deleted(),
+                "message", result.message());
     }
 
     @Override

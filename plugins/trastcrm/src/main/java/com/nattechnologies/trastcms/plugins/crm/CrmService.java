@@ -636,6 +636,102 @@ public class CrmService {
         return truncate(value, 10000);
     }
 
+    @Transactional
+    public void captureTravelEvent(PluginEvent event) {
+        if (event == null || event.type() == null || !event.type().startsWith("travel.booking.")) return;
+        Map<String, Object> payload = event.payload() == null ? Map.of() : event.payload();
+        String email = lower(payloadText(payload, "customerEmail"));
+        if (email == null) return;
+
+        String fullName = payloadText(payload, "customerName");
+        String[] parts = (fullName == null || fullName.isBlank() ? "Viajero" : fullName.trim()).split("\\s+", 2);
+        CrmContact contact = contacts.findByEmailIgnoreCase(email).orElseGet(CrmContact::new);
+        contact.firstName = truncate(parts[0], 100);
+        if (parts.length > 1) contact.lastName = truncate(parts[1], 100);
+        contact.email = truncate(email, 190);
+        contact.source = "TrastTravel";
+        contact.tags = mergeTags(contact.tags, "travel", "cliente-web");
+        String bookingCode = payloadText(payload, "bookingCode");
+        String tourName = payloadText(payload, "tourName");
+        contact.notes = mergeNotes(contact.notes,
+                "Evento de TrastTravel: " + event.type()
+                        + (bookingCode == null ? "" : "\nReservación: " + bookingCode)
+                        + (tourName == null ? "" : "\nTour: " + tourName));
+        if ("travel.booking.confirmed".equals(event.type())) {
+            contact.status = CrmContactStatus.CUSTOMER;
+        } else if (contact.status == null) {
+            contact.status = CrmContactStatus.LEAD;
+        }
+        contact = contacts.save(contact);
+
+        String dealTitle = bookingCode == null
+                ? "Reservación turística · " + contact.firstName
+                : "Viaje " + bookingCode + (tourName == null ? "" : " · " + tourName);
+        CrmDeal deal = deals.findByTitleIgnoreCase(dealTitle).orElse(null);
+        if ("travel.booking.created".equals(event.type())) {
+            CrmPipelineStage firstOpen = stages.findAllByOrderByPositionAsc().stream()
+                    .filter(stage -> !stage.closed)
+                    .findFirst().orElse(null);
+            if (firstOpen != null) {
+                if (deal == null) deal = new CrmDeal();
+                deal.title = truncate(dealTitle, 220);
+                deal.value = payloadDecimal(payload, "total");
+                deal.currency = Optional.ofNullable(payloadText(payload, "currency")).orElse("USD");
+                deal.description = "Reservación creada automáticamente por TrastTravel."
+                        + (payloadText(payload, "startsAt") == null ? "" : "\nSalida: " + payloadText(payload, "startsAt"));
+                deal.contact = contact;
+                deal.company = contact.company;
+                deal.stage = firstOpen;
+                try {
+                    String startsAt = payloadText(payload, "startsAt");
+                    if (startsAt != null) deal.expectedCloseDate = Instant.parse(startsAt).atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                } catch (RuntimeException ignored) { }
+                deal = deals.save(deal);
+            }
+        } else if (deal != null && "travel.booking.confirmed".equals(event.type())) {
+            CrmPipelineStage won = stages.findAllByOrderByPositionAsc().stream()
+                    .filter(stage -> stage.closed && stage.won)
+                    .findFirst().orElse(null);
+            if (won != null) {
+                deal.stage = won;
+                deals.save(deal);
+            }
+        }
+
+        CrmActivity activity = new CrmActivity();
+        activity.contact = contact;
+        activity.company = contact.company;
+        activity.deal = deal;
+        activity.type = switch (event.type()) {
+            case "travel.booking.confirmed", "travel.booking.paid" -> CrmActivityType.NOTE;
+            case "travel.booking.cancelled" -> CrmActivityType.CALL;
+            default -> CrmActivityType.TASK;
+        };
+        activity.subject = truncate(switch (event.type()) {
+            case "travel.booking.confirmed" -> "Viaje confirmado · " + Optional.ofNullable(bookingCode).orElse(email);
+            case "travel.booking.paid" -> "Pago completado · " + Optional.ofNullable(bookingCode).orElse(email);
+            case "travel.booking.cancelled" -> "Dar seguimiento a cancelación · " + Optional.ofNullable(bookingCode).orElse(email);
+            default -> "Dar seguimiento a reservación · " + Optional.ofNullable(bookingCode).orElse(email);
+        }, 220);
+        activity.description = "Evento recibido desde TrastTravel: " + event.type();
+        if (activity.type != CrmActivityType.NOTE) {
+            activity.dueAt = Instant.now().plus(1, java.time.temporal.ChronoUnit.DAYS);
+        } else {
+            activity.completedAt = Instant.now();
+        }
+        activities.save(activity);
+    }
+
+    private String payloadText(Map<String, Object> payload, String key) {
+        Object value = payload.get(key);
+        return value == null ? null : blank(String.valueOf(value));
+    }
+
+    private BigDecimal payloadDecimal(Map<String, Object> payload, String key) {
+        try { return new BigDecimal(String.valueOf(payload.getOrDefault(key, "0"))); }
+        catch (RuntimeException exception) { return BigDecimal.ZERO; }
+    }
+
     private Map<String,Object> validateSubmission(List<CrmDtos.FormField> fields,Map<String,Object> input){if(input==null)throw new BadRequestException("No se recibieron datos");Map<String,Object> result=new LinkedHashMap<>();for(CrmDtos.FormField field:fields){Object raw=input.get(field.name());String value=raw==null?"":String.valueOf(raw).trim();if(field.required()&&value.isBlank())throw new BadRequestException("El campo "+field.label()+" es obligatorio");if(value.length()>4000)throw new BadRequestException("El campo "+field.label()+" es demasiado extenso");if(field.type().equals("email")&&!value.isBlank()&&!value.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"))throw new BadRequestException("Correo electrónico inválido");if(field.type().equals("select")&&!value.isBlank()&&!field.options().contains(value))throw new BadRequestException("Opción inválida para "+field.label());result.put(field.name(),field.type().equals("checkbox")?Boolean.parseBoolean(value):value);}return result;}
     private void validateFields(List<CrmDtos.FormField> fields){Set<String> names=new HashSet<>();for(CrmDtos.FormField field:fields){if(!names.add(field.name()))throw new BadRequestException("Campo duplicado: "+field.name());if(field.type().equals("select")&&(field.options()==null||field.options().isEmpty()))throw new BadRequestException("El campo "+field.label()+" necesita opciones");}}
 

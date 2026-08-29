@@ -1,8 +1,35 @@
-# TrastCMS 2.7
+# TrastCMS 3.6.1
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Java 21](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/)
+[![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5-green.svg)](https://spring.io/projects/spring-boot)
+[![Vue 3](https://img.shields.io/badge/Vue-3-brightgreen.svg)](https://vuejs.org/)
 
 TrastCMS es un CMS open source y autohospedable construido con **Spring Boot**, **Java 21** y **Vue 3**. El backend, el sitio público y todo el panel administrativo se compilan dentro de un **único JAR ejecutable**.
 
-> Estado: `2.7.0-alpha.9.5`. Esta versión incorpora páginas demostrativas profesionales, un portal integrado para desarrolladores, documentación OpenAPI y un servidor MCP extensible por plugins dentro del mismo JAR. Es una base funcional y extensible; todavía no pretende reproducir todo el ecosistema histórico de WordPress.
+> Versión estable actual: `3.6.1`. Una sola instancia Spring Boot y una sola base de datos pueden servir múltiples sitios con dominios, usuarios, roles, contenido, temas, configuración y plugins aislados por tenant.
+
+## Contribuir
+
+¡Bienvenido! TrastCMS es un proyecto abierto y buscamos contribuidores de todos los niveles.
+
+- **Primeros pasos**: revisa [`docs/GETTING_STARTED.md`](docs/GETTING_STARTED.md).
+- **Código de conducta**: consulta [`docs/COMMUNITY.md`](docs/COMMUNITY.md).
+- **Guía de estilo**: lee [`docs/CODE_STYLE.md`](docs/CODE_STYLE.md).
+- **Issues para newcomers**: busca la etiqueta `good first issue` en [GitHub Issues](https://github.com/DavidBrionesFF/TrastCMS/issues).
+
+¿Tienes dudas? Abre un issue con la etiqueta `question`.
+
+## Multisite Foundation
+
+- Panel **Red → Sitios** para crear, editar, suspender y reconfigurar tenants desde la misma administración.
+- Resolución segura por host y puerto, compatible con Nginx y `X-Forwarded-*`; un host desconocido responde 404 en vez de caer en otro sitio.
+- Administración de múltiples tenants desde una misma instalación.
+- Membresías por sitio: una misma identidad puede tener roles diferentes en cada tenant.
+- Tema, configuración, páginas, categorías, medios, plugins bundled y datos de negocio aislados mediante `site_id`.
+- Blueprints comunitarios para academia, comercio, viajes y sitios vacíos.
+- MCP resuelto por dominio del tenant y URL canónica por sitio.
+- Documentación operativa en [`docs/MULTISITE_ARCHITECTURE.md`](docs/MULTISITE_ARCHITECTURE.md) y [`docs/MULTISITE_NGINX.md`](docs/MULTISITE_NGINX.md).
 
 ## Qué incluye esta versión
 
@@ -12,7 +39,7 @@ TrastCMS es un CMS open source y autohospedable construido con **Spring Boot**, 
 - Tipografía **Outfit Variable** incorporada localmente en el bundle; no depende de Google Fonts durante la ejecución.
 - Navegación agrupada, barra lateral colapsable, tablero con métricas y accesos rápidos.
 - Secciones independientes para **Publicaciones** y **Páginas**.
-- Roles `ADMIN`, `EDITOR` y `AUTHOR` con autorización efectiva.
+- Roles `ADMIN`, `EDITOR`, `AUTHOR` y `CUSTOMER` con superficies separadas y autorización efectiva.
 
 ### Editor de contenido
 
@@ -50,14 +77,22 @@ TrastCMS es un CMS open source y autohospedable construido con **Spring Boot**, 
 ### Temas
 
 - Centro de temas con previsualización, búsqueda, activación e instalación ZIP.
-- Temas incorporados: Aurora, Midnight, Coffee y **Nexus**.
+- Temas incorporados: **Aurora**, **Midnight**, **Coffee** y **Nexus**.
 - Cada tema puede declarar contenido inicial en `starter-content.json`.
-- Aurora, Midnight, Coffee y Nexus crean páginas locales editables para Inicio, Quiénes somos, Servicios, Blog y Contáctanos.
+- Los temas incorporados crean contenido inicial editable y pueden ampliarse mediante paquetes ZIP.
 - La activación es idempotente: no sobrescribe contenido ni recrea páginas eliminadas en cada reinicio.
 - Personalizador generado desde `settingsSchema`.
 - Colores, tipografía, ancho del sitio y otras opciones tipadas.
 - Paquetes con manifiesto, assets, plantillas, patrones y fuentes locales.
 - Validación contra ZIP Slip, límites de tamaño y CSS inseguro.
+
+### Demostración de TrastAcademy
+
+- Cuatro cursos demo idempotentes, gratuitos y pagados, con portadas, clases de video, texto y contenido mixto.
+- Evaluaciones con los cinco tipos de pregunta, resultados automáticos y revisión manual.
+- Progreso de ejemplo para el administrador que genera la demostración.
+- Catálogo, ficha de curso, aula y Mi Cuenta compatibles con los temas comunitarios.
+- Los datos demo pueden eliminarse sin tocar cursos reales.
 
 ### Plugins
 
@@ -87,15 +122,17 @@ Cada plugin incorporado puede preparar o retirar su propio entorno de demostraci
 - TrastPay: cupones y configuración fiscal de ejemplo.
 - TrastStore: catálogo amplio, inventario, categorías, variantes e impuestos.
 - TrastSaaS: productos de software, planes, pruebas, suscripciones, licencias y releases.
+- TrastTravel: destinos, actividades, tours, salidas, extras y calendarios turísticos de Honduras.
 
 Las acciones están disponibles en el encabezado de cada panel mediante **Generar demo** y **Eliminar demo**. Los registros se identifican con `demo_data`, por lo que la limpieza no depende de eliminar la base completa. Cuando el administrador elimina el demo, la decisión queda persistida y los ejemplos no reaparecen al reiniciar; pueden recuperarse en cualquier momento con **Generar demo**.
 
 ### Commerce Suite incorporada
 
 - **TrastPay** aporta carrito, checkout, órdenes, impuestos, cupones y gateways, incluida una integración PayPal configurable.
+- **TrastAcademy** aporta cursos, lecciones en video, cuestionarios, progreso, importación por URL y API móvil.
 - **TrastStore** aporta productos, variantes, inventario y catálogo público.
 - **TrastSaaS** aporta planes, suscripciones, licencias, activaciones y uso medido.
-- Los tres plugins se integran mediante `SellableProvider`, `PaymentGateway` y eventos de fulfillment.
+- Los plugins comerciales se integran mediante `SellableProvider`, `PaymentGateway` y eventos de fulfillment.
 - La experiencia pública utiliza toasts, skeletons, vistas responsivas y estados vacíos.
 
 ### TrastCRM incorporado
@@ -148,13 +185,13 @@ La guía completa está en [`docs/NATIVE_IMAGE.md`](docs/NATIVE_IMAGE.md). El ej
 Windows:
 
 ```powershell
-.\mvnw.cmd clean verify
+.\scripts\build.ps1
 ```
 
 Linux/macOS:
 
 ```bash
-./mvnw clean verify
+./scripts/build.sh
 ```
 
 El proceso:
@@ -164,19 +201,21 @@ El proceso:
 3. Ejecuta `vue-tsc --noEmit`.
 4. Compila Vue y Tailwind con Vite.
 5. Copia `frontend/dist` dentro de los recursos Spring.
-6. Ejecuta las pruebas Java.
-7. Produce el JAR ejecutable.
+6. Compila las fuentes de prueba sin ejecutarlas.
+7. Produce el JAR ejecutable y lo copia a `release/` y `dist/`.
+
+La validación completa se ejecuta por separado con `mvnw clean verify`. Consulte [Pruebas](docs/TESTING.md) antes de publicar una release.
 
 Resultado:
 
 ```text
-target/trastcms-2.7.0-alpha.9.5.jar
+target/trastcms-3.6.1.jar
 ```
 
 ## Ejecutar
 
 ```bash
-java -jar target/trastcms-2.7.0-alpha.9.5.jar
+java -jar target/trastcms-3.6.1.jar
 ```
 
 - Sitio: `http://localhost:8080`
@@ -292,20 +331,42 @@ docs/                 Arquitectura y SDKs
 
 ## Documentación
 
+- [Comienza aquí](docs/GETTING_STARTED.md)
+- [Índice de documentación](docs/README.md)
 - [Arquitectura](docs/ARCHITECTURE.md)
 - [API](docs/API.md)
 - [Plugins](docs/PLUGINS.md)
 - [Plugins incorporados](docs/BUNDLED_PLUGINS.md)
 - [TrastCRM](plugins/trastcrm/README.md)
+- [TrastAcademy](plugins/trastacademy/README.md)
+- [API de TrastAcademy](docs/TRASTACADEMY_API.md)
 - [Temas](docs/THEMES.md)
 - [Roadmap](docs/ROADMAP.md)
-- [Trazabilidad](TRACEABILITY.md)
-- [Validación](VALIDATION.md)
+- [Comunidad](docs/COMMUNITY.md)
+- [Guía de estilo](docs/CODE_STYLE.md)
+- [Pruebas](docs/TESTING.md)
+- [Variables de entorno](docs/ENVIRONMENT_VARIABLES.md)
+- [Frontend](docs/FRONTEND_ARCHITECTURE.md)
+- [Changelog](CHANGELOG.md)
 
 ## Licencia
 
 GNU General Public License v3.0. Consulte [`LICENSE`](LICENSE).
 
+
+## TrastTravel y Mi Cuenta
+
+- Catálogo de tours, destinos y actividades con búsqueda por fecha y viajeros.
+- Itinerarios, incluidos, excluidos, preguntas frecuentes, galería y tarifas por tipo de viajero.
+- Salidas con capacidad, cupos retenidos, reservados y bloqueados.
+- Calendario administrativo mensual con clientes esperados y enlaces a Google Calendar.
+- Reservaciones, viajeros, extras, depósitos, pagos de saldo y cupones procesados por TrastPay.
+- Captación automática de contactos, negocios y actividades en TrastCRM.
+- Portal `/my-account` para perfil, compras, pagos, viajes, licencias y suscripciones.
+- SMTP central cifrado para notificaciones de todos los plugins.
+- Datos demostrativos genéricos para probar el flujo turístico.
+
+Documentación: [`docs/TRAVEL_ENGINE.md`](docs/TRAVEL_ENGINE.md), [`docs/ACCOUNT_PORTAL.md`](docs/ACCOUNT_PORTAL.md) y [`docs/PLUGIN_INTEGRATIONS.md`](docs/PLUGIN_INTEGRATIONS.md).
 
 ## Plataforma para desarrolladores
 
@@ -351,4 +412,4 @@ Documentación técnica:
 
 ### Comercio, SaaS y CRM
 
-La versión 2.7.0-alpha.9.5 incorpora una experiencia comercial completa con catálogo responsive, ficha de producto, checkout por pasos, portal de licencias, detalle de planes, inventario administrable y paneles tolerantes a fallos parciales. Los temas incluidos, especialmente Midnight, aplican tokens y reglas de contraste compatibles con las páginas demo y los bloques del constructor.
+TrastCMS incorpora una experiencia comercial y turística integrada con catálogo responsive, ficha de producto, checkout por pasos, portal de licencias, detalle de planes, inventario administrable y paneles tolerantes a fallos parciales. Los temas incluidos aplican tokens y reglas de contraste compatibles con las páginas demo y los bloques del constructor.

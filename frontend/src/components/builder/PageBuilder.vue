@@ -487,8 +487,11 @@ onMounted(async () => {
             </template>
             <template v-else-if="selected.type === 'video'">
               <button type="button" class="w-full rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white" @click="openMedia('video',['VIDEO'])">Seleccionar video</button>
-              <label class="block text-xs font-semibold text-slate-600">URL<input v-model="selected.data.src" class="mt-1 w-full rounded-lg border border-slate-200 p-2"></label>
+              <label class="block text-xs font-semibold text-slate-600">URL del video<input v-model="selected.data.src" class="mt-1 w-full rounded-lg border border-slate-200 p-2" placeholder="Archivo MP4 o enlace de YouTube"></label>
+              <label class="block text-xs font-semibold text-slate-600">Tipo<select v-model="selected.data.contentType" class="mt-1 w-full rounded-lg border border-slate-200 p-2"><option value="video/mp4">Video MP4</option><option value="video/webm">Video WebM</option><option value="video/youtube">YouTube · TrastCMS Player</option></select></label>
+              <label class="block text-xs font-semibold text-slate-600">Título<input v-model="selected.data.title" class="mt-1 w-full rounded-lg border border-slate-200 p-2"></label>
               <label class="block text-xs font-semibold text-slate-600">Poster<input v-model="selected.data.poster" class="mt-1 w-full rounded-lg border border-slate-200 p-2"></label>
+              <p class="rounded-lg bg-slate-50 p-2 text-[11px] leading-5 text-slate-500">Los enlaces de YouTube se reproducen dentro del sitio mediante el reproductor de TrastCMS y el dominio de privacidad mejorada.</p>
             </template>
             <template v-else-if="selected.type === 'audio'">
               <button type="button" class="w-full rounded-lg bg-violet-600 px-3 py-2 text-sm font-semibold text-white" @click="openMedia('audio',['AUDIO'])">Seleccionar audio</button>

@@ -13,7 +13,7 @@
 
     <groupId>com.nattechnologies</groupId>
     <artifactId>trastcms</artifactId>
-    <version>2.7.0-alpha.9.5</version>
+    <version>3.6.1</version>
     <name>TrastCMS</name>
     <description>CMS modular, rápido y extensible construido con Spring Boot y Vue.</description>
     <url>https://github.com/DavidBrionesFF/TrastCMS</url>
@@ -52,6 +52,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -182,6 +186,13 @@
                                 <source>${project.basedir}/plugins/trastpay/src/main/java</source>
                                 <source>${project.basedir}/plugins/traststore/src/main/java</source>
                                 <source>${project.basedir}/plugins/trastsaas/src/main/java</source>
+                                <source>${project.basedir}/plugins/trasttravel/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastaccount/src/main/java</source>
+                                <source>${project.basedir}/plugins/trasttranslate/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastmaintenance/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastcomments/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastnewsletter/src/main/java</source>
+                                <source>${project.basedir}/plugins/trastacademy/src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -202,6 +213,32 @@
                                 </resource>
                                 <resource>
                                     <directory>${project.basedir}/plugins/trastsaas/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trasttravel/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastaccount/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trasttranslate/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastmaintenance/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastcomments/src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastnewsletter/src/main/resources</directory>
+                                    <!-- V17 in Newsletter conflicts with the historical core V17 already applied
+                                         by existing installations. V21 creates/repairs the newsletter schema. -->
+                                    <excludes>
+                                        <exclude>db/migration/V17__trastnewsletter_schema.sql</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>${project.basedir}/plugins/trastacademy/src/main/resources</directory>
                                 </resource>
                             </resources>
                         </configuration>

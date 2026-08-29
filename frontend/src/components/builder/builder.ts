@@ -17,7 +17,7 @@ export const BLOCK_LIBRARY: BlockDefinition[] = [
   { type: 'quote', label: 'Cita', description: 'Testimonio o frase destacada', category: 'Contenido', icon: 'post' },
   { type: 'image', label: 'Imagen', description: 'Imagen adaptable con enlace', category: 'Medios', icon: 'image' },
   { type: 'gallery', label: 'Galería', description: 'Cuadrícula de imágenes', category: 'Medios', icon: 'grid' },
-  { type: 'video', label: 'Video', description: 'Video HTML5 con Plyr', category: 'Medios', icon: 'video' },
+  { type: 'video', label: 'Video', description: 'Video HTML5 o YouTube con TrastCMS Player', category: 'Medios', icon: 'video' },
   { type: 'audio', label: 'Audio', description: 'Audio con reproductor Plyr', category: 'Medios', icon: 'audio' },
   { type: 'button', label: 'Botón', description: 'Llamada a la acción', category: 'Marketing', icon: 'external' },
   { type: 'iconBox', label: 'Caja de beneficio', description: 'Icono, título y texto', category: 'Marketing', icon: 'check' },

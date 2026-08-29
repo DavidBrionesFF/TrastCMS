@@ -21,6 +21,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "store_product")
 class StoreProduct {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id
     @Column(length = 36)
     String id;
@@ -28,10 +32,10 @@ class StoreProduct {
     @Column(nullable = false, length = 240)
     String name;
 
-    @Column(nullable = false, unique = true, length = 180)
+    @Column(nullable = false, length = 180)
     String slug;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 100)
     String sku;
 
     @Lob

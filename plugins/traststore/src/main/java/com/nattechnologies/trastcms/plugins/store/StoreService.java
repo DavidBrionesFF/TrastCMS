@@ -66,40 +66,59 @@ public class StoreService {
     public synchronized StoreDtos.DemoDataResponse generateDemoData() {
         guard.requireEnabled();
         siteSettings.put(DEMO_DISMISSED_KEY, "false");
-        return generateDemoDataInternal();
+        return restoreCatalogInternal(false);
+    }
+
+    @Transactional
+    public synchronized StoreDtos.DemoDataResponse restoreSourceSnapshot() {
+        guard.requireEnabled();
+        return restoreSourceSnapshotInternal();
     }
 
     private StoreDtos.DemoDataResponse generateDemoDataInternal() {
+        return restoreCatalogInternal(false);
+    }
+
+    private StoreDtos.DemoDataResponse restoreSourceSnapshotInternal() {
+        return restoreCatalogInternal(true);
+    }
+
+    private StoreDtos.DemoDataResponse restoreCatalogInternal(boolean persistentSource) {
         int created = 0;
         int existing = 0;
+        int updated = 0;
 
         for (DemoProduct demo : demoCatalog()) {
             Optional<StoreProduct> bySku = products.findBySku(demo.sku());
-            Optional<StoreProduct> bySlug =
-                    products.findBySlug(demo.request().slug());
+            Optional<StoreProduct> bySlug = products.findBySlug(demo.request().slug());
+            Optional<StoreProduct> current = bySku.isPresent() ? bySku : bySlug;
 
-            if (bySku.isPresent() || bySlug.isPresent()) {
+            if (current.isPresent() && !persistentSource) {
                 existing++;
                 continue;
             }
 
-            StoreDtos.ProductResponse response = save(null, demo.request());
+            StoreDtos.ProductResponse response = save(
+                    current.map(product -> product.id).orElse(null), demo.request());
             StoreProduct product = require(response.id());
-            product.demoData = true;
+            product.demoData = !persistentSource;
             products.save(product);
-            created++;
+            if (current.isPresent()) updated++;
+            else created++;
         }
 
         events.publish(PluginEvent.of(
-                "store.demo.generated",
-                Map.of("created", created, "existing", existing)));
+                persistentSource ? "store.source_snapshot.restored" : "store.demo.generated",
+                Map.of("created", created, "existing", existing, "updated", updated)));
         return new StoreDtos.DemoDataResponse(
                 created,
-                existing,
+                existing + updated,
                 0,
-                created == 0
-                        ? "Los datos demostrativos ya estaban cargados."
-                        : "Se cargaron productos demostrativos para explorar la tienda.");
+                persistentSource
+                        ? "Catálogo persistente restaurado: " + created + " creados y " + updated + " actualizados."
+                        : (created == 0
+                            ? "Los datos demostrativos ya estaban cargados."
+                            : "Se cargaron productos demostrativos para explorar la tienda."));
     }
 
     @Transactional
@@ -511,6 +530,10 @@ public class StoreService {
     }
 
     private List<DemoProduct> demoCatalog() {
+        return defaultDemoCatalog();
+    }
+
+    private List<DemoProduct> defaultDemoCatalog() {
         return List.of(
                 demo("Plantilla corporativa premium", "plantilla-corporativa", "DEMO-THEME-CORP",
                         "Tema profesional para empresas, agencias y consultores.", "Diseño responsive con páginas y secciones editables.",

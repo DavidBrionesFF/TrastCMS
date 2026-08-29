@@ -11,11 +11,12 @@ jobs:
   jar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-java@v5
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
         with:
-          distribution: temurin
-          java-version: '21'
+          java-version: '25'
+          distribution: graalvm-community
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: maven
       - run: ./mvnw --batch-mode --no-transfer-progress clean verify
       - name: Publish JAR
@@ -39,10 +40,10 @@ jobs:
             label: macos-arm64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: graalvm-community
           github-token: ${{ secrets.GITHUB_TOKEN }}
           cache: maven
@@ -58,7 +59,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          executable=$(find target -maxdepth 1 -type f -name 'trastcms-*' ! -name '*.jar' -perm -111 | head -n 1)
+          executable=$(find target -maxdepth 1 -type f -name 'trastcms-*' ! -name '*.jar' | head -n 1)
           test -n "$executable"
           cp "$executable" "dist/trastcms-${{ matrix.label }}"
       - name: Stage Windows executable

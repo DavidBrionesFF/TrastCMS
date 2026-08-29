@@ -38,20 +38,92 @@ public class ThemeService {
             ".woff", ".woff2", ".ttf", ".otf",
             ".html", ".css", ".json", ".txt", ".md");
 
-    private static final Map<String, Object> DEFAULT_SETTINGS = Map.of(
-            "primaryColor", Map.of(
-                    "type", "color",
-                    "label", "Color principal",
-                    "default", "#6d4aff"),
-            "fontFamily", Map.of(
+    private static final Map<String, Object> DEFAULT_SETTINGS = Map.ofEntries(
+            Map.entry("primaryColor", colorSetting(
+                    "Color principal", "Botones, enlaces y elementos activos.", "#6d4aff")),
+            Map.entry("primaryStrongColor", colorSetting(
+                    "Color principal oscuro", "Estados hover y controles destacados.", "#5837df")),
+            Map.entry("accentColor", colorSetting(
+                    "Color de acento", "Detalles, indicadores y llamadas secundarias.", "#f2ad44")),
+            Map.entry("surfaceColor", colorSetting(
+                    "Superficie", "Tarjetas, paneles y formularios.", "#ffffff")),
+            Map.entry("surfaceMutedColor", colorSetting(
+                    "Fondo suave", "Fondos de página y secciones alternas.", "#f5f7fb")),
+            Map.entry("textColor", colorSetting(
+                    "Texto principal", "Títulos y contenido de alto contraste.", "#111827")),
+            Map.entry("mutedColor", colorSetting(
+                    "Texto secundario", "Ayudas, etiquetas y descripciones.", "#667085")),
+            Map.entry("borderColor", colorSetting(
+                    "Bordes", "Líneas, inputs y divisores.", "#e4e7ec")),
+            Map.entry("successColor", colorSetting(
+                    "Éxito", "Pagos aprobados, estados activos y confirmaciones.", "#067647")),
+            Map.entry("warningColor", colorSetting(
+                    "Advertencia", "Pagos pendientes y avisos operativos.", "#b54708")),
+            Map.entry("dangerColor", colorSetting(
+                    "Error", "Cancelaciones, rechazos y acciones destructivas.", "#b42318")),
+            Map.entry("fontFamily", Map.of(
                     "type", "select",
                     "label", "Tipografía",
+                    "description", "Familia tipográfica pública. Las opciones Google Fonts se cargan automáticamente.",
                     "default", "outfit",
-                    "options", List.of("outfit", "system", "serif")),
-            "containerWidth", Map.of(
+                    "options", List.of(
+                            Map.of("label", "Outfit · Google Fonts", "value", "outfit"),
+                            Map.of("label", "Poppins · Google Fonts", "value", "poppins"),
+                            Map.of("label", "Montserrat · Google Fonts", "value", "montserrat"),
+                            Map.of("label", "Inter · Google Fonts", "value", "inter"),
+                            Map.of("label", "Lato · Google Fonts", "value", "lato"),
+                            Map.of("label", "Roboto · Google Fonts", "value", "roboto"),
+                            Map.of("label", "Nunito Sans · Google Fonts", "value", "nunito-sans"),
+                            Map.of("label", "Sistema operativo", "value", "system"),
+                            Map.of("label", "Serif clásica", "value", "serif")))),
+            Map.entry("containerWidth", Map.of(
                     "type", "number",
                     "label", "Ancho máximo",
-                    "default", "1180"));
+                    "description", "Ancho del contenido público en píxeles.",
+                    "default", "1180",
+                    "min", 880,
+                    "max", 1600,
+                    "step", 10)));
+
+    private static Map<String, Object> colorSetting(
+            String label,
+            String description,
+            String defaultValue) {
+        return Map.of(
+                "type", "color",
+                "label", label,
+                "description", description,
+                "default", defaultValue);
+    }
+
+    private static Map<String, Object> themeSettings(
+            String primary,
+            String primaryStrong,
+            String accent,
+            String surface,
+            String surfaceMuted,
+            String text,
+            String muted,
+            String border) {
+        Map<String, Object> values = new LinkedHashMap<>(DEFAULT_SETTINGS);
+        values.put("primaryColor", colorSetting(
+                "Color principal", "Botones, enlaces y elementos activos.", primary));
+        values.put("primaryStrongColor", colorSetting(
+                "Color principal oscuro", "Estados hover y controles destacados.", primaryStrong));
+        values.put("accentColor", colorSetting(
+                "Color de acento", "Detalles, indicadores y llamadas secundarias.", accent));
+        values.put("surfaceColor", colorSetting(
+                "Superficie", "Tarjetas, paneles y formularios.", surface));
+        values.put("surfaceMutedColor", colorSetting(
+                "Fondo suave", "Fondos de página y secciones alternas.", surfaceMuted));
+        values.put("textColor", colorSetting(
+                "Texto principal", "Títulos y contenido de alto contraste.", text));
+        values.put("mutedColor", colorSetting(
+                "Texto secundario", "Ayudas, etiquetas y descripciones.", muted));
+        values.put("borderColor", colorSetting(
+                "Bordes", "Líneas, inputs y divisores.", border));
+        return Collections.unmodifiableMap(values);
+    }
 
     private static final List<ThemeManifest> BUILT_INS = List.of(
             new ThemeManifest(
@@ -65,7 +137,7 @@ public class ThemeService {
                     "screenshot.svg",
                     List.of("default", "full-width", "landing"),
                     List.of("responsive", "blog", "pages", "menus", "dark-mode"),
-                    DEFAULT_SETTINGS),
+                    themeSettings("#6d4aff", "#5536dc", "#14b8a6", "#ffffff", "#f6f7fb", "#111827", "#667085", "#e4e7ec")),
             new ThemeManifest(
                     "midnight",
                     "Midnight",
@@ -77,7 +149,7 @@ public class ThemeService {
                     "screenshot.svg",
                     List.of("default", "full-width", "landing"),
                     List.of("responsive", "dark", "portfolio", "pages"),
-                    DEFAULT_SETTINGS),
+                    themeSettings("#8f7cff", "#a796ff", "#3dd6c6", "#111526", "#171c31", "#f6f7ff", "#aeb5ca", "#303751")),
             new ThemeManifest(
                     "coffee",
                     "Coffee",
@@ -89,7 +161,7 @@ public class ThemeService {
                     "screenshot.svg",
                     List.of("default", "full-width", "menu", "landing"),
                     List.of("responsive", "commerce-ready", "gallery", "pages"),
-                    DEFAULT_SETTINGS),
+                    themeSettings("#9a5a2d", "#74411f", "#d29b62", "#fffdf9", "#f7efe6", "#342318", "#786659", "#e6d7c8")),
             new ThemeManifest(
                     "nexus",
                     "Nexus",
@@ -101,7 +173,7 @@ public class ThemeService {
                     "screenshot.svg",
                     List.of("default", "full-width", "landing", "commerce", "saas"),
                     List.of("responsive", "commerce-ready", "saas-ready", "crm", "developer-portal", "dark-sections"),
-                    DEFAULT_SETTINGS));
+                    themeSettings("#5b3df5", "#3924c7", "#00c2a8", "#ffffff", "#f4f5fb", "#11152b", "#667085", "#e2e5ef")));
 
     private final SiteSettingService settings;
     private final AuditService audit;
@@ -395,10 +467,10 @@ public class ThemeService {
 
         try (InputStream input = base.getInputStream()) {
             String css = new String(input.readAllBytes(), StandardCharsets.UTF_8);
-            String customized = css + renderSettingOverrides(
-                    themeId,
-                    manifest,
-                    settings(themeId).values());
+            Map<String, String> themeValues = settings(themeId).values();
+            String customized = renderFontImport(themeValues)
+                    + css
+                    + renderSettingOverrides(themeId, manifest, themeValues);
             return new ThemeFile(
                     new ByteArrayResource(customized.getBytes(StandardCharsets.UTF_8)),
                     "text/css");
@@ -811,6 +883,25 @@ public class ThemeService {
         }
     }
 
+    private String renderFontImport(Map<String, String> values) {
+        String font = values == null ? null : values.get("fontFamily");
+        String family = switch (font == null ? "" : font) {
+            case "outfit" -> "Outfit:wght@300;400;500;600;700;800;900";
+            case "poppins" -> "Poppins:wght@300;400;500;600;700;800;900";
+            case "montserrat" -> "Montserrat:wght@300;400;500;600;700;800;900";
+            case "inter" -> "Inter:wght@300;400;500;600;700;800;900";
+            case "lato" -> "Lato:wght@300;400;700;900";
+            case "roboto" -> "Roboto:wght@300;400;500;700;900";
+            case "nunito-sans" -> "Nunito+Sans:wght@300;400;500;600;700;800;900";
+            default -> "";
+        };
+        return family.isBlank()
+                ? ""
+                : "@import url('https://fonts.googleapis.com/css2?family="
+                    + family
+                    + "&display=swap');\n";
+    }
+
     private String renderSettingOverrides(
             String themeId,
             ThemeManifest manifest,
@@ -820,8 +911,41 @@ public class ThemeService {
                 .append(themeId)
                 .append("\"] {");
 
-        appendVariable(css, "--primary", values.get("primaryColor"));
-        appendVariable(css, "--primary-strong", values.get("primaryStrongColor"));
+        String primary = values.get("primaryColor");
+        String primaryStrong = values.get("primaryStrongColor");
+        String accent = values.get("accentColor");
+        String surface = values.get("surfaceColor");
+        String surfaceMuted = values.get("surfaceMutedColor");
+        String text = values.get("textColor");
+        String muted = values.get("mutedColor");
+        String border = values.get("borderColor");
+        String success = values.get("successColor");
+        String warning = values.get("warningColor");
+        String danger = values.get("dangerColor");
+
+        appendVariable(css, "--primary", primary);
+        appendVariable(css, "--primary-strong", primaryStrong);
+        appendVariable(css, "--accent", accent);
+        appendVariable(css, "--surface", surface);
+        appendVariable(css, "--surface-soft", surfaceMuted);
+        appendVariable(css, "--surface-muted", surfaceMuted);
+        appendVariable(css, "--text", text);
+        appendVariable(css, "--muted", muted);
+        appendVariable(css, "--line", border);
+        appendVariable(css, "--success", success);
+        appendVariable(css, "--warning", warning);
+        appendVariable(css, "--danger", danger);
+
+        appendVariable(css, "--theme-primary", primary);
+        appendVariable(css, "--theme-primary-hover", primaryStrong);
+        appendVariable(css, "--theme-accent", accent);
+        appendVariable(css, "--theme-surface", surface);
+        appendVariable(css, "--theme-surface-muted", surfaceMuted);
+        appendVariable(css, "--theme-text", text);
+        appendVariable(css, "--theme-heading", text);
+        appendVariable(css, "--theme-text-muted", muted);
+        appendVariable(css, "--theme-border", border);
+
         String width = values.get("containerWidth");
         if (width != null && !width.isBlank()) {
             appendVariable(css, "--site-container-width", width + "px");
@@ -829,7 +953,13 @@ public class ThemeService {
         String font = values.get("fontFamily");
         if (font != null) {
             appendVariable(css, "--public-font-family", switch (font) {
-                case "outfit" -> "\"Outfit Variable\", Outfit, ui-sans-serif, system-ui, sans-serif";
+                case "outfit" -> "Outfit, \"Outfit Variable\", ui-sans-serif, system-ui, sans-serif";
+                case "poppins" -> "Poppins, ui-sans-serif, system-ui, sans-serif";
+                case "montserrat" -> "Montserrat, ui-sans-serif, system-ui, sans-serif";
+                case "inter" -> "Inter, ui-sans-serif, system-ui, sans-serif";
+                case "lato" -> "Lato, ui-sans-serif, system-ui, sans-serif";
+                case "roboto" -> "Roboto, ui-sans-serif, system-ui, sans-serif";
+                case "nunito-sans" -> "\"Nunito Sans\", ui-sans-serif, system-ui, sans-serif";
                 case "serif" -> "Georgia, Cambria, \"Times New Roman\", serif";
                 default -> "ui-sans-serif, system-ui, sans-serif";
             });

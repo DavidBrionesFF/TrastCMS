@@ -173,7 +173,8 @@ async function javaAction(plugin: JavaPlugin, action: 'start' | 'stop' | 'delete
   }
 }
 
-function bundledRoute(pluginId: string) { return ({ trastcrm: 'crm', trastpay: 'commerce', traststore: 'store', trastsaas: 'saas' } as Record<string,string>)[pluginId] || '' }
+function bundledRoute(pluginId: string) { return ({ trastcrm: 'crm', trastpay: 'commerce', traststore: 'store', trastsaas: 'saas', trasttravel: 'travel', trastaccount: 'account-portal-admin' } as Record<string,string>)[pluginId] || '' }
+function bundledEnabled(pluginId: string) { return bundledPlugins.value.find(item => item.pluginId === pluginId)?.enabled === true }
 
 async function toggleBundled(plugin: BundledPlugin) {
   error.value = ''
@@ -235,7 +236,7 @@ onMounted(load)
               <div class="flex flex-wrap items-center gap-2"><h3 class="text-lg font-bold">{{ plugin.name }}</h3><span :class="['status-pill', plugin.enabled ? 'ok' : 'muted']">{{ plugin.enabled ? 'Activo' : 'Inactivo' }}</span><span class="status-pill muted">v{{ plugin.version }}</span></div>
               <p class="mt-2 text-sm leading-6 text-slate-500">{{ plugin.description }}</p>
               <p class="mt-3 text-xs text-slate-400"><b>Autor:</b> {{ plugin.author }} · <b>ID:</b> {{ plugin.pluginId }}</p>
-              <div class="mt-4 flex flex-wrap gap-1.5"><span v-for="capability in plugin.capabilities" :key="capability" class="chip">{{ capability }}</span></div>
+              <div class="mt-4 flex flex-wrap gap-1.5"><span v-for="capability in plugin.capabilities" :key="capability" class="chip">{{ capability }}</span></div><div v-if="plugin.requiredPlugins?.length || plugin.optionalPlugins?.length" class="mt-4 rounded-xl bg-slate-50 p-3 text-xs"><div v-if="plugin.requiredPlugins?.length" class="mb-2"><b>Dependencias requeridas:</b> <span v-for="dependency in plugin.requiredPlugins" :key="dependency" :class="['ml-1 rounded-full px-2 py-1', bundledEnabled(dependency) ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700']">{{ dependency }} · {{ bundledEnabled(dependency) ? 'conectado' : 'inactivo' }}</span></div><div v-if="plugin.optionalPlugins?.length"><b>Integraciones opcionales:</b> <span v-for="dependency in plugin.optionalPlugins" :key="dependency" :class="['ml-1 rounded-full px-2 py-1', bundledEnabled(dependency) ? 'bg-sky-100 text-sky-800' : 'bg-slate-200 text-slate-600']">{{ dependency }} · {{ bundledEnabled(dependency) ? 'disponible' : 'no activa' }}</span></div></div>
             </div>
           </div>
           <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">

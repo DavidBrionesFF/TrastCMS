@@ -16,6 +16,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+/**
+ * Sanitización de contenido.
+ *
+ * <p>Limpia HTML, CSS y JSON del constructor visual para prevenir
+ * inyección de scripts, CSS inseguro y URLs maliciosas.</p>
+ */
 @Component
 public class ContentSanitizer {
     private static final String SANITIZER_BASE_URI = "https://trastcms.invalid/";

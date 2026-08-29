@@ -40,9 +40,21 @@ public class CommerceRegistry {
         return gateway;
     }
     public List<Map<String,Object>> gateways() {
-        return gateways.values().stream().filter(PaymentGateway::enabled).map(item -> Map.<String,Object>of(
-                "key", item.key(), "name", item.name(), "description", item.description(),
-                "recurring", item.supportsRecurring(), "refunds", item.supportsRefunds())).toList();
+        return gatewayCatalog().stream()
+                .filter(item -> Boolean.TRUE.equals(item.get("enabled")))
+                .toList();
+    }
+    public List<Map<String,Object>> gatewayCatalog() {
+        return gateways.values().stream().map(item -> {
+            Map<String,Object> value = new LinkedHashMap<>();
+            value.put("key", item.key());
+            value.put("name", item.name());
+            value.put("description", item.description());
+            value.put("recurring", item.supportsRecurring());
+            value.put("refunds", item.supportsRefunds());
+            value.put("enabled", item.enabled());
+            return Collections.unmodifiableMap(value);
+        }).toList();
     }
     public List<SellableProvider.SellableItem> featured(int limit) {
         return sellables.values().stream().flatMap(p -> p.featured(limit).stream()).limit(limit).toList();

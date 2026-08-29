@@ -1,6 +1,10 @@
 package com.nattechnologies.trastcms.plugins.pay;
 import jakarta.persistence.*; import java.time.Instant; import java.util.*;
 @Entity @Table(name="commerce_cart") class CommerceCart {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
  @Id @Column(length=36) String id; @Column(name="cart_token",nullable=false,unique=true,length=80) String cartToken;
  @Enumerated(EnumType.STRING) @Column(nullable=false,length=30) CartStatus status=CartStatus.ACTIVE; @Column(nullable=false,length=3) String currency="USD";
  @ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="customer_id") CommerceCustomer customer; @Column(name="expires_at") Instant expiresAt;

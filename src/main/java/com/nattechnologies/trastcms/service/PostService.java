@@ -17,6 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.*;
 
+/**
+ * Servicio principal para la gestión de contenido.
+ *
+ * <p>Orquesta la creación, actualización, eliminación y consulta de
+ * publicaciones y páginas. Aplica hooks {@link ContentHook}, dispara
+ * eventos {@link PluginEvent} y registra auditoría.</p>
+ */
 @Service
 public class PostService {
     private final PostRepository posts;

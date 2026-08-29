@@ -8,6 +8,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "saas_plan")
 class SaasPlan {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id
     @Column(length = 36)
     String id;

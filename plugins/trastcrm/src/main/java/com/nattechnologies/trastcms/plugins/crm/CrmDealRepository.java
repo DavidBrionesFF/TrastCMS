@@ -29,6 +29,8 @@ public interface CrmDealRepository extends JpaRepository<CrmDeal, String> {
 
     long countByStageClosedFalse();
 
+    Optional<CrmDeal> findByTitleIgnoreCase(String title);
+
     @EntityGraph(attributePaths = {
             "stage",
             "contact",

@@ -1,2 +1,6 @@
 package com.nattechnologies.trastcms.plugins.saas; import jakarta.persistence.*; import java.math.BigDecimal; import java.time.Instant; import java.util.UUID;
-@Entity @Table(name="saas_usage_event") class SaasUsageEvent{@Id@Column(length=36)String id;@ManyToOne(fetch=FetchType.LAZY,optional=false)@JoinColumn(name="subscription_id")SaasSubscription subscription;@Column(nullable=false,length=100)String meter;@Column(nullable=false,precision=19,scale=4)BigDecimal quantity;@Column(name="idempotency_key",nullable=false,unique=true,length=120)String idempotencyKey;@Column(name="occurred_at",nullable=false)Instant occurredAt;@Lob String metadataJson;@PrePersist void create(){if(id==null)id=UUID.randomUUID().toString();}}
+@Entity @Table(name="saas_usage_event") class SaasUsageEvent{
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+@Id@Column(length=36)String id;@ManyToOne(fetch=FetchType.LAZY,optional=false)@JoinColumn(name="subscription_id")SaasSubscription subscription;@Column(nullable=false,length=100)String meter;@Column(nullable=false,precision=19,scale=4)BigDecimal quantity;@Column(name="idempotency_key",nullable=false,unique=true,length=120)String idempotencyKey;@Column(name="occurred_at",nullable=false)Instant occurredAt;@Lob String metadataJson;@PrePersist void create(){if(id==null)id=UUID.randomUUID().toString();}}

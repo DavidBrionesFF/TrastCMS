@@ -13,11 +13,11 @@ import java.time.Instant;
 @Entity
 @Table(name = "commerce_settings")
 class CommerceSettings {
-    static final String DEFAULT_ID = "default";
+    static String currentId() { return com.nattechnologies.trastcms.multisite.SiteContext.siteId(); }
 
     @Id
     @Column(length = 40)
-    String id = DEFAULT_ID;
+    String id = currentId();
 
     @Column(name = "default_currency", nullable = false, length = 3)
     String defaultCurrency = "USD";
@@ -55,6 +55,15 @@ class CommerceSettings {
     @Column(name = "bank_instructions", length = 4000)
     String bankInstructions;
 
+    @Column(name = "bank_transfer_enabled", nullable = false)
+    boolean bankTransferEnabled = true;
+
+    @Column(name = "cash_enabled", nullable = false)
+    boolean cashEnabled = true;
+
+    @Column(name = "sandbox_enabled", nullable = false)
+    boolean sandboxEnabled = true;
+
     @Column(name = "paypal_enabled", nullable = false)
     boolean paypalEnabled = false;
 
@@ -69,6 +78,27 @@ class CommerceSettings {
 
     @Column(name = "paypal_webhook_id", length = 200)
     String paypalWebhookId;
+
+    @Column(name = "paypal_receiver_email", length = 190)
+    String paypalReceiverEmail;
+
+    @Column(name = "clinpays_enabled", nullable = false)
+    boolean clinpaysEnabled = false;
+
+    @Column(name = "clinpays_environment", nullable = false, length = 20)
+    String clinpaysEnvironment = "STAGE";
+
+    @Column(name = "clinpays_access_token_cipher", length = 8000)
+    String clinpaysAccessTokenCipher;
+
+    @Column(name = "clinpays_account_id", length = 190)
+    String clinpaysAccountId;
+
+    @Column(name = "clinpays_webhook_secret_cipher", length = 4000)
+    String clinpaysWebhookSecretCipher;
+
+    @Column(name = "clinpays_previous_webhook_secret_cipher", length = 4000)
+    String clinpaysPreviousWebhookSecretCipher;
 
     @Column(name = "updated_at", nullable = false)
     Instant updatedAt;

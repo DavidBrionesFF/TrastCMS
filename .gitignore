@@ -10,8 +10,6 @@
 
 # Runtime
 /data/
-*.db
-*.mv.db
 *.trace.db
 *.log
 
@@ -26,3 +24,22 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# GraalVM local (herramienta de compilación nativa, no se sube al repositorio)
+/tools/graalvm/
+/tools/*.zip
+
+# Caché local de importación de medios WordPress
+/tools/.wp-import-cache/
+
+# Entregables / Binarios compilados en release/ (el README.md y .gitkeep sí se rastrean)
+/release/*.exe
+/release/*.jar
+/release/*.sha256
+/release/trastcms-linux*
+/release/trastcms-windows*
+/release/trastcms-macos*
+!/release/README.md
+!/release/.gitkeep
+# Datos privados de migración WordPress/WP Travel Engine (nunca versionar)
+/src/main/resources/themes/*/data/wordpress-export/private/

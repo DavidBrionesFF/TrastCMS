@@ -1,4 +1,6 @@
-# Informe de Mejoras de Diseño, Precios, Portal de Licencias y Módulo SaaS - TrastCMS 2.0.0-alpha.1
+# Informe histórico de mejoras — TrastCMS 2.0.0-alpha.1
+
+> Documento histórico. Describe el estado de la versión 2.0.0-alpha.1 y no sustituye la documentación vigente de TrastCMS 3.6.1. Consulte [`docs/README.md`](docs/README.md) para las guías actuales.
 
 Este documento detalla todas las correcciones, optimizaciones visuales, rediseño de paneles administrativos, portal de cliente, tabla comparativa de precios y explorador de API en TrastCMS.
 

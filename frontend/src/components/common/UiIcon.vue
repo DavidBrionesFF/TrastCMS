@@ -20,6 +20,9 @@ withDefaults(defineProps<{ name: string; size?: number; strokeWidth?: number }>(
     <template v-else-if="name === 'logout'"><path d="M10 17l5-5-5-5M15 12H3M21 3v18"/></template>
     <template v-else-if="name === 'external'"><path d="M14 3h7v7M10 14 21 3M21 14v6H4V3h6"/></template>
     <template v-else-if="name === 'search'"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></template>
+    <template v-else-if="name === 'send'"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></template>
+    <template v-else-if="name === 'star'"><path d="m12 2.8 2.75 5.57 6.15.89-4.45 4.34 1.05 6.12L12 16.83 6.5 19.72l1.05-6.12L3.1 9.26l6.15-.89z"/></template>
+    <template v-else-if="name === 'map'"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></template>
     <template v-else-if="name === 'upload'"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 20h16"/></template>
     <template v-else-if="name === 'grid'"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></template>
     <template v-else-if="name === 'list'"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></template>
@@ -50,6 +53,8 @@ withDefaults(defineProps<{ name: string; size?: number; strokeWidth?: number }>(
     <template v-else-if="name === 'company'"><path d="M3 21h18M5 21V5h9v16M14 9h5v12"/><path d="M8 8h3M8 12h3M8 16h3M16 12h1M16 16h1"/></template>
     <template v-else-if="name === 'pipeline'"><path d="M4 5h16M7 5v5h10V5M10 10v5h4v-5M12 15v5"/><circle cx="4" cy="5" r="1"/><circle cx="20" cy="5" r="1"/><circle cx="12" cy="20" r="1"/></template>
     <template v-else-if="name === 'calendar'"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></template>
+    <template v-else-if="name === 'graduation'"><path d="m2 10 10-5 10 5-10 5z"/><path d="M6 12v4c3 3 9 3 12 0v-4M22 10v6"/></template>
+    <template v-else-if="name === 'chart'"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></template>
     <template v-else-if="name === 'form'"><path d="M5 3h14v18H5z"/><path d="M8 7h8M8 11h8M8 15h5"/><circle cx="8" cy="18" r=".5"/></template>
     <template v-else-if="name === 'inbox'"><path d="M4 4h16l2 11v5H2v-5z"/><path d="M2 15h6l2 3h4l2-3h6"/></template>
     <template v-else-if="name === 'lock'"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></template>
@@ -57,6 +62,9 @@ withDefaults(defineProps<{ name: string; size?: number; strokeWidth?: number }>(
     <template v-else-if="name === 'menu'"><path d="M4 6h16M4 12h16M4 18h16"/></template>
     <template v-else-if="name === 'footer'"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 15h18M8 18h8"/></template>
     <template v-else-if="name === 'refresh'"><path d="M20 6v5h-5M4 18v-5h5"/><path d="M18 9a7 7 0 0 0-12-2L4 9M6 15a7 7 0 0 0 12 2l2-2"/></template>
+    <template v-else-if="name === 'database'"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></template>
+    <template v-else-if="name === 'language'"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></template>
+    <template v-else-if="name === 'globe'"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/><path d="M5 7h14M5 17h14"/></template>
     <template v-else-if="name === 'info'"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></template>
     <template v-else-if="name === 'drag'"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></template>
     <template v-else><circle cx="12" cy="12" r="9"/></template>

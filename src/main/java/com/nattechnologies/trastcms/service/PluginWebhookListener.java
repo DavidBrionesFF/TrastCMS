@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nattechnologies.trastcms.domain.plugin.PluginRegistration;
 import com.nattechnologies.trastcms.domain.plugin.PluginRegistrationRepository;
 import com.nattechnologies.trastcms.plugin.api.PluginEvent;
+import com.nattechnologies.trastcms.multisite.SiteContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -57,6 +58,8 @@ public class PluginWebhookListener {
                         .uri(plugin.getBaseUrl() + "/trastcms/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("X-TrastCMS-Event", event.type())
+                        .header("X-TrastCMS-Site", SiteContext.siteKey())
+                        .header("X-TrastCMS-Site-Id", SiteContext.siteId())
                         .header("X-TrastCMS-Signature", "sha256=" + signature)
                         .body(body)
                         .retrieve()

@@ -61,6 +61,7 @@ public final class PayDtos {
             @NotBlank String gatewayKey,
             Map<String, Object> billing,
             Map<String, Object> shipping,
+            Map<String, Object> paymentData,
             String notes,
             String returnUrl,
             String cancelUrl,
@@ -74,7 +75,12 @@ public final class PayDtos {
             String paymentId,
             String paymentStatus,
             String redirectUrl,
-            String message) { }
+            String message,
+            Map<String, Object> paymentMetadata) {
+        public CheckoutResponse {
+            paymentMetadata = paymentMetadata == null ? Map.of() : Map.copyOf(paymentMetadata);
+        }
+    }
 
     public record OrderLine(
             String id,
@@ -171,11 +177,21 @@ public final class PayDtos {
             @Email String supportEmail,
             String termsUrl,
             String bankInstructions,
+            boolean bankTransferEnabled,
+            boolean cashEnabled,
+            boolean sandboxEnabled,
             boolean paypalEnabled,
             @Pattern(regexp = "SANDBOX|LIVE") String paypalMode,
             String paypalClientId,
             String paypalClientSecret,
-            String paypalWebhookId) { }
+            String paypalWebhookId,
+            @Email String paypalReceiverEmail,
+            boolean clinpaysEnabled,
+            @Pattern(regexp = "STAGE|PRODUCTION") String clinpaysEnvironment,
+            String clinpaysAccessToken,
+            String clinpaysAccountId,
+            String clinpaysWebhookSecret,
+            String clinpaysPreviousWebhookSecret) { }
 
     public record SettingsResponse(
             String defaultCurrency,
@@ -190,12 +206,31 @@ public final class PayDtos {
             String supportEmail,
             String termsUrl,
             String bankInstructions,
+            boolean bankTransferEnabled,
+            boolean cashEnabled,
+            boolean sandboxEnabled,
             boolean paypalEnabled,
             String paypalMode,
             String paypalClientId,
             boolean paypalConfigured,
             String paypalWebhookId,
+            String paypalReceiverEmail,
+            boolean clinpaysEnabled,
+            String clinpaysEnvironment,
+            String clinpaysAccountId,
+            boolean clinpaysConfigured,
             Instant updatedAt) { }
+
+    public record ClinpaysSetupRequest(
+            @NotBlank String safeIdentifier,
+            @NotBlank String validThru,
+            String currency) { }
+
+    public record ClinpaysSetupResponse(
+            boolean success,
+            String threeDSecureAuthenticationId,
+            String accessToken,
+            String deviceDataCollectionUrl) { }
 
     public record DemoDataResponse(
             int created,

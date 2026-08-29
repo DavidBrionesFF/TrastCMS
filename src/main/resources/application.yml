@@ -21,8 +21,8 @@ spring:
     locations: classpath:db/migration
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 500MB
+      max-file-size: ${TRASTCMS_UPLOAD_MAX_FILE_SIZE:500MB}
+      max-request-size: ${TRASTCMS_UPLOAD_MAX_REQUEST_SIZE:550MB}
 server:
   port: ${PORT:8080}
   forward-headers-strategy: framework
@@ -46,6 +46,7 @@ management:
       show-details: when_authorized
 
 trastcms:
+  version: 3.6.1
   data-dir: ${TRASTCMS_DATA_DIR:./data}
   base-url: ${TRASTCMS_BASE_URL:http://localhost:8080}
   admin:
@@ -59,14 +60,13 @@ trastcms:
     java-enabled: ${TRASTCMS_JAVA_PLUGINS_ENABLED:true}
     directory: ${TRASTCMS_PLUGIN_DIR:plugins}
   media:
-    max-bytes: ${TRASTCMS_MEDIA_MAX_BYTES:104857600}
+    max-bytes: ${TRASTCMS_MEDIA_MAX_BYTES:524288000}
     max-batch-files: ${TRASTCMS_MEDIA_MAX_BATCH_FILES:20}
   mcp:
     enabled: ${TRASTCMS_MCP_ENABLED:true}
     endpoint: ${TRASTCMS_MCP_ENDPOINT:/mcp}
     token: ${TRASTCMS_MCP_TOKEN:}
-    server-version: 2.7.0-alpha.9.5
-
+    server-version: 3.6.1
 logging:
   level:
     root: INFO

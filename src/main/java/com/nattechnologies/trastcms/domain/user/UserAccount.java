@@ -44,6 +44,9 @@ public class UserAccount {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    @Column(name = "network_admin", nullable = false)
+    private boolean networkAdmin = false;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -88,6 +91,8 @@ public class UserAccount {
     public void setRole(UserRole role) { this.role = role; }
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
+    public boolean isNetworkAdmin() { return networkAdmin; }
+    public void setNetworkAdmin(boolean networkAdmin) { this.networkAdmin = networkAdmin; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
 }

@@ -10,6 +10,57 @@ export interface AuthUser {
   role: string | null
   avatarUrl?: string | null
   lastLoginAt?: string | null
+  networkAdmin?: boolean
+  siteId?: string | null
+  siteKey?: string | null
+  siteName?: string | null
+}
+
+export interface SiteEndpointRequest {
+  host: string
+  port: number
+  scheme: 'http' | 'https'
+  primaryEndpoint: boolean
+  active: boolean
+}
+
+export interface SiteEndpoint extends SiteEndpointRequest {
+  id: string
+}
+
+export interface CmsSite {
+  id: string
+  siteKey: string
+  name: string
+  status: 'ACTIVE' | 'SUSPENDED' | 'ARCHIVED'
+  locale: string
+  timezone: string
+  primaryUrl: string
+  activeTheme: string
+  enabledPlugins: string[]
+  users: number
+  current: boolean
+  createdAt: string
+  updatedAt: string
+  endpoints: SiteEndpoint[]
+}
+
+export interface SiteMembership {
+  siteId: string
+  siteKey: string
+  siteName: string
+  role: UserRole
+  primaryUrl: string
+}
+
+export interface SiteRequest {
+  siteKey: string
+  name: string
+  locale: string
+  timezone: string
+  status: 'ACTIVE' | 'SUSPENDED' | 'ARCHIVED'
+  blueprint?: string | null
+  endpoints: SiteEndpointRequest[]
 }
 
 export interface AccountProfile {
@@ -30,7 +81,7 @@ export interface AccountProfile {
   updatedAt: string
 }
 
-export type UserRole = 'ADMIN' | 'EDITOR' | 'AUTHOR'
+export type UserRole = 'ADMIN' | 'EDITOR' | 'AUTHOR' | 'CUSTOMER'
 export interface CmsUser {
   id: string
   email: string
@@ -106,6 +157,11 @@ export interface SiteInfo {
   showAdminBar: boolean
   contactEmail: string
   contactPhone: string
+  suspended?: boolean
+  suspendedTitle?: string
+  suspendedMessage?: string
+  suspendedContactEmail?: string
+  suspendedContactPhone?: string
 }
 
 export interface NavigationItem {
@@ -225,6 +281,8 @@ export interface BundledPlugin {
   author: string
   enabled: boolean
   enabledByDefault: boolean
+  requiredPlugins: string[]
+  optionalPlugins: string[]
   capabilities: string[]
   updatedAt?: string | null
 }
@@ -388,3 +446,11 @@ export interface CrmPublicForm { formKey:string; name:string; description?:strin
 export interface CrmSubmission { id:string; formId:string; formName:string; values:Record<string,unknown>; status:CrmSubmissionStatus; contactId?:string; sourceUrl?:string; createdAt:string }
 export interface CrmStageMetric { id:string; name:string; color:string; probability:number; deals:number; value:number; closed:boolean; won:boolean }
 export interface CrmDashboard { contacts:number; companies:number; openDeals:number; pendingActivities:number; forms:number; newSubmissions:number; pipelineValue:number; pipeline:CrmStageMetric[]; recentSubmissions:CrmSubmission[] }
+export type CrmReputationStatus = 'PENDING' | 'SENT' | 'RATED' | 'SHARED' | 'FAILED' | 'CANCELLED'
+export type CrmReputationSource = 'TRAVEL' | 'ACADEMY' | 'SAAS' | 'MANUAL'
+export interface CrmReputationChannel { id:string; label:string; url:string; active:boolean }
+export interface CrmReputationSettings { enabled:boolean; travelEnabled:boolean; academyEnabled:boolean; saasEnabled:boolean; followUpDays:number; emailSubject:string; emailIntro:string; thankYouMessage:string; channels:CrmReputationChannel[] }
+export interface CrmReputationRequest { id:string; sourceType:CrmReputationSource; sourceReference:string; sourceLabel:string; recipientEmail:string; customerName?:string; contactId?:string; status:CrmReputationStatus; rating?:number; privateFeedback?:string; channelId?:string; reviewUrl:string; sentAt?:string; ratedAt?:string; channelClickedAt?:string; createdAt:string; updatedAt:string }
+export interface CrmReputationSummary { total:number; sent:number; rated:number; averageRating:number; fiveStarRate:number; bySource:Record<string,number>; recent:CrmReputationRequest[] }
+export interface CrmReputationPublicChannel { id:string; label:string; redirectUrl:string }
+export interface CrmReputationPublicView { sourceLabel:string; customerName?:string; siteName:string; status:CrmReputationStatus; rating?:number; thankYouMessage:string; channels:CrmReputationPublicChannel[] }

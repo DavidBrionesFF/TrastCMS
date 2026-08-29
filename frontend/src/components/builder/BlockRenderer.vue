@@ -10,6 +10,15 @@ import StoreGridBlock from '@plugins/traststore/frontend/StoreGridBlock.vue'
 import ProductBlock from '@plugins/traststore/frontend/ProductBlock.vue'
 import PricingBlock from '@plugins/trastsaas/frontend/PricingBlock.vue'
 import LicenseActivationBlock from '@plugins/trastsaas/frontend/LicenseActivationBlock.vue'
+import TravelSearchBlock from '@plugins/trasttravel/frontend/TravelSearchBlock.vue'
+import TourGridBlock from '@plugins/trasttravel/frontend/TourGridBlock.vue'
+import DestinationGridBlock from '@plugins/trasttravel/frontend/DestinationGridBlock.vue'
+import ActivityGridBlock from '@plugins/trasttravel/frontend/ActivityGridBlock.vue'
+import TravelBookingBlock from '@plugins/trasttravel/frontend/TravelBookingBlock.vue'
+import TranslationSelector from '@plugins/trasttranslate/frontend/TranslationSelector.vue'
+import AcademyCourseGridBlock from '@plugins/trastacademy/frontend/AcademyCourseGridBlock.vue'
+import AcademyCourseBlock from '@plugins/trastacademy/frontend/AcademyCourseBlock.vue'
+import AcademyProgressBlock from '@plugins/trastacademy/frontend/AcademyProgressBlock.vue'
 
 const props = withDefaults(defineProps<{
   block: BuilderBlock
@@ -26,6 +35,12 @@ const emit = defineEmits<{
   addChild: [id: string]
 }>()
 
+function pixel(value: unknown): string | undefined {
+  if (value === undefined || value === null || value === '') return undefined
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? `${parsed}px` : undefined
+}
+
 const style = computed(() => ({
   backgroundColor: props.block.style.backgroundColor || undefined,
   backgroundImage: props.block.style.backgroundImage ? `url(${props.block.style.backgroundImage})` : undefined,
@@ -33,18 +48,18 @@ const style = computed(() => ({
   backgroundPosition: props.block.style.backgroundImage ? 'center' : undefined,
   color: props.block.style.color || undefined,
   textAlign: props.block.style.textAlign || undefined,
-  paddingTop: `${props.block.style.paddingTop || 0}px`,
-  paddingRight: `${props.block.style.paddingRight || 0}px`,
-  paddingBottom: `${props.block.style.paddingBottom || 0}px`,
-  paddingLeft: `${props.block.style.paddingLeft || 0}px`,
-  marginTop: `${props.block.style.marginTop || 0}px`,
-  marginRight: `${props.block.style.marginRight || 0}px`,
-  marginBottom: `${props.block.style.marginBottom || 0}px`,
-  marginLeft: `${props.block.style.marginLeft || 0}px`,
-  borderRadius: `${props.block.style.borderRadius || 0}px`,
-  maxWidth: props.block.style.maxWidth ? `${props.block.style.maxWidth}px` : undefined,
-  minHeight: props.block.style.minHeight ? `${props.block.style.minHeight}px` : undefined,
-  marginInline: props.block.style.maxWidth ? 'auto' : undefined
+  paddingTop: pixel(props.block.style.paddingTop),
+  paddingRight: pixel(props.block.style.paddingRight),
+  paddingBottom: pixel(props.block.style.paddingBottom),
+  paddingLeft: pixel(props.block.style.paddingLeft),
+  marginTop: pixel(props.block.style.marginTop),
+  marginRight: pixel(props.block.style.marginRight),
+  marginBottom: pixel(props.block.style.marginBottom),
+  marginLeft: pixel(props.block.style.marginLeft),
+  borderRadius: pixel(props.block.style.borderRadius),
+  maxWidth: pixel(props.block.style.maxWidth),
+  minHeight: pixel(props.block.style.minHeight),
+  marginInline: props.block.style.maxWidth !== undefined && props.block.style.maxWidth !== null ? 'auto' : undefined
 }))
 
 const columns = computed(() => Math.min(4, Math.max(1, Number(props.block.data.columns || 2))))
@@ -196,6 +211,15 @@ function escapeHtml(value: unknown): string {
     <ProductBlock v-else-if="block.type === 'plugin:traststore:product'" :product-slug="String(block.data.productSlug || '')" :editing="editing" />
     <PricingBlock v-else-if="block.type === 'plugin:trastsaas:pricing'" :product-key="String(block.data.productKey || 'trast-cloud')" :editing="editing" />
     <LicenseActivationBlock v-else-if="block.type === 'plugin:trastsaas:license'" :product-key="String(block.data.productKey || 'trast-cloud')" :editing="editing" />
+    <TravelSearchBlock v-else-if="block.type === 'plugin:trasttravel:search'" :title="String(block.data.title || 'Where would you like to go?')" :layout="String(block.data.layout || 'bar') as any" :show-date="block.data.showDate !== false" :show-travellers="block.data.showTravellers !== false" :show-activity="block.data.showActivity !== false" :editing="editing" />
+    <TourGridBlock v-else-if="block.type === 'plugin:trasttravel:tour-grid'" :limit="Number(block.data.limit || 6)" :destination="String(block.data.destination || '')" :activity="String(block.data.activity || '')" :editing="editing" />
+    <ActivityGridBlock v-else-if="block.type === 'plugin:trasttravel:activities'" :limit="Number(block.data.limit || 8)" :editing="editing" />
+    <DestinationGridBlock v-else-if="block.type === 'plugin:trasttravel:destinations'" :limit="Number(block.data.limit || 6)" :editing="editing" />
+    <TravelBookingBlock v-else-if="block.type === 'plugin:trasttravel:booking'" :tour-slug="String(block.data.tourSlug || '')" :editing="editing" />
+    <TranslationSelector v-else-if="block.type === 'plugin:trasttranslate:selector'" :style-override="String(block.data.style || 'inherit')" :label="String(block.data.label || '')" />
+    <AcademyCourseGridBlock v-else-if="block.type === 'plugin:trastacademy:course-grid'" :limit="Number(block.data.limit || 6)" :featured-only="block.data.featuredOnly === true" :editing="editing" />
+    <AcademyCourseBlock v-else-if="block.type === 'plugin:trastacademy:course'" :course-slug="String(block.data.courseSlug || '')" :editing="editing" />
+    <AcademyProgressBlock v-else-if="block.type === 'plugin:trastacademy:account-progress'" :limit="Number(block.data.limit || 4)" :editing="editing" />
     <div v-else-if="String(block.type).startsWith('plugin:')" class="plugin-builder-output" v-html="pluginHtml" />
 
     <hr v-else-if="block.type === 'divider'" :style="dividerStyle">

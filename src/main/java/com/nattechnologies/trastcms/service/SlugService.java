@@ -4,6 +4,12 @@ import org.springframework.stereotype.Service;
 import java.text.Normalizer;
 import java.util.Locale;
 
+/**
+ * Generación de slugs URL-amigables.
+ *
+ * <p>Normaliza texto eliminando acentos, convirtiendo a minúsculas
+ * y reemplazando espacios por guiones.</p>
+ */
 @Service
 public class SlugService {
     public String slugify(String value) {

@@ -193,6 +193,37 @@ saas_subscription_summary
 saas_list_licenses
 ```
 
+### TrastAcademy
+
+```text
+academy_dashboard
+academy_diagnostics
+academy_course_list
+academy_course_get
+academy_enrollment_list
+academy_student_progress
+academy_pending_reviews
+academy_import_preview
+academy_import_history
+academy_settings_get
+```
+
+Ejemplo de diagnóstico:
+
+```json
+{
+  "jsonrpc":"2.0",
+  "id":20,
+  "method":"tools/call",
+  "params":{
+    "name":"academy_diagnostics",
+    "arguments":{}
+  }
+}
+```
+
+Las herramientas de academia son de solo lectura. Permiten consultar integridad, progreso y operaciones pendientes sin publicar cursos, crear matrículas ni calificar respuestas.
+
 Todas son herramientas de lectura. La versión inicial no permite confirmar
 pagos, reembolsar órdenes, revocar licencias ni modificar inventario mediante
 MCP. Esas operaciones requieren la API administrativa y confirmación humana.

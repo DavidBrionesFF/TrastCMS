@@ -72,7 +72,7 @@ class PayPalGateway implements PaymentGateway {
 
     @Override
     public boolean enabled() {
-        return settingsRepository.findById(CommerceSettings.DEFAULT_ID)
+        return settingsRepository.findById(CommerceSettings.currentId())
                 .map(this::configured)
                 .orElse(false);
     }
@@ -98,6 +98,8 @@ class PayPalGateway implements PaymentGateway {
         purchaseUnit.put("invoice_id", request.orderNumber());
         purchaseUnit.put("description", "Orden " + request.orderNumber());
         purchaseUnit.put("amount", amount);
+        purchaseUnit.put("payee", Map.of(
+                "email_address", settings.paypalReceiverEmail));
 
         Map<String, Object> experience = new LinkedHashMap<>();
         experience.put("return_url", returnUrl);
@@ -210,7 +212,7 @@ class PayPalGateway implements PaymentGateway {
 
     private CommerceSettings requireSettings() {
         CommerceSettings settings = settingsRepository
-                .findById(CommerceSettings.DEFAULT_ID)
+                .findById(CommerceSettings.currentId())
                 .orElseThrow(() -> new BadRequestException(
                         "TrastPay todavía no tiene configuración"));
         if (!configured(settings)) {
@@ -225,7 +227,9 @@ class PayPalGateway implements PaymentGateway {
                 && settings.paypalClientId != null
                 && !settings.paypalClientId.isBlank()
                 && settings.paypalClientSecretCipher != null
-                && !settings.paypalClientSecretCipher.isBlank();
+                && !settings.paypalClientSecretCipher.isBlank()
+                && settings.paypalReceiverEmail != null
+                && !settings.paypalReceiverEmail.isBlank();
     }
 
     private synchronized String accessToken(CommerceSettings settings) {

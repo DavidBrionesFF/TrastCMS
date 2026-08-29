@@ -1,0 +1,1 @@
+package com.nattechnologies.trastcms.plugins.pay.cleanpay;import org.springframework.data.jpa.repository.JpaRepository;import java.util.Optional;public interface CleanPaySettingsRepository extends JpaRepository<CleanPaySettings,Long>{Optional<CleanPaySettings> findFirstByOrderByIdAsc();}

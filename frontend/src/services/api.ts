@@ -1,3 +1,4 @@
+import { getSelectedSite, shouldSendSiteHeader } from '@/services/site-context'
 let csrfToken: string | null = null
 let csrfHeader = 'X-XSRF-TOKEN'
 
@@ -29,9 +30,7 @@ async function loadCsrf(): Promise<void> {
     method: 'GET',
     credentials: 'same-origin',
     cache: 'no-store',
-    headers: {
-      Accept: 'application/json'
-    }
+    headers: new Headers({ Accept: 'application/json' })
   })
 
   if (!response.ok) {
@@ -55,37 +54,66 @@ async function loadCsrf(): Promise<void> {
 
 export async function api<T>(url: string, options: RequestInit = {}): Promise<T> {
   const method = (options.method || 'GET').toUpperCase()
-  const headers = new Headers(options.headers)
+  const unsafe = !['GET', 'HEAD', 'OPTIONS'].includes(method)
 
-  if (!headers.has('Accept')) {
-    headers.set('Accept', 'application/json')
+  async function execute(retryCsrf: boolean): Promise<Response> {
+    const headers = new Headers(options.headers)
+
+    if (!headers.has('Accept')) {
+      headers.set('Accept', 'application/json')
+    }
+
+    const selectedSite = getSelectedSite()
+    if (selectedSite && shouldSendSiteHeader(url) && !headers.has('X-TrastCMS-Site')) {
+      headers.set('X-TrastCMS-Site', selectedSite)
+    }
+
+    if (!(options.body instanceof FormData) && options.body && !headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json')
+    }
+
+    if (unsafe) {
+      const cookieToken = readCookie('XSRF-TOKEN')
+      if (cookieToken && cookieToken !== csrfToken) csrfToken = cookieToken
+      if (!csrfToken) await loadCsrf()
+      headers.set(csrfHeader, csrfToken as string)
+    }
+
+    const response = await fetch(url, {
+      ...options,
+      method,
+      headers,
+      credentials: 'same-origin',
+      cache: 'no-store'
+    })
+
+    // Spring Security puede rotar el token al renovar la sesión. Reintentamos una
+    // sola vez con un token fresco para que acciones como iniciar una evaluación
+    // no fallen con un 403 opaco después de varias horas con la SPA abierta.
+    if (unsafe && response.status === 403 && retryCsrf) {
+      csrfToken = null
+      await loadCsrf()
+      return execute(false)
+    }
+
+    return response
   }
 
-  if (!(options.body instanceof FormData) && options.body && !headers.has('Content-Type')) {
-    headers.set('Content-Type', 'application/json')
-  }
-
-  if (!['GET', 'HEAD', 'OPTIONS'].includes(method)) {
-    if (!csrfToken) await loadCsrf()
-    headers.set(csrfHeader, csrfToken as string)
-  }
-
-  const response = await fetch(url, {
-    ...options,
-    method,
-    headers,
-    credentials: 'same-origin',
-    cache: 'no-store'
-  })
+  const response = await execute(true)
 
   if (response.status === 204) return undefined as T
 
   if (!response.ok) {
-    const body = await response.json().catch(() => ({}))
-    throw new ApiError(
-      response.status,
-      body.detail || body.message || body.title || 'Error en la solicitud'
-    )
+    const contentType = response.headers.get('content-type') || ''
+    let detail = ''
+    if (contentType.includes('application/json') || contentType.includes('application/problem+json')) {
+      const body = await response.json().catch(() => ({}))
+      detail = body.detail || body.message || body.title || ''
+    } else {
+      const text = await response.text().catch(() => '')
+      detail = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 280)
+    }
+    throw new ApiError(response.status, detail || `La solicitud falló con estado ${response.status}`)
   }
 
   return response.json() as Promise<T>

@@ -17,6 +17,10 @@ mismo JAR y en las compilaciones Native Image.
 - Envíos con estados `NEW`, `READ`, `ARCHIVED` y `SPAM`.
 - Bloque `plugin:trastcrm:form` para el constructor visual.
 - Eventos internos `crm.*` para otras extensiones.
+- Automatización de reputación conectada con Travel, Academy y SaaS.
+- Correo HTML de 1–5 estrellas, comentario privado y canales públicos configurables.
+- Tareas automáticas y trazabilidad de valoración/canal por contacto.
+- Herramientas MCP `crm_reputation_summary` y `crm_reputation_requests`.
 
 ## Activación
 
@@ -54,3 +58,12 @@ plugins/trastcrm/
 
 El formulario se renderiza desde el plugin y sus envíos se almacenan en las
 tablas `crm_form` y `crm_submission`.
+
+
+## Reputación y experiencia del cliente
+
+Desde **CRM → Reputación** cada sitio puede activar sus propios disparadores, textos de correo, plazo de seguimiento y enlaces a TripAdvisor, Google, Facebook u otros canales.
+
+Los eventos incorporados son `travel.booking.paid`, `academy.course.completed` y `saas.purchase.completed`. Cada evento se deduplica por su referencia de negocio, convierte al comprador/estudiante/viajero en cliente CRM, crea una tarea y envía una solicitud de valoración.
+
+La puntuación se registra en TrastCMS antes de ofrecer los canales públicos. Todos los canales activos se muestran para cualquier puntuación. La guía completa está en `docs/CRM_REPUTATION_AUTOMATION.md`.

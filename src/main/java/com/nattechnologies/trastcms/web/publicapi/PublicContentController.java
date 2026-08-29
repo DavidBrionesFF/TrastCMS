@@ -113,7 +113,7 @@ public class PublicContentController {
         ThemeService.ThemeFile file = themes.asset(id, path);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.contentType()))
-                .cacheControl(CacheControl.maxAge(Duration.ofDays(7)).cachePublic())
+                .cacheControl(CacheControl.noCache())
                 .body(file.resource());
     }
 

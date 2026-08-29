@@ -8,6 +8,7 @@ import com.nattechnologies.trastcms.service.CategoryService;
 import com.nattechnologies.trastcms.service.DashboardService;
 import com.nattechnologies.trastcms.service.PostService;
 import com.nattechnologies.trastcms.service.SiteSettingService;
+import com.nattechnologies.trastcms.service.SiteUrlService;
 import com.nattechnologies.trastcms.web.dto.ApiDtos;
 import org.springframework.stereotype.Component;
 
@@ -23,18 +24,21 @@ public class CoreMcpExtension implements McpExtension {
     private final SiteSettingService settings;
     private final DashboardService dashboard;
     private final TrastCmsProperties properties;
+    private final SiteUrlService siteUrls;
 
     public CoreMcpExtension(
             PostService posts,
             CategoryService categories,
             SiteSettingService settings,
             DashboardService dashboard,
-            TrastCmsProperties properties) {
+            TrastCmsProperties properties,
+            SiteUrlService siteUrls) {
         this.posts = posts;
         this.categories = categories;
         this.settings = settings;
         this.dashboard = dashboard;
         this.properties = properties;
+        this.siteUrls = siteUrls;
     }
 
     @Override
@@ -79,7 +83,7 @@ public class CoreMcpExtension implements McpExtension {
             case "site_overview" -> Map.of(
                     "site", settings.siteInfo(),
                     "dashboard", dashboard.dashboard(properties.getAdmin().getEmail()),
-                    "baseUrl", properties.getBaseUrl());
+                    "baseUrl", siteUrls.currentBaseUrl());
             case "content_list" -> posts.adminList(
                     integer(arguments, "page", 0),
                     integer(arguments, "size", 20),

@@ -1,0 +1,31 @@
+{
+  "document": "Documentación APIs Promerica 1.3.0",
+  "paymentUrl": "http://stage.paygatehn.com/payments/setup3ds",
+  "threeDsUrl": "http://stage.paygatehn.com/payments/setup3ds",
+  "statusUrl": "https://api.clinpays.com",
+  "authHeader": "Authorization",
+  "authScheme": "Bearer",
+  "requestTemplate": {
+    "amount": "{{amount}}",
+    "name": "{{customerName}}",
+    "executionDay": 1715752800,
+    "executionType": "IMMEDIATE",
+    "products": [
+      ""
+    ],
+    "rateType": "FLAT_RATE_PRICING",
+    "isAutomaticRenewal": false,
+    "currency": "{{currency}}",
+    "authorizationType": "${cleanpay.secret}",
+    "frequency": {
+      "unit": "days",
+      "quantity": 1
+    },
+    "customers": [
+      {
+        "customerID": "",
+        "cardID": ""
+      }
+    ]
+  }
+}

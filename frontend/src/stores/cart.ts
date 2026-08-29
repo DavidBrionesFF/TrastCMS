@@ -54,6 +54,13 @@ export const useCartStore = defineStore('commerce-cart', () => {
     } else if (!cart.value) {
       await refresh()
     }
+    if (cart.value && cart.value.currency !== currency) {
+      if (cart.value.items.length) {
+        throw new Error(`El carrito actual utiliza ${cart.value.currency}. Vacíelo antes de agregar una reserva en ${currency}.`)
+      }
+      reset()
+      return ensure(currency)
+    }
     return cart.value as Cart
   }
 
@@ -80,7 +87,7 @@ export const useCartStore = defineStore('commerce-cart', () => {
     quantity = 1,
     metadata: Record<string, unknown> = {}
   ): Promise<Cart> {
-    await ensure()
+    if (!token.value || !cart.value) await ensure()
     mutating.value = true
     try {
       cart.value = await api<Cart>(

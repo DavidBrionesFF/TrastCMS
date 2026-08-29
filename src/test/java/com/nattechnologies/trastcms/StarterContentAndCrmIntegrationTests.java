@@ -50,8 +50,7 @@ class StarterContentAndCrmIntegrationTests {
     void bundledCrmIsRegisteredAndEnabledByDefault() throws Exception {
         mvc.perform(get("/api/admin/plugins/bundled"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].pluginId").value("trastcrm"))
-                .andExpect(jsonPath("$[0].enabled").value(true));
+                .andExpect(jsonPath("$[?(@.pluginId == 'trastcrm')].enabled").value(true));
     }
 
     @Test

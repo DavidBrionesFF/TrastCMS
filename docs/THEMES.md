@@ -27,7 +27,7 @@ my-theme.zip
   "description": "Tema corporativo.",
   "version": "1.0.0",
   "author": "NaT Technologies",
-  "homepage": "https://nattechnologiesagency.com",
+  "homepage": "https://themes.example.com",
   "license": "GPL-3.0",
   "screenshot": "screenshot.webp",
   "templates": ["default", "full-width", "landing", "blank"],

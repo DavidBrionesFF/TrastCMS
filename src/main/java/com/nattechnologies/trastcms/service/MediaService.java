@@ -19,6 +19,12 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Biblioteca multimedia.
+ *
+ * <p>Gestiona la carga, listado, actualización, eliminación y entrega de
+ * archivos multimedia. Valida tipos MIME, tamaños y rutas.</p>
+ */
 @Service
 public class MediaService {
     private static final Set<String> ALLOWED_TYPES = Set.of(

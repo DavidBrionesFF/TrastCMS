@@ -31,8 +31,15 @@ class BankTransferGateway implements PaymentGateway {
     }
 
     @Override
+    public boolean enabled() {
+        return settings.findById(CommerceSettings.currentId())
+                .map(value -> value.bankTransferEnabled)
+                .orElse(true);
+    }
+
+    @Override
     public PaymentResult create(PaymentRequest request) {
-        String instructions = settings.findById(CommerceSettings.DEFAULT_ID)
+        String instructions = settings.findById(CommerceSettings.currentId())
                 .map(value -> value.bankInstructions)
                 .filter(value -> value != null && !value.isBlank())
                 .orElse("Configure sus datos bancarios en TrastPay.");
@@ -47,6 +54,11 @@ class BankTransferGateway implements PaymentGateway {
 
 @Component
 class CashGateway implements PaymentGateway {
+    private final CommerceSettingsRepository settings;
+
+    CashGateway(CommerceSettingsRepository settings) {
+        this.settings = settings;
+    }
     @Override
     public String key() {
         return "cash";
@@ -63,6 +75,13 @@ class CashGateway implements PaymentGateway {
     }
 
     @Override
+    public boolean enabled() {
+        return settings.findById(CommerceSettings.currentId())
+                .map(value -> value.cashEnabled)
+                .orElse(true);
+    }
+
+    @Override
     public PaymentResult create(PaymentRequest request) {
         return new PaymentResult(
                 "PENDING",
@@ -75,6 +94,11 @@ class CashGateway implements PaymentGateway {
 
 @Component
 class SandboxGateway implements PaymentGateway {
+    private final CommerceSettingsRepository settings;
+
+    SandboxGateway(CommerceSettingsRepository settings) {
+        this.settings = settings;
+    }
     @Override
     public String key() {
         return "sandbox";
@@ -88,6 +112,13 @@ class SandboxGateway implements PaymentGateway {
     @Override
     public String description() {
         return "Confirma inmediatamente para probar el flujo completo sin dinero real.";
+    }
+
+    @Override
+    public boolean enabled() {
+        return settings.findById(CommerceSettings.currentId())
+                .map(value -> value.sandboxEnabled)
+                .orElse(true);
     }
 
     @Override

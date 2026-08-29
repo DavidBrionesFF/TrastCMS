@@ -46,6 +46,8 @@ DELETE /api/admin/saas/demo-data
 
 ## Consideraciones
 
+TrastTravel carga catálogos turísticos site-aware y TrastAcademy prepara cursos, lecciones, cuestionarios y progreso. Algunos tenants de referencia usan snapshots incluidos con sus plugins. Los archivos multimedia de una instalación permanecen en `data/uploads/` y no se versionan en Git.
+
 - La acción de eliminación borra únicamente registros marcados como demo.
 - Las páginas, usuarios, medios y configuraciones reales no se eliminan.
 - En instalaciones nuevas, los plugins habilitados cargan sus ejemplos de
@@ -56,3 +58,4 @@ DELETE /api/admin/saas/demo-data
   esa preferencia y no vuelve a generarlo durante los siguientes reinicios.
 - La acción **Generar datos demo** reactiva voluntariamente la carga de
   ejemplos para ese plugin.
+- En multisitio, generar o eliminar ejemplos solo afecta al tenant resuelto.

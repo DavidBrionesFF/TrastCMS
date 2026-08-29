@@ -31,6 +31,12 @@
       ],
       "vue/*": [
         "node_modules/vue/*"
+      ],
+      "vue-router": [
+        "node_modules/vue-router"
+      ],
+      "vue-router/*": [
+        "node_modules/vue-router/*"
       ]
     }
   },

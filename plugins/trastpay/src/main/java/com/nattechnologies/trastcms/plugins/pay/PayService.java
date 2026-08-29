@@ -1,6 +1,7 @@
 package com.nattechnologies.trastcms.plugins.pay;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nattechnologies.trastcms.plugin.api.PaymentGateway;
 import com.nattechnologies.trastcms.plugin.api.PluginEvent;
@@ -38,6 +39,7 @@ public class PayService {
     private final CommercePaymentRepository payments;
     private final CommerceCouponRepository coupons;
     private final CommerceSettingsRepository configuration;
+    private final ClinpaysWebhookEventRepository clinpaysWebhookEvents;
     private final CommerceRegistry registry;
     private final ObjectMapper mapper;
     private final PluginEventDispatcher events;
@@ -53,6 +55,7 @@ public class PayService {
             CommercePaymentRepository payments,
             CommerceCouponRepository coupons,
             CommerceSettingsRepository configuration,
+            ClinpaysWebhookEventRepository clinpaysWebhookEvents,
             CommerceRegistry registry,
             ObjectMapper mapper,
             PluginEventDispatcher events,
@@ -65,6 +68,7 @@ public class PayService {
         this.payments = payments;
         this.coupons = coupons;
         this.configuration = configuration;
+        this.clinpaysWebhookEvents = clinpaysWebhookEvents;
         this.registry = registry;
         this.mapper = mapper;
         this.events = events;
@@ -75,7 +79,7 @@ public class PayService {
 
     @Transactional
     public void initializeDefaults() {
-        if (configuration.findById(CommerceSettings.DEFAULT_ID).isEmpty()) {
+        if (configuration.findById(CommerceSettings.currentId()).isEmpty()) {
             configuration.save(new CommerceSettings());
         }
         if (coupons.count() == 0
@@ -175,8 +179,11 @@ public class PayService {
             throw new BadRequestException("El carrito no puede mezclar monedas");
         }
 
+        // Los metadatos calculados por el proveedor son autoritativos. El cliente
+        // puede añadir opciones propias, pero no sobrescribir importes, impuestos
+        // ni referencias utilizadas durante el cumplimiento.
         Map<String, Object> resolvedMetadata = merge(
-                item.metadata(), request.metadata());
+                request.metadata(), item.metadata());
         String metadataJson = write(resolvedMetadata);
         CommerceCartItem line = cart.items.stream()
                 .filter(existing -> existing.providerKey.equals(request.providerKey())
@@ -201,7 +208,8 @@ public class PayService {
                     cart.items.add(created);
                     return created;
                 });
-        line.quantity = Math.min(999, line.quantity + request.quantity());
+        boolean singleQuantity = Boolean.TRUE.equals(item.metadata().get("singleQuantity"));
+        line.quantity = singleQuantity ? 1 : Math.min(999, line.quantity + request.quantity());
         carts.save(cart);
         events.publish(PluginEvent.of(
                 "commerce.cart.updated",
@@ -221,8 +229,15 @@ public class PayService {
                 .filter(item -> item.id.equals(itemId))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Línea no encontrada"));
-        if (request.quantity() == 0) cart.items.remove(line);
-        else line.quantity = request.quantity();
+        if (request.quantity() == 0) {
+            cart.items.remove(line);
+        } else {
+            SellableProvider.SellableItem resolved = registry.requireItem(
+                    line.providerKey, line.itemReference);
+            boolean singleQuantity = Boolean.TRUE.equals(
+                    resolved.metadata().get("singleQuantity"));
+            line.quantity = singleQuantity ? 1 : request.quantity();
+        }
         carts.save(cart);
         return cart(cart, coupon);
     }
@@ -237,12 +252,36 @@ public class PayService {
     @Transactional
     public PayDtos.CheckoutResponse checkout(
             String token,
-            PayDtos.CheckoutRequest request) {
+            PayDtos.CheckoutRequest request,
+            String authenticatedEmail,
+            String clientIp) {
         guard.requireEnabled();
         CommerceCart cart = requireCart(token);
         ensureActive(cart);
         if (cart.items.isEmpty()) {
             throw new BadRequestException("El carrito está vacío");
+        }
+
+        CommerceSettings commerceSettings = currentSettings();
+        boolean accountOnlyPurchase = cart.items.stream()
+                .anyMatch(item -> "saas".equals(item.providerKey));
+        boolean authenticated = authenticatedEmail != null
+                && !authenticatedEmail.isBlank();
+        if ((!commerceSettings.guestCheckout || accountOnlyPurchase) && !authenticated) {
+            throw new BadRequestException(
+                    accountOnlyPurchase
+                            ? "Debe iniciar sesión o crear una cuenta para comprar licencias y suscripciones"
+                            : "Debe iniciar sesión o crear una cuenta antes de continuar con el pago");
+        }
+        String checkoutEmail = authenticated
+                ? authenticatedEmail.trim().toLowerCase(Locale.ROOT)
+                : request.email().trim().toLowerCase(Locale.ROOT);
+        if (authenticated
+                && request.email() != null
+                && !request.email().isBlank()
+                && !checkoutEmail.equals(request.email().trim().toLowerCase(Locale.ROOT))) {
+            throw new BadRequestException(
+                    "El correo del checkout debe coincidir con la cuenta iniciada");
         }
 
         if (request.idempotencyKey() != null
@@ -259,14 +298,15 @@ public class PayService {
                         payment.id,
                         payment.status.name(),
                         payment.redirectUrl,
-                        "Solicitud procesada previamente");
+                        "Solicitud procesada previamente",
+                        read(payment.metadataJson));
             }
         }
 
         CommerceCustomer customer = customers
-                .findByEmailIgnoreCase(request.email())
+                .findByEmailIgnoreCase(checkoutEmail)
                 .orElseGet(CommerceCustomer::new);
-        customer.email = request.email().trim().toLowerCase(Locale.ROOT);
+        customer.email = checkoutEmail;
         customer.displayName = request.name().trim();
         customer.phone = blank(request.phone());
         customer = customers.save(customer);
@@ -319,7 +359,11 @@ public class PayService {
                         request.returnUrl(),
                         request.cancelUrl(),
                         idempotencyKey,
-                        Map.of()));
+                        gatewayMetadata(
+                                request,
+                                order,
+                                customer,
+                                clientIp)));
 
         CommercePayment payment = new CommercePayment();
         payment.order = order;
@@ -335,8 +379,12 @@ public class PayService {
 
         if (payment.status == PaymentStatus.SUCCEEDED) {
             markPaid(order, payment);
+        } else if (payment.status == PaymentStatus.FAILED) {
+            order.status = OrderStatus.FAILED;
+            payment.failureMessage = result.message();
+            payments.save(payment);
         } else {
-            order.status = OrderStatus.PENDING_PAYMENT;
+            order.status = OrderStatus.PAYMENT_PROCESSING;
         }
         orders.save(order);
         cart.status = CartStatus.CONVERTED;
@@ -356,7 +404,8 @@ public class PayService {
                 payment.id,
                 payment.status.name(),
                 payment.redirectUrl,
-                result.message());
+                result.message(),
+                result.metadata());
     }
 
     @Transactional
@@ -494,7 +543,7 @@ public class PayService {
                 coupons.count(),
                 coupons.countByDemoDataTrue(),
                 recent,
-                registry.gateways());
+                registry.gatewayCatalog());
     }
 
     @Transactional(readOnly = true)
@@ -570,21 +619,50 @@ public class PayService {
         settings.supportEmail = blank(request.supportEmail());
         settings.termsUrl = blank(request.termsUrl());
         settings.bankInstructions = blank(request.bankInstructions());
+        settings.bankTransferEnabled = request.bankTransferEnabled();
+        settings.cashEnabled = request.cashEnabled();
+        settings.sandboxEnabled = request.sandboxEnabled();
         settings.paypalEnabled = request.paypalEnabled();
         settings.paypalMode = request.paypalMode() == null
                 ? "SANDBOX"
                 : request.paypalMode().toUpperCase(Locale.ROOT);
         settings.paypalClientId = blank(request.paypalClientId());
         settings.paypalWebhookId = blank(request.paypalWebhookId());
+        settings.paypalReceiverEmail = blank(request.paypalReceiverEmail());
         String paypalSecret = blank(request.paypalClientSecret());
         if (paypalSecret != null) {
             settings.paypalClientSecretCipher = cipher.encrypt(paypalSecret);
         }
         if (settings.paypalEnabled
                 && (settings.paypalClientId == null
-                    || settings.paypalClientSecretCipher == null)) {
+                    || settings.paypalClientSecretCipher == null
+                    || settings.paypalReceiverEmail == null)) {
             throw new BadRequestException(
-                    "Configure Client ID y Client Secret antes de activar PayPal");
+                    "Configure Client ID, Client Secret y correo receptor antes de activar PayPal");
+        }
+
+        settings.clinpaysEnabled = request.clinpaysEnabled();
+        settings.clinpaysEnvironment = request.clinpaysEnvironment() == null
+                ? "STAGE"
+                : request.clinpaysEnvironment().toUpperCase(Locale.ROOT);
+        settings.clinpaysAccountId = blank(request.clinpaysAccountId());
+        String clinpaysToken = blank(request.clinpaysAccessToken());
+        if (clinpaysToken != null) {
+            settings.clinpaysAccessTokenCipher = cipher.encrypt(clinpaysToken);
+        }
+        String currentWebhookSecret = blank(request.clinpaysWebhookSecret());
+        if (currentWebhookSecret != null) {
+            settings.clinpaysWebhookSecretCipher = cipher.encrypt(currentWebhookSecret);
+        }
+        String previousWebhookSecret = blank(request.clinpaysPreviousWebhookSecret());
+        if (previousWebhookSecret != null) {
+            settings.clinpaysPreviousWebhookSecretCipher = cipher.encrypt(previousWebhookSecret);
+        }
+        if (settings.clinpaysEnabled
+                && (settings.clinpaysAccessTokenCipher == null
+                    || settings.clinpaysWebhookSecretCipher == null)) {
+            throw new BadRequestException(
+                    "Configure el token y el secreto de webhook antes de activar Clinpays");
         }
         return settings(configuration.save(settings));
     }
@@ -594,6 +672,93 @@ public class PayService {
         return registry.gateways();
     }
 
+    @Transactional
+    public void confirmClinpaysWebhook(
+            String webhookId,
+            JsonNode event) {
+        guard.requireEnabled();
+        if (clinpaysWebhookEvents.existsById(webhookId)) return;
+
+        String orderReference = firstText(event,
+                "orderReference", "order_reference", "reference");
+        if (orderReference == null) {
+            throw new BadRequestException("El webhook de Clinpays no contiene orderReference");
+        }
+        CommerceOrder order = orders.findByOrderNumber(orderReference)
+                .orElseThrow(() -> new NotFoundException(
+                        "Orden de Clinpays no encontrada"));
+        CommercePayment payment = payments.findByOrderIdOrderByCreatedAtDesc(order.id)
+                .stream()
+                .filter(item -> "clinpays".equals(item.gatewayKey))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(
+                        "Pago Clinpays no encontrado"));
+
+        String status = firstText(event, "status", "paymentStatus");
+        String externalReference = firstText(event, "_id", "paymentId", "transactionID");
+        Map<String, Object> update = mapper.convertValue(
+                event,
+                new TypeReference<Map<String, Object>>() { });
+        payment.metadataJson = write(merge(read(payment.metadataJson), Map.of(
+                "webhook", update,
+                "webhookId", webhookId)));
+        if (externalReference != null) payment.externalReference = externalReference;
+
+        if ("APPROVED".equalsIgnoreCase(status)
+                || "COMPLETED".equalsIgnoreCase(status)) {
+            payment.status = PaymentStatus.SUCCEEDED;
+            payments.save(payment);
+            markPaid(order, payment);
+        } else if ("DENIED".equalsIgnoreCase(status)
+                || "FAILED".equalsIgnoreCase(status)
+                || "CANCELED".equalsIgnoreCase(status)
+                || "CANCELLED".equalsIgnoreCase(status)) {
+            payment.status = PaymentStatus.FAILED;
+            payment.failureMessage = firstText(event, "message", "Message");
+            order.status = OrderStatus.FAILED;
+            payments.save(payment);
+            orders.save(order);
+        } else {
+            payment.status = PaymentStatus.PENDING;
+            order.status = OrderStatus.PAYMENT_PROCESSING;
+            payments.save(payment);
+            orders.save(order);
+        }
+
+        ClinpaysWebhookEvent processed = new ClinpaysWebhookEvent();
+        processed.webhookId = webhookId;
+        processed.eventType = status;
+        processed.orderReference = orderReference;
+        processed.paymentReference = externalReference;
+        clinpaysWebhookEvents.save(processed);
+    }
+
+    private Map<String, Object> gatewayMetadata(
+            PayDtos.CheckoutRequest request,
+            CommerceOrder order,
+            CommerceCustomer customer,
+            String clientIp) {
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("paymentData", request.paymentData() == null ? Map.of() : request.paymentData());
+        metadata.put("billing", request.billing() == null ? Map.of() : request.billing());
+        metadata.put("customerName", customer.displayName);
+        metadata.put("customerPhone", customer.phone == null ? "" : customer.phone);
+        metadata.put("subtotal", order.subtotal);
+        metadata.put("tax", order.taxTotal);
+        metadata.put("clientIp", clientIp == null ? "" : clientIp);
+        return metadata;
+    }
+
+    private String firstText(JsonNode node, String... names) {
+        for (String name : names) {
+            JsonNode value = node.path(name);
+            if (!value.isMissingNode() && !value.isNull() && !value.asText().isBlank()) {
+                return value.asText();
+            }
+        }
+        return null;
+    }
+
     private void markPaid(CommerceOrder order, CommercePayment payment) {
         if (order.paidAt != null) return;
         order.status = OrderStatus.PAID;
@@ -601,6 +766,13 @@ public class PayService {
         orders.save(order);
         for (CommerceOrderItem item : order.items) {
             if (item.fulfilledAt != null) continue;
+            BigDecimal allocatedDiscount = order.subtotal.signum() == 0
+                    ? BigDecimal.ZERO.setScale(2)
+                    : money(order.discountTotal
+                            .multiply(item.lineTotal)
+                            .divide(order.subtotal, 8, RoundingMode.HALF_UP));
+            allocatedDiscount = allocatedDiscount.min(item.lineTotal);
+            BigDecimal fulfilledTotal = money(item.lineTotal.subtract(allocatedDiscount));
             registry.requireProvider(item.providerKey).fulfill(
                     new SellableProvider.FulfillmentRequest(
                             order.id,
@@ -609,6 +781,10 @@ public class PayService {
                             order.customerEmail,
                             item.itemReference,
                             item.quantity,
+                            money(item.lineTotal),
+                            allocatedDiscount,
+                            fulfilledTotal,
+                            order.couponCode,
                             read(item.metadataJson)));
             item.fulfilledAt = Instant.now();
         }
@@ -802,7 +978,7 @@ public class PayService {
     }
 
     private CommerceSettings currentSettings() {
-        return configuration.findById(CommerceSettings.DEFAULT_ID)
+        return configuration.findById(CommerceSettings.currentId())
                 .orElseGet(CommerceSettings::new);
     }
 
@@ -820,12 +996,21 @@ public class PayService {
                 settings.supportEmail,
                 settings.termsUrl,
                 settings.bankInstructions,
+                settings.bankTransferEnabled,
+                settings.cashEnabled,
+                settings.sandboxEnabled,
                 settings.paypalEnabled,
                 settings.paypalMode,
                 settings.paypalClientId,
                 settings.paypalClientId != null
                         && settings.paypalClientSecretCipher != null,
                 settings.paypalWebhookId,
+                settings.paypalReceiverEmail,
+                settings.clinpaysEnabled,
+                settings.clinpaysEnvironment,
+                settings.clinpaysAccountId,
+                settings.clinpaysAccessTokenCipher != null
+                        && settings.clinpaysWebhookSecretCipher != null,
                 settings.updatedAt);
     }
 

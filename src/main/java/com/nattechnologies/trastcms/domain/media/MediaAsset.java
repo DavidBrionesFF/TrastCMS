@@ -7,6 +7,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "media_asset")
 public class MediaAsset {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id @Column(length = 36)
     private String id;
     @Column(nullable = false, length = 255)

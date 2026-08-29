@@ -1,6 +1,6 @@
 # Roadmap
 
-## Alpha 2.2 — incluido
+## Incluido en 3.6.1
 
 - Editor rich text avanzado.
 - Constructor visual de páginas.
@@ -8,10 +8,15 @@
 - Temas y personalizador.
 - Plugins PF4J con bloques, páginas y acciones.
 - Tailwind y Outfit.
+- Menús y navegación visual.
+- Formularios y automatizaciones mediante TrastCRM.
+- Comercio, tienda, SaaS, academia y viajes como plugins incorporados.
+- Multisitio con aislamiento por tenant.
+- Traducción mediante TrastTranslate.
+- Importadores de medios y contenido WordPress.
 
 ## Próxima beta
 
-- Menús y navegación visual.
 - Tipos de contenido y campos personalizados.
 - Revisión visual de cambios y restauración completa.
 - Programación de publicación.
@@ -19,12 +24,11 @@
 - Marketplace firmado de plugins y temas.
 - Actualizaciones con verificación de checksum.
 - Copias de seguridad desde el panel.
-- Importador del TrastCMS legado y WordPress.
+- Importador general del TrastCMS legado.
 
 ## Futuro
 
-- Comercio electrónico como plugin.
-- Formularios y automatizaciones.
-- Multisitio y multiidioma.
 - Almacenamiento S3 compatible.
 - Colaboración editorial en tiempo real.
+- Marketplace firmado y actualizaciones automáticas.
+- Credenciales MCP independientes por sitio.

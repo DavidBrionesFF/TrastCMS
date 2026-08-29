@@ -1,4 +1,4 @@
-# API e integraciones de TrastCMS 2.5
+# API e integraciones de TrastCMS 3.6.1
 
 TrastCMS ofrece dos contratos complementarios dentro del mismo JAR:
 

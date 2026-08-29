@@ -7,7 +7,8 @@ import java.time.Instant;
 @Table(name = "saas_settings")
 class SaasSettings {
     @Id
-    int id = 1;
+    @Column(length = 36)
+    String id = com.nattechnologies.trastcms.multisite.SiteContext.siteId();
 
     @Column(name = "company_name", nullable = false, length = 180)
     String companyName = "TrastCMS Cloud";

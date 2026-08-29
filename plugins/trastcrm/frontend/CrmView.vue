@@ -17,10 +17,13 @@ import type {
   CrmStage,
   CrmSubmission,
   CrmSubmissionStatus,
+  CrmReputationRequest,
+  CrmReputationSettings,
+  CrmReputationSummary,
   PageResponse
 } from '@/types'
 
-type Tab = 'dashboard' | 'contacts' | 'companies' | 'deals' | 'activities' | 'forms' | 'submissions'
+type Tab = 'dashboard' | 'contacts' | 'companies' | 'deals' | 'activities' | 'forms' | 'submissions' | 'reputation'
 type Editor = 'contact' | 'company' | 'deal' | 'activity' | 'form' | 'stage' | null
 
 const toast = useToastStore()
@@ -43,6 +46,16 @@ const draft = reactive<Record<string, any>>({})
 const saving = ref(false)
 const demoBusy = ref(false)
 const selectedSubmission = ref<CrmSubmission | null>(null)
+const reputationSummary = ref<CrmReputationSummary | null>(null)
+const reputationRequests = ref<CrmReputationRequest[]>([])
+const reputationSettings = reactive<CrmReputationSettings>({
+  enabled: true, travelEnabled: true, academyEnabled: true, saasEnabled: true, followUpDays: 3,
+  emailSubject: '¿Cómo fue su experiencia con {siteName}?',
+  emailIntro: 'Su opinión nos ayuda a mejorar. Seleccione de 1 a 5 estrellas para contarnos cómo fue su experiencia.',
+  thankYouMessage: 'Gracias por compartir su experiencia.',
+  channels: []
+})
+const reputationSaving = ref(false)
 
 const tabs: Array<{ id: Tab; label: string; icon: string }> = [
   { id: 'dashboard', label: 'Resumen', icon: 'dashboard' },
@@ -51,7 +64,8 @@ const tabs: Array<{ id: Tab; label: string; icon: string }> = [
   { id: 'deals', label: 'Negocios', icon: 'pipeline' },
   { id: 'activities', label: 'Actividades', icon: 'calendar' },
   { id: 'forms', label: 'Formularios', icon: 'form' },
-  { id: 'submissions', label: 'Envíos', icon: 'inbox' }
+  { id: 'submissions', label: 'Envíos', icon: 'inbox' },
+  { id: 'reputation', label: 'Reputación', icon: 'send' }
 ]
 
 const money = (value: number | string, currency = 'HNL') => new Intl.NumberFormat('es-HN', {
@@ -114,6 +128,14 @@ async function load() {
   if (tab.value === 'submissions' || tab.value === 'forms' || tab.value === 'dashboard') {
     optionalRequests.push(api<PageResponse<CrmSubmission>>('/api/admin/crm/submissions?size=100'))
     optionalHandlers.push(value => { submissions.value = value.content })
+  }
+  if (tab.value === 'reputation') {
+    optionalRequests.push(api<CrmReputationSummary>('/api/admin/crm/reputation/summary'))
+    optionalHandlers.push(value => { reputationSummary.value = value })
+    optionalRequests.push(api<PageResponse<CrmReputationRequest>>('/api/admin/crm/reputation/requests?size=100'))
+    optionalHandlers.push(value => { reputationRequests.value = value.content })
+    optionalRequests.push(api<CrmReputationSettings>('/api/admin/crm/reputation/settings'))
+    optionalHandlers.push(value => Object.assign(reputationSettings, JSON.parse(JSON.stringify(value))))
   }
 
   const optionalResults = await Promise.allSettled(optionalRequests)
@@ -270,6 +292,48 @@ function createsFollowUp(item: CrmForm): boolean {
 }
 
 
+function sourceLabel(source: string) {
+  if (source === 'TRAVEL') return 'Travel'
+  if (source === 'ACADEMY') return 'Academy'
+  if (source === 'SAAS') return 'SaaS'
+  return 'Manual'
+}
+
+function reputationStatusLabel(status: string) {
+  return ({ PENDING: 'Pendiente', SENT: 'Correo enviado', RATED: 'Valorado', SHARED: 'Compartido', FAILED: 'Error', CANCELLED: 'Cancelado' } as Record<string,string>)[status] || status
+}
+
+async function saveReputationSettings() {
+  reputationSaving.value = true
+  error.value = ''
+  try {
+    const result = await api<CrmReputationSettings>('/api/admin/crm/reputation/settings', {
+      method: 'PUT',
+      body: JSON.stringify(reputationSettings)
+    })
+    Object.assign(reputationSettings, JSON.parse(JSON.stringify(result)))
+    toast.success('Automatización guardada', 'La configuración de reputación quedó actualizada para este sitio.')
+  } catch (caught) {
+    error.value = caught instanceof Error ? caught.message : 'No se pudo guardar la configuración de reputación.'
+  } finally {
+    reputationSaving.value = false
+  }
+}
+
+async function resendReputation(id: string) {
+  reputationSaving.value = true
+  try {
+    await api(`/api/admin/crm/reputation/requests/${id}/resend`, { method: 'POST' })
+    toast.success('Correo reenviado', 'Se registró una nueva actividad de correo en el CRM.')
+    await load()
+  } catch (caught) {
+    error.value = caught instanceof Error ? caught.message : 'No se pudo reenviar el correo.'
+  } finally {
+    reputationSaving.value = false
+  }
+}
+
+
 async function demo(action: 'generate' | 'delete') {
   if (action === 'delete' && !window.confirm('¿Eliminar empresas, contactos, negocios y actividades demo?')) return
   demoBusy.value = true
@@ -302,7 +366,7 @@ function actionType(): Exclude<Editor, null> | null {
 </script>
 
 <template>
-  <AdminPageHeader eyebrow="Plugin incorporado" title="TrastCRM" description="Convierta formularios del sitio en contactos, oportunidades y actividades de seguimiento.">
+  <AdminPageHeader eyebrow="Plugin incorporado" title="TrastCRM" description="Conecte captación, ventas, experiencia del cliente y reputación entre los plugins del sitio.">
     <template #actions>
       <button class="button secondary" :disabled="demoBusy" @click="demo('generate')"><UiIcon name="sparkles" :size="16"/>Generar demo</button>
       <button class="button ghost" :disabled="demoBusy" @click="demo('delete')">Eliminar demo</button>
@@ -311,7 +375,7 @@ function actionType(): Exclude<Editor, null> | null {
   </AdminPageHeader>
 
   <section class="crm-intro">
-    <div><span class="eyebrow">Centro comercial</span><h2>Desde la primera consulta hasta el cierre</h2><p>TrastCRM está conectado con sus páginas y formularios. Cada envío puede convertirse en un lead, relacionarse con una empresa y avanzar por el pipeline.</p></div>
+    <div><span class="eyebrow">Centro comercial</span><h2>Desde la primera consulta hasta el cierre</h2><p>TrastCRM conecta páginas, formularios y eventos de negocio. Travel, Academy y SaaS también pueden convertir experiencias reales en contactos, tareas y solicitudes de reputación medibles.</p></div>
     <div class="crm-intro__steps"><span><b>1</b>Captar</span><i></i><span><b>2</b>Calificar</span><i></i><span><b>3</b>Dar seguimiento</span><i></i><span><b>4</b>Cerrar</span></div>
   </section>
 
@@ -380,6 +444,64 @@ function actionType(): Exclude<Editor, null> | null {
       <div class="crm-integration-banner"><span><UiIcon name="page" :size="22"/></span><div><strong>Integración con el constructor visual</strong><p>En una página agregue el bloque <b>Formulario CRM</b> y seleccione cualquiera de los formularios creados aquí.</p></div><RouterLink :to="{ name: 'page-new' }" class="button secondary small">Crear landing</RouterLink></div>
       <div v-if="!forms.length" class="crm-empty"><UiIcon name="form" :size="38"/><h3>No hay formularios</h3><p>Cree uno para comenzar a captar oportunidades desde la web.</p><button class="button" @click="openNew('form')">Crear formulario</button></div>
       <div v-else class="crm-form-grid"><article v-for="item in forms" :key="item.id"><header><span class="crm-form-icon"><UiIcon name="form" :size="22"/></span><div><span class="eyebrow">{{ item.formKey }}</span><h3>{{ item.name }}</h3></div><b :class="['crm-status',item.active?'customer':'inactive']">{{ item.active?'Activo':'Inactivo' }}</b></header><p>{{ item.description || 'Formulario sin descripción.' }}</p><div class="crm-form-stats"><span><strong>{{ item.fields.length }}</strong>campos</span><span><strong>{{ formSubmissionCount.get(item.id) || 0 }}</strong>envíos</span><span><strong>{{ createsLead(item) ? 'Sí' : 'No' }}</strong>crea lead</span><span><strong>{{ createsDeal(item) ? 'Sí' : 'No' }}</strong>crea negocio</span><span><strong>{{ createsFollowUp(item) ? 'Sí' : 'No' }}</strong>crea seguimiento</span></div><code>plugin:trastcrm:form · {{ item.formKey }}</code><footer><button class="button secondary small" @click="edit('form',item)"><UiIcon name="edit" :size="15"/>Diseñar</button><button class="button danger small" @click="remove('forms',item.id,item.name)"><UiIcon name="trash" :size="15"/>Eliminar</button></footer></article></div>
+    </section>
+
+    <section v-else-if="tab==='reputation'" class="crm-reputation-workspace">
+      <div class="crm-reputation-metrics">
+        <article><span><UiIcon name="send" :size="19"/></span><div><small>Solicitudes</small><strong>{{ reputationSummary?.total || 0 }}</strong><p>experiencias registradas</p></div></article>
+        <article><span class="blue"><UiIcon name="inbox" :size="19"/></span><div><small>Correos</small><strong>{{ reputationSummary?.sent || 0 }}</strong><p>solicitudes enviadas</p></div></article>
+        <article><span class="amber"><UiIcon name="star" :size="19"/></span><div><small>Valoraciones</small><strong>{{ reputationSummary?.rated || 0 }}</strong><p>clientes que respondieron</p></div></article>
+        <article><span class="emerald"><UiIcon name="check" :size="19"/></span><div><small>Promedio</small><strong>{{ (reputationSummary?.averageRating || 0).toFixed(1) }} ★</strong><p>{{ (reputationSummary?.fiveStarRate || 0).toFixed(0) }}% con 5 estrellas</p></div></article>
+      </div>
+
+      <section class="crm-reputation-flow">
+        <div class="crm-reputation-flow__copy"><span class="eyebrow">Automatización de experiencia</span><h2>Del evento de negocio a una reseña medible</h2><p>Travel después del pago, Academy al completar un curso y SaaS después de la compra pueden convertir al cliente en contacto CRM, crear una tarea de seguimiento, enviar el correo de valoración y registrar estrellas, comentario privado y canal público abierto.</p></div>
+        <div class="crm-reputation-flow__steps"><span><b>1</b>Evento</span><i>→</i><span><b>2</b>Contacto CRM</span><i>→</i><span><b>3</b>Correo 1–5 ★</span><i>→</i><span><b>4</b>Reseña</span><i>→</i><span><b>5</b>Seguimiento</span></div>
+      </section>
+
+      <div class="crm-reputation-grid">
+        <section class="crm-surface crm-reputation-settings">
+          <header><div><h2>Configuración del sitio</h2><p>Cada tenant conserva sus propios disparadores, mensajes y enlaces de reputación.</p></div><span :class="['crm-status', reputationSettings.enabled ? 'customer' : 'inactive']">{{ reputationSettings.enabled ? 'Automático' : 'Pausado' }}</span></header>
+
+          <label class="switch-row"><input v-model="reputationSettings.enabled" type="checkbox"><span><strong>Automatización de reputación</strong><small>Permite generar nuevas solicitudes desde los plugins conectados.</small></span></label>
+          <div class="crm-reputation-triggers">
+            <label class="switch-row"><input v-model="reputationSettings.travelEnabled" type="checkbox"><span><strong>TrastTravel</strong><small>Después de confirmar el pago de una reserva.</small></span></label>
+            <label class="switch-row"><input v-model="reputationSettings.academyEnabled" type="checkbox"><span><strong>TrastAcademy</strong><small>Cuando el estudiante completa un curso.</small></span></label>
+            <label class="switch-row"><input v-model="reputationSettings.saasEnabled" type="checkbox"><span><strong>TrastSaaS</strong><small>Después de pagar y emitir el acceso/licencia.</small></span></label>
+          </div>
+
+          <div class="form-grid two crm-reputation-copy">
+            <label>Días para seguimiento<input v-model.number="reputationSettings.followUpDays" type="number" min="1" max="30"><small>Se crea una tarea CRM pendiente para revisar la respuesta.</small></label>
+            <label>Asunto del correo<input v-model="reputationSettings.emailSubject" maxlength="220"><small>Puede usar <code>{siteName}</code> y <code>{sourceLabel}</code>.</small></label>
+            <label class="full">Introducción<textarea v-model="reputationSettings.emailIntro" rows="4" maxlength="2000"></textarea></label>
+            <label class="full">Mensaje después de valorar<textarea v-model="reputationSettings.thankYouMessage" rows="3" maxlength="1000"></textarea></label>
+          </div>
+
+          <div class="crm-reputation-channels">
+            <header><div><h3>Canales públicos</h3><p>Todos los clientes pueden elegir cualquiera de los canales activos después de registrar su valoración.</p></div></header>
+            <article v-for="channel in reputationSettings.channels" :key="channel.id">
+              <label class="compact-check"><input v-model="channel.active" type="checkbox">Activo</label>
+              <label>Nombre<input v-model="channel.label" maxlength="120"></label>
+              <label class="grow">URL pública<input v-model="channel.url" type="url" placeholder="https://..."></label>
+            </article>
+          </div>
+          <footer class="crm-reputation-settings__footer"><button class="button" :disabled="reputationSaving" @click="saveReputationSettings"><UiIcon name="save" :size="16"/>{{ reputationSaving ? 'Guardando…' : 'Guardar automatización' }}</button></footer>
+        </section>
+
+        <section class="crm-surface crm-reputation-requests">
+          <header><div><h2>Experiencias recientes</h2><p>Sepa quién recibió la solicitud, cómo calificó y qué canal abrió.</p></div><span class="crm-summary-chip">{{ reputationRequests.length }} registros</span></header>
+          <div v-if="!reputationRequests.length" class="crm-empty"><UiIcon name="star" :size="38"/><h3>Aún no hay valoraciones</h3><p>Las solicitudes aparecerán aquí después de una reserva pagada, un curso completado o una compra SaaS.</p></div>
+          <div v-else class="crm-reputation-list">
+            <article v-for="item in reputationRequests" :key="item.id">
+              <div class="crm-reputation-list__source"><span>{{ sourceLabel(item.sourceType) }}</span><strong>{{ item.sourceLabel }}</strong><small>{{ item.customerName || item.recipientEmail }}</small></div>
+              <div class="crm-reputation-list__rating"><b v-if="item.rating">{{ '★'.repeat(item.rating) }}<i>{{ '☆'.repeat(5-item.rating) }}</i></b><span v-else>Sin respuesta</span><small v-if="item.channelId">Canal: {{ item.channelId }}</small></div>
+              <div class="crm-reputation-list__status"><span :class="['crm-reputation-status', item.status.toLowerCase()]">{{ reputationStatusLabel(item.status) }}</span><small>{{ item.ratedAt ? new Date(item.ratedAt).toLocaleString() : item.sentAt ? `Enviado ${new Date(item.sentAt).toLocaleString()}` : new Date(item.createdAt).toLocaleString() }}</small></div>
+              <div class="crm-reputation-list__actions"><a class="button ghost small" :href="item.reviewUrl" target="_blank"><UiIcon name="external" :size="14"/>Abrir</a><button class="button secondary small" :disabled="reputationSaving" @click="resendReputation(item.id)"><UiIcon name="send" :size="14"/>Reenviar</button></div>
+              <p v-if="item.privateFeedback" class="crm-reputation-feedback">“{{ item.privateFeedback }}”</p>
+            </article>
+          </div>
+        </section>
+      </div>
     </section>
 
     <section v-else class="crm-surface">

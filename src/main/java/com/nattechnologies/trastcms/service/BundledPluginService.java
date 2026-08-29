@@ -33,12 +33,16 @@ public class BundledPluginService implements ApplicationRunner {
     }
 
     @Override
-    @Transactional
     public void run(ApplicationArguments args) {
+        initializeCurrentSite();
+    }
+
+    @Transactional
+    public void initializeCurrentSite() {
         for (BundledPlugin plugin : plugins.values()) {
-            BundledPluginState state = states.findById(plugin.id()).orElseGet(() -> {
+            BundledPluginState state = states.findCurrent(plugin.id()).orElseGet(() -> {
                 BundledPluginState created = new BundledPluginState();
-                created.setPluginId(plugin.id());
+                created.setPluginId(states.currentKey(plugin.id()));
                 created.setEnabled(plugin.enabledByDefault());
                 created.setInstalledVersion(plugin.version());
                 return created;
@@ -47,6 +51,44 @@ public class BundledPluginService implements ApplicationRunner {
             states.save(state);
             if (state.isEnabled()) plugin.onEnabled();
         }
+    }
+
+    @Transactional
+    public List<ApiDtos.BundledPluginResponse> configureCurrentSite(Set<String> enabledPluginIds, String actor) {
+        Set<String> requested = enabledPluginIds == null ? Set.of() : Set.copyOf(enabledPluginIds);
+        for (String id : requested) require(id);
+        for (String id : requested) {
+            BundledPlugin plugin = require(id);
+            for (String dependency : plugin.requiredPlugins()) {
+                if (!requested.contains(dependency)) {
+                    throw new BadRequestException("El plugin " + plugin.name() + " requiere " + dependency);
+                }
+            }
+        }
+        for (BundledPlugin plugin : plugins.values()) {
+            BundledPluginState state = states.findCurrent(plugin.id()).orElseGet(() -> {
+                BundledPluginState created = new BundledPluginState();
+                created.setPluginId(states.currentKey(plugin.id()));
+                created.setInstalledVersion(plugin.version());
+                return created;
+            });
+            boolean previous = state.isEnabled();
+            boolean next = requested.contains(plugin.id());
+            state.setInstalledVersion(plugin.version());
+            state.setEnabled(next);
+            states.save(state);
+            if (next && !previous) plugin.onEnabled();
+            if (!next && previous) plugin.onDisabled();
+        }
+        audit.record(actor, "site.plugins.configured", "site", com.nattechnologies.trastcms.multisite.SiteContext.siteId(), String.join(",", new TreeSet<>(requested)));
+        return list();
+    }
+
+    @Transactional(readOnly = true)
+    public Set<String> enabledIds() {
+        Set<String> result = new TreeSet<>();
+        for (BundledPlugin plugin : plugins.values()) if (isEnabled(plugin.id())) result.add(plugin.id());
+        return Collections.unmodifiableSet(result);
     }
 
     @Transactional(readOnly = true)
@@ -84,7 +126,7 @@ public class BundledPluginService implements ApplicationRunner {
 
     @Transactional(readOnly = true)
     public boolean isEnabled(String pluginId) {
-        return states.findById(pluginId).map(BundledPluginState::isEnabled).orElse(false);
+        return states.findCurrent(pluginId).map(BundledPluginState::isEnabled).orElse(false);
     }
 
     @Transactional(readOnly = true)
@@ -143,13 +185,18 @@ public class BundledPluginService implements ApplicationRunner {
         return plugin;
     }
     private BundledPluginState requireState(String id) {
-        return states.findById(id).orElseThrow(() -> new NotFoundException("Estado del plugin no encontrado"));
+        return states.findCurrent(id).orElseThrow(() -> new NotFoundException("Estado del plugin no encontrado"));
     }
     private ApiDtos.BundledPluginResponse response(BundledPlugin plugin) {
-        BundledPluginState state = states.findById(plugin.id()).orElse(null);
-        return new ApiDtos.BundledPluginResponse(plugin.id(), plugin.name(), plugin.version(),
-                plugin.description(), plugin.author(), state != null && state.isEnabled(),
-                plugin.enabledByDefault(), plugin.capabilities(),
+        BundledPluginState state = states.findCurrent(plugin.id()).orElse(null);
+        return new ApiDtos.BundledPluginResponse(
+                plugin.id(), plugin.name(), plugin.version(),
+                plugin.description(), plugin.author(),
+                state != null && state.isEnabled(),
+                plugin.enabledByDefault(),
+                plugin.requiredPlugins(),
+                plugin.optionalPlugins(),
+                plugin.capabilities(),
                 state == null ? null : state.getUpdatedAt());
     }
     private Map<String, Object> contribution(Map<String, Object> source, BundledPlugin plugin) {

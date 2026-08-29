@@ -1,0 +1,112 @@
+{
+  "id": "community-travel-demo",
+  "name": "Community Travel Demo",
+  "source": "bundled",
+  "restApi": "",
+  "capturedAt": "2026-08-29",
+  "destinations": [
+    {
+      "name": "Coastal Bay",
+      "slug": "coastal-bay",
+      "summary": "A fictional coastal destination used to evaluate the travel engine.",
+      "country": "Example Country",
+      "region": "Coastal Region",
+      "city": "Coastal Bay",
+      "image": "/api/public/themes/aurora/assets/screenshot.svg",
+      "featured": true
+    },
+    {
+      "name": "Mountain Valley",
+      "slug": "mountain-valley",
+      "summary": "A fictional nature destination for community demonstrations.",
+      "country": "Example Country",
+      "region": "Highland Region",
+      "city": "Mountain Valley",
+      "image": "/api/public/themes/nexus/assets/screenshot.svg",
+      "featured": false
+    }
+  ],
+  "activities": [
+    {
+      "name": "Guided Tour",
+      "slug": "guided-tour",
+      "icon": "🧭",
+      "description": "Guided experience with a local host.",
+      "image": "/api/public/themes/aurora/assets/screenshot.svg"
+    },
+    {
+      "name": "Outdoor Adventure",
+      "slug": "outdoor-adventure",
+      "icon": "🥾",
+      "description": "Outdoor activities for small groups.",
+      "image": "/api/public/themes/nexus/assets/screenshot.svg"
+    }
+  ],
+  "extras": [
+    { "name": "Hotel Pickup", "slug": "hotel-pickup", "unit": "PER_GROUP", "price": 25.00 },
+    { "name": "Lunch", "slug": "lunch", "unit": "PER_PERSON", "price": 15.00 }
+  ],
+  "tours": [
+    {
+      "name": "Coastal Discovery",
+      "slug": "coastal-discovery",
+      "code": "DEMO-001",
+      "destination": "coastal-bay",
+      "activities": ["guided-tour"],
+      "adultPrice": 65.00,
+      "childPrice": 35.00,
+      "infantPrice": 0.00,
+      "pricingMode": "PER_PERSON",
+      "durationValue": 4,
+      "durationUnit": "HOUR",
+      "difficulty": "EASY",
+      "maxGroup": 16,
+      "featured": true,
+      "summary": "A fictional half-day tour for testing reservations and checkout.",
+      "description": "Explore the example coastline with a guide and validate the complete booking workflow.",
+      "image": "/api/public/themes/aurora/assets/screenshot.svg",
+      "gallery": [],
+      "included": ["Guide", "Safety briefing"],
+      "excluded": ["Personal expenses"],
+      "faqs": [
+        { "question": "Is this real inventory?", "answer": "No. This is community demonstration data." }
+      ],
+      "itinerary": [
+        { "title": "Meeting point", "time": "09:00", "description": "Meet the guide at the configured location." },
+        { "title": "Return", "time": "13:00", "description": "Return to the original meeting point." }
+      ],
+      "depositPercentage": 25.00,
+      "confirmationMode": "AUTO",
+      "meetingPoint": "Example meeting point",
+      "sourceUrl": ""
+    },
+    {
+      "name": "Mountain Day",
+      "slug": "mountain-day",
+      "code": "DEMO-002",
+      "destination": "mountain-valley",
+      "activities": ["outdoor-adventure", "guided-tour"],
+      "adultPrice": 90.00,
+      "childPrice": 55.00,
+      "infantPrice": 0.00,
+      "pricingMode": "PER_PERSON",
+      "durationValue": 1,
+      "durationUnit": "DAY",
+      "difficulty": "MODERATE",
+      "maxGroup": 12,
+      "featured": false,
+      "summary": "A fictional full-day activity for exercising catalog features.",
+      "description": "Use this record to test schedules, extras, capacity and customer accounts.",
+      "image": "/api/public/themes/nexus/assets/screenshot.svg",
+      "gallery": [],
+      "included": ["Guide", "Basic equipment"],
+      "excluded": ["Optional extras"],
+      "faqs": [],
+      "itinerary": [],
+      "depositPercentage": 20.00,
+      "confirmationMode": "MANUAL",
+      "meetingPoint": "Example visitor center",
+      "sourceUrl": ""
+    }
+  ]
+}

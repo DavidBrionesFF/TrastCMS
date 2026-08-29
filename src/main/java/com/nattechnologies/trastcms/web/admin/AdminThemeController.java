@@ -2,9 +2,13 @@ package com.nattechnologies.trastcms.web.admin;
 
 import com.nattechnologies.trastcms.service.ThemeMenuService;
 import com.nattechnologies.trastcms.service.ThemeService;
+import com.nattechnologies.trastcms.service.ThemeDemoBundleService;
 import com.nattechnologies.trastcms.web.dto.ApiDtos;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,12 +20,15 @@ import java.util.List;
 public class AdminThemeController {
     private final ThemeService service;
     private final ThemeMenuService menus;
+    private final ThemeDemoBundleService demoBundles;
 
     public AdminThemeController(
             ThemeService service,
-            ThemeMenuService menus) {
+            ThemeMenuService menus,
+            ThemeDemoBundleService demoBundles) {
         this.service = service;
         this.menus = menus;
+        this.demoBundles = demoBundles;
     }
 
     @GetMapping
@@ -46,6 +53,32 @@ public class AdminThemeController {
             @PathVariable String id,
             Authentication auth) {
         return service.restoreStarterContent(id, auth.getName());
+    }
+
+    @GetMapping("/{id}/demo-bundle")
+    public ThemeDemoBundleService.DemoBundleStatus demoBundle(@PathVariable String id) {
+        return demoBundles.status(id);
+    }
+
+    @PostMapping("/{id}/demo-bundle/restore")
+    public ThemeDemoBundleService.DemoRestoreResult restoreDemoBundle(
+            @PathVariable String id,
+            Authentication auth) {
+        return demoBundles.restore(id, auth.getName());
+    }
+
+    @GetMapping(value = "/{id}/demo-bundle/export", produces = "application/zip")
+    public ResponseEntity<byte[]> exportDemoBundle(
+            @PathVariable String id,
+            Authentication auth) {
+        ThemeDemoBundleService.DemoExport exported = demoBundles.export(id, auth.getName());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + exported.filename() + "\"")
+                .contentType(MediaType.parseMediaType("application/zip"))
+                .contentLength(exported.bytes().length)
+                .header("X-TrastCMS-Demo-Files", String.valueOf(exported.files()))
+                .body(exported.bytes());
     }
 
     @PutMapping("/active")

@@ -317,6 +317,19 @@ public class SaasService {
             issueLicense(plan, email, subscription, orderId,
                     subscription.currentPeriodEnd, plan.maxActivations, false);
         }
+        Map<String, Object> purchaseEvent = new LinkedHashMap<>();
+        purchaseEvent.put("orderId", orderId);
+        purchaseEvent.put("customerId", customerId);
+        purchaseEvent.put("customerEmail", email);
+        purchaseEvent.put("planId", plan.id);
+        purchaseEvent.put("planKey", plan.planKey);
+        purchaseEvent.put("planName", plan.name);
+        purchaseEvent.put("productKey", plan.product.productKey);
+        purchaseEvent.put("productName", plan.product.name);
+        purchaseEvent.put("quantity", quantity);
+        purchaseEvent.put("currency", plan.currency);
+        purchaseEvent.put("amount", plan.price.multiply(BigDecimal.valueOf(quantity)));
+        events.publish(PluginEvent.of("saas.purchase.completed", purchaseEvent));
     }
 
     @Transactional
@@ -807,9 +820,9 @@ public class SaasService {
     }
 
     private SaasSettings settingsEntity() {
-        return settingsRepository.findById(1).orElseGet(() -> {
+        return settingsRepository.findById(com.nattechnologies.trastcms.multisite.SiteContext.siteId()).orElseGet(() -> {
             SaasSettings settings = new SaasSettings();
-            settings.id = 1;
+            settings.id = com.nattechnologies.trastcms.multisite.SiteContext.siteId();
             return settingsRepository.save(settings);
         });
     }

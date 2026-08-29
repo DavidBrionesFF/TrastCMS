@@ -1,6 +1,8 @@
 package com.nattechnologies.trastcms.plugins.pay;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.security.core.Authentication;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -28,12 +31,18 @@ import java.util.Map;
 public class PayPublicController {
     private final PayService service;
     private final PayPalGateway payPal;
+    private final ClinpaysGateway clinpays;
+    private final ObjectMapper mapper;
 
     PayPublicController(
             PayService service,
-            PayPalGateway payPal) {
+            PayPalGateway payPal,
+            ClinpaysGateway clinpays,
+            ObjectMapper mapper) {
         this.service = service;
         this.payPal = payPal;
+        this.clinpays = clinpays;
+        this.mapper = mapper;
     }
 
     @GetMapping("/config")
@@ -80,8 +89,38 @@ public class PayPublicController {
     @PostMapping("/carts/{token}/checkout")
     PayDtos.CheckoutResponse checkout(
             @PathVariable String token,
-            @Valid @RequestBody PayDtos.CheckoutRequest request) {
-        return service.checkout(token, request);
+            @Valid @RequestBody PayDtos.CheckoutRequest request,
+            Authentication authentication,
+            HttpServletRequest servletRequest) {
+        return service.checkout(
+                token,
+                request,
+                authentication == null ? null : authentication.getName(),
+                clientIp(servletRequest));
+    }
+
+    @PostMapping("/clinpays/setup3ds")
+    PayDtos.ClinpaysSetupResponse clinpaysSetup(
+            @Valid @RequestBody PayDtos.ClinpaysSetupRequest request) {
+        return clinpays.setup3ds(request);
+    }
+
+    @PostMapping("/clinpays/webhook")
+    ResponseEntity<Void> clinpaysWebhook(
+            @RequestHeader(value = "X-Clinpays-Webhook-Id", required = false) String webhookId,
+            @RequestHeader(value = "X-Clinpays-Webhook-Signature", required = false) String signature,
+            @RequestBody String rawBody) {
+        if (webhookId == null
+                || webhookId.isBlank()
+                || !clinpays.verifyWebhook(rawBody, signature)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            service.confirmClinpaysWebhook(webhookId, mapper.readTree(rawBody));
+            return ResponseEntity.noContent().build();
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/gateways")
@@ -158,6 +197,17 @@ public class PayPublicController {
         RedirectView redirect = new RedirectView(target.toString());
         redirect.setContextRelative(true);
         return redirect;
+    }
+
+    private String clientIp(HttpServletRequest request) {
+        String forwarded = request.getHeader("X-Forwarded-For");
+        if (forwarded != null && !forwarded.isBlank()) {
+            return forwarded.split(",")[0].trim();
+        }
+        String realIp = request.getHeader("X-Real-IP");
+        return realIp == null || realIp.isBlank()
+                ? request.getRemoteAddr()
+                : realIp.trim();
     }
 
     private String encode(String value) {

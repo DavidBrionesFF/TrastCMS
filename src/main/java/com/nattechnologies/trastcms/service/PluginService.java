@@ -21,7 +21,21 @@ public class PluginService {
             "content.deleted",
             "media.uploaded",
             "user.created",
-            "theme.activated");
+            "theme.activated",
+            "travel.tour.created",
+            "travel.tour.updated",
+            "travel.departure.created",
+            "travel.departure.updated",
+            "travel.booking.created",
+            "travel.booking.confirmed",
+            "travel.booking.cancelled",
+            "travel.booking.paid",
+            "travel.payment.completed",
+            "academy.course.completed",
+            "saas.purchase.completed",
+            "crm.reputation.requested",
+            "crm.reputation.rated",
+            "crm.reputation.shared");
 
     public static final List<String> PERMISSIONS = List.of(
             "content:read",
@@ -31,6 +45,10 @@ public class PluginService {
             "settings:read",
             "settings:write",
             "users:read",
+            "travel:read",
+            "travel:write",
+            "account:read",
+            "commerce:read",
             "webhooks:receive");
 
     private final PluginRegistrationRepository repository;

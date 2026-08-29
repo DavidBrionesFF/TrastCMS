@@ -7,6 +7,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "post_revision")
 public class PostRevision {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id @Column(length = 36)
     private String id;
     @Column(name = "post_id", nullable = false, length = 36)

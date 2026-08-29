@@ -35,7 +35,8 @@ const filtered = computed(() => {
 const roleDescription: Record<UserRole, string> = {
   ADMIN: 'Control completo de contenido, apariencia, usuarios y extensiones.',
   EDITOR: 'Publica y administra contenido, categorías, medios y CRM.',
-  AUTHOR: 'Crea y administra únicamente su propio contenido.'
+  AUTHOR: 'Crea y administra únicamente su propio contenido.',
+  CUSTOMER: 'Accede únicamente al portal público Mi Cuenta y a sus propios datos.'
 }
 
 async function load() {
@@ -150,7 +151,7 @@ onMounted(load)
   <section class="user-directory mt-6">
     <header>
       <div><h2>Directorio del equipo</h2><p>{{ filtered.length }} de {{ users.length }} cuentas visibles</p></div>
-      <div class="user-filters"><div class="search-field"><UiIcon name="search" :size="17"/><input v-model="search" placeholder="Nombre o correo"></div><select v-model="roleFilter" class="control-select"><option value="ALL">Todos los roles</option><option value="ADMIN">Administradores</option><option value="EDITOR">Editores</option><option value="AUTHOR">Autores</option></select><select v-model="statusFilter" class="control-select"><option value="ALL">Todos los estados</option><option value="ACTIVE">Activos</option><option value="INACTIVE">Inactivos</option></select></div>
+      <div class="user-filters"><div class="search-field"><UiIcon name="search" :size="17"/><input v-model="search" placeholder="Nombre o correo"></div><select v-model="roleFilter" class="control-select"><option value="ALL">Todos los roles</option><option value="ADMIN">Administradores</option><option value="EDITOR">Editores</option><option value="AUTHOR">Autores</option><option value="CUSTOMER">Clientes</option></select><select v-model="statusFilter" class="control-select"><option value="ALL">Todos los estados</option><option value="ACTIVE">Activos</option><option value="INACTIVE">Inactivos</option></select></div>
     </header>
 
     <div v-if="loading" class="empty">Cargando usuarios…</div>
@@ -181,7 +182,7 @@ onMounted(load)
           <div class="form-stack">
             <label>Nombre visible<input v-model="form.displayName" required maxlength="120" placeholder="Nombre y apellido"></label>
             <label>Correo electrónico<input v-model="form.email" required type="email" maxlength="190" placeholder="persona@empresa.com"></label>
-            <label>Rol<select v-model="form.role"><option value="AUTHOR">Autor</option><option value="EDITOR">Editor</option><option value="ADMIN">Administrador</option></select><small>{{ roleDescription[form.role] }}</small></label>
+            <label>Rol<select v-model="form.role"><option value="CUSTOMER">Cliente / Mi Cuenta</option><option value="AUTHOR">Autor</option><option value="EDITOR">Editor</option><option value="ADMIN">Administrador</option></select><small>{{ roleDescription[form.role] }}</small></label>
             <label>{{ form.id ? 'Nueva contraseña (opcional)' : 'Contraseña temporal' }}<input v-model="form.password" type="password" :required="!form.id" minlength="12" autocomplete="new-password" placeholder="Mínimo 12 caracteres"><small v-if="form.id">Déjela vacía para conservar la contraseña actual.</small></label>
             <label class="switch-row"><input v-model="form.enabled" type="checkbox"><span><strong>Cuenta habilitada</strong><small>Una cuenta deshabilitada no puede iniciar sesión.</small></span></label>
           </div>

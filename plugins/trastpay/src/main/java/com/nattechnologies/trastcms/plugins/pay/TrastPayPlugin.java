@@ -34,6 +34,8 @@ public class TrastPayPlugin implements BundledPlugin {
         return true;
     }
 
+    @Override public List<String> optionalPlugins() { return List.of("trastaccount", "traststore", "trastsaas", "trasttravel"); }
+
     @Override
     public String description() {
         return "Carrito, checkout, clientes, órdenes, cupones y pasarelas reutilizables para todos los plugins.";

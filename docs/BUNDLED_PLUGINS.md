@@ -88,12 +88,20 @@ public List<String> requiredPlugins() {
 El motor no permite activarlo sin sus dependencias y evita desactivar una
 dependencia mientras haya extensiones activas que la necesiten.
 
-## Plugins comerciales incorporados
+## Catálogo incorporado en 3.6.1
 
 ```text
+plugins/trastaccount
+plugins/trastacademy
+plugins/trastcomments
+plugins/trastcrm
+plugins/trastmaintenance
+plugins/trastnewsletter
 plugins/trastpay
 plugins/traststore
 plugins/trastsaas
+plugins/trasttranslate
+plugins/trasttravel
 ```
 
 TrastPay proporciona contratos reutilizables:
@@ -111,3 +119,7 @@ Documentación:
 - `docs/COMMERCE.md`
 - `docs/STORE.md`
 - `docs/SAAS.md`
+- `docs/TRANSLATION.md`
+- `docs/TRAVEL_ENGINE.md`
+- `docs/TRASTACADEMY_API.md`
+- `docs/ACCOUNT_PORTAL.md`

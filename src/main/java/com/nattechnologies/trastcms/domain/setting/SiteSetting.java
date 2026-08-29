@@ -7,7 +7,7 @@ import java.time.Instant;
 @Table(name = "site_setting")
 public class SiteSetting {
     @Id
-    @Column(name = "setting_key", length = 190)
+    @Column(name = "setting_key", length = 260)
     private String key;
 
     @Column(name = "setting_value", columnDefinition = "TEXT")

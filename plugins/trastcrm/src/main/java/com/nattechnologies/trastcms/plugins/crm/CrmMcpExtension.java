@@ -12,12 +12,15 @@ import java.util.Map;
 @Component
 public class CrmMcpExtension implements McpExtension {
     private final CrmService crm;
+    private final CrmReputationService reputation;
     private final BundledPluginService bundledPlugins;
 
     public CrmMcpExtension(
             CrmService crm,
+            CrmReputationService reputation,
             BundledPluginService bundledPlugins) {
         this.crm = crm;
+        this.reputation = reputation;
         this.bundledPlugins = bundledPlugins;
     }
 
@@ -48,6 +51,14 @@ public class CrmMcpExtension implements McpExtension {
                         "Devuelve los envíos recientes recibidos desde formularios públicos.",
                         objectSchema(Map.of(
                                 "page", integerProperty(0, 100000),
+                                "size", integerProperty(1, 100)), List.of())),
+                tool("crm_reputation_summary", "Resumen de reputación",
+                        "Devuelve solicitudes enviadas, valoraciones, promedio y distribución por Travel, Academy y SaaS.",
+                        objectSchema(Map.of(), List.of())),
+                tool("crm_reputation_requests", "Solicitudes de reputación",
+                        "Lista solicitudes de valoración y su estado dentro del sitio actual.",
+                        objectSchema(Map.of(
+                                "page", integerProperty(0, 100000),
                                 "size", integerProperty(1, 100)), List.of())));
     }
 
@@ -61,6 +72,10 @@ public class CrmMcpExtension implements McpExtension {
                     integer(arguments, "page", 0),
                     integer(arguments, "size", 25));
             case "crm_list_submissions" -> crm.submissions(
+                    integer(arguments, "page", 0),
+                    integer(arguments, "size", 25));
+            case "crm_reputation_summary" -> reputation.summary();
+            case "crm_reputation_requests" -> reputation.list(
                     integer(arguments, "page", 0),
                     integer(arguments, "size", 25));
             default -> throw new IllegalArgumentException(

@@ -7,14 +7,18 @@ import java.util.UUID;
 @Entity
 @Table(name = "category")
 public class Category {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id
     @Column(length = 36)
     private String id;
 
-    @Column(nullable = false, unique = true, length = 160)
+    @Column(nullable = false, length = 160)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 180)
+    @Column(nullable = false, length = 180)
     private String slug;
 
     @Column(length = 500)

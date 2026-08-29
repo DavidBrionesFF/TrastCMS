@@ -1,6 +1,10 @@
 package com.nattechnologies.trastcms.plugins.pay;
 import jakarta.persistence.*; import java.math.BigDecimal; import java.time.Instant; import java.util.UUID;
 @Entity @Table(name="commerce_cart_item") class CommerceCartItem {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
  @Id @Column(length=36) String id; @ManyToOne(fetch=FetchType.LAZY,optional=false) @JoinColumn(name="cart_id") CommerceCart cart;
  @Column(name="provider_key",nullable=false,length=80) String providerKey; @Column(name="item_reference",nullable=false,length=120) String itemReference;
  @Column(name="item_type",nullable=false,length=50) String itemType; @Column(nullable=false,length=240) String name; @Column(nullable=false) int quantity=1;

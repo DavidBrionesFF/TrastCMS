@@ -4,6 +4,10 @@ import java.time.Instant;
 import java.util.UUID;
 @Entity @Table(name="crm_contact")
 class CrmContact {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
  @Id @Column(length=36) String id; @Column(name="first_name",nullable=false,length=100) String firstName; @Column(name="last_name",length=100) String lastName;
  @Column(length=190) String email; @Column(length=60) String phone; @Column(name="job_title",length=140) String jobTitle;
  @Enumerated(EnumType.STRING) @Column(nullable=false,length=30) CrmContactStatus status=CrmContactStatus.LEAD; @Column(length=120) String source; @Column(name="owner_email",length=190) String ownerEmail;

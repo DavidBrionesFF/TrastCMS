@@ -72,7 +72,7 @@ onMounted(() => { if (props.open) load() })
 
 <template>
   <Teleport to="body">
-    <div v-if="open" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/65 p-3 backdrop-blur-sm" @click.self="emit('close')">
+    <div v-if="open" class="fixed inset-0 z-[3000] flex items-center justify-center bg-slate-950/65 p-3 backdrop-blur-sm" @click.self="emit('close')">
       <section class="flex h-[min(860px,94vh)] w-[min(1380px,98vw)] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
         <header class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
           <div>

@@ -7,11 +7,15 @@ import java.util.UUID;
 @Entity
 @Table(name = "saas_product")
 class SaasProduct {
+    @org.hibernate.annotations.TenantId
+    @jakarta.persistence.Column(name = "site_id", nullable = false, length = 36, updatable = false)
+    private String siteId;
+
     @Id
     @Column(length = 36)
     String id;
 
-    @Column(name = "product_key", nullable = false, unique = true, length = 100)
+    @Column(name = "product_key", nullable = false, length = 100)
     String productKey;
 
     @Column(nullable = false, length = 200)

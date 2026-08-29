@@ -1,0 +1,9 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { api } from '@/services/api'
+const props=withDefaults(defineProps<{limit?:number;editing?:boolean}>(),{limit:4,editing:false})
+const rows=ref<any[]>([]);const unavailable=ref(false)
+onMounted(async()=>{if(props.editing)return;try{rows.value=(await api<any[]>('/api/account/academy/courses')).slice(0,props.limit)}catch{unavailable.value=true}})
+</script>
+<template><section class="progress-block"><div v-if="editing" class="placeholder"><b>Progreso de TrastAcademy</b><span>Mostrará los cursos del usuario autenticado.</span></div><p v-else-if="unavailable">Inicie sesión para ver sus cursos.</p><p v-else-if="!rows.length">Todavía no tiene cursos inscritos.</p><div v-else class="rows"><RouterLink v-for="row in rows" :key="row.id" :to="`/academy/learn/${row.courseSlug}`"><div><strong>{{ row.courseTitle }}</strong><span>{{ row.completedLessons }}/{{ row.totalLessons }} lecciones · {{ row.completedQuizzes }}/{{ row.totalQuizzes }} evaluaciones</span></div><div class="bar"><i :style="{width:`${row.progressPercentage}%`}"/></div><b>{{ row.progressPercentage }}%</b></RouterLink></div></section></template>
+<style scoped>.placeholder{padding:2rem;border:1px dashed var(--border,#cbd5e1);border-radius:1rem;display:grid;text-align:center}.rows{display:grid;gap:.8rem}.rows a{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.7fr) 48px;gap:1rem;align-items:center;padding:1rem;border:1px solid var(--border,#e5e7eb);border-radius:.9rem;text-decoration:none;color:inherit}.rows a>div:first-child{display:grid}.rows span{font-size:.8rem;color:var(--muted,#64748b)}.bar{height:8px;background:var(--border,#e5e7eb);border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:var(--primary,#5b4ee8)}@media(max-width:600px){.rows a{grid-template-columns:1fr 45px}.bar{grid-column:1/-1;grid-row:2}}</style>

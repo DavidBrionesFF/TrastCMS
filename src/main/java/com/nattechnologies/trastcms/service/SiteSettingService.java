@@ -3,6 +3,7 @@ package com.nattechnologies.trastcms.service;
 import com.nattechnologies.trastcms.domain.setting.SiteSetting;
 import com.nattechnologies.trastcms.domain.setting.SiteSettingRepository;
 import com.nattechnologies.trastcms.web.dto.ApiDtos;
+import com.nattechnologies.trastcms.multisite.SiteContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +26,15 @@ public class SiteSettingService {
     @Transactional(readOnly = true)
     public Map<String, String> all() {
         Map<String, String> result = new TreeMap<>();
-        repository.findAll().forEach(setting -> result.put(setting.getKey(), setting.getValue()));
+        String prefix = prefix();
+        repository.findAllByKeyStartingWithOrderByKeyAsc(prefix)
+                .forEach(setting -> result.put(setting.getKey().substring(prefix.length()), setting.getValue()));
         return result;
     }
 
     @Transactional(readOnly = true)
     public String get(String key, String fallback) {
-        return repository.findById(key).map(SiteSetting::getValue).orElse(fallback);
+        return repository.findById(storageKey(key)).map(SiteSetting::getValue).orElse(fallback);
     }
 
     public boolean getBoolean(String key, boolean fallback) {
@@ -45,7 +48,8 @@ public class SiteSettingService {
             SettingRule rule = RULES.get(key);
             if (rule == null) throw new BadRequestException("Configuración no permitida: " + key);
             String value = rule.normalize(key, raw);
-            SiteSetting setting = repository.findById(key).orElseGet(() -> new SiteSetting(key, ""));
+            String storageKey = storageKey(key);
+            SiteSetting setting = repository.findById(storageKey).orElseGet(() -> new SiteSetting(storageKey, ""));
             setting.setValue(value);
             repository.save(setting);
         });
@@ -55,7 +59,8 @@ public class SiteSettingService {
 
     @Transactional
     public void put(String key, String value) {
-        SiteSetting setting = repository.findById(key).orElseGet(() -> new SiteSetting(key, value));
+        String storageKey = storageKey(key);
+        SiteSetting setting = repository.findById(storageKey).orElseGet(() -> new SiteSetting(storageKey, value));
         setting.setValue(value == null ? "" : value);
         repository.save(setting);
     }
@@ -72,16 +77,28 @@ public class SiteSettingService {
                 get("reading.homePageSlug", "inicio"),
                 getBoolean("reading.showAdminBar", true),
                 get("contact.email", ""),
-                get("contact.phone", ""));
+                get("contact.phone", ""),
+                getBoolean("site.suspended", false),
+                get("site.suspendedTitle", "Servicio Suspendido Por Falta de Pago"),
+                get("site.suspendedMessage", "Estimado cliente, su cuenta se encuentra temporalmente suspendida por un saldo pendiente. Por favor contacte con soporte técnico para restablecer su servicio."),
+                get("site.suspendedContactEmail", "soporte@nattechnologies.com"),
+                get("site.suspendedContactPhone", "+504 9999-9999"));
     }
+
+
+    private String prefix() { return SiteContext.siteId() + "::"; }
+    private String storageKey(String key) { return prefix() + key; }
 
     private static Map<String, SettingRule> rules() {
         Map<String, SettingRule> result = new LinkedHashMap<>();
         text(result, 160, "site.name", "site.tagline", "contact.phone", "contact.address",
-                "contact.city", "contact.country", "seo.titleTemplate", "reading.dateFormat");
-        text(result, 2000, "site.description", "seo.defaultDescription", "contact.schedule");
+                "contact.city", "contact.country", "seo.titleTemplate", "reading.dateFormat",
+                "site.suspendedTitle", "site.suspendedContactPhone");
+        text(result, 2000, "site.description", "seo.defaultDescription", "contact.schedule",
+                "site.suspendedMessage");
         text(result, 600, "branding.logoUrl", "branding.faviconUrl", "contact.email",
-                "contact.facebook", "contact.instagram", "contact.linkedin", "contact.youtube");
+                "contact.facebook", "contact.instagram", "contact.linkedin", "contact.youtube",
+                "site.suspendedContactEmail");
         result.put("site.locale", (key, value) -> match(key, value, "[a-z]{2}(?:-(?:[A-Z]{2}|[0-9]{3}))?", 20));
         result.put("site.timezone", (key, value) -> match(key, value, "(?:UTC|[A-Za-z_]+(?:/[A-Za-z_+-]+)+)", 80));
         result.put("branding.accentColor", (key, value) -> {
@@ -93,7 +110,7 @@ public class SiteSettingService {
         integer(result, 1, 100, "reading.postsPerPage");
         integer(result, 0, 86400, "performance.publicCacheSeconds");
         integer(result, 1, 500, "media.maxUploadMb");
-        bool(result, "reading.showAdminBar", "seo.robotsIndex", "comments.enabled", "maintenance.enabled");
+        bool(result, "reading.showAdminBar", "seo.robotsIndex", "comments.enabled", "maintenance.enabled", "site.suspended");
         return Collections.unmodifiableMap(result);
     }
 

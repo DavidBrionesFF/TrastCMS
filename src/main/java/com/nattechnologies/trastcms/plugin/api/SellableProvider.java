@@ -41,6 +41,10 @@ public interface SellableProvider {
             String customerEmail,
             String itemReference,
             int quantity,
+            BigDecimal lineSubtotal,
+            BigDecimal discountAmount,
+            BigDecimal lineTotal,
+            String couponCode,
             Map<String, Object> metadata) {
         public FulfillmentRequest {
             metadata = immutableMetadata(metadata);

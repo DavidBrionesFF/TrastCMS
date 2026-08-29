@@ -4,6 +4,12 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Evento publicado en el bus interno de la aplicación.
+ *
+ * <p>Los plugins pueden escuchar eventos mediante {@link com.nattechnologies.trastcms.plugin.api.TrastCmsExtension#onEvent(PluginEvent)}
+ * o mediante webhooks externos.</p>
+ */
 public record PluginEvent(
         String id,
         String type,

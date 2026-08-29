@@ -55,7 +55,7 @@ public class TrastCmsProperties {
         private boolean enabled = true;
         private String endpoint = "/mcp";
         private String token = "";
-        private String serverVersion = "2.7.0-alpha.9.5";
+        private String serverVersion = "3.6.1";
 
         public boolean isEnabled() { return enabled; }
         public void setEnabled(boolean enabled) { this.enabled = enabled; }

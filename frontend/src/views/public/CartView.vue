@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, nextTick, onMounted, reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { api, ApiError } from '@/services/api'
 import { useCartStore } from '@/stores/cart'
 import type { CartLine } from '@/stores/cart'
 import { useToastStore } from '@/stores/toast'
+import { useAuthStore } from '@/stores/auth'
 import SkeletonBlock from '@/components/common/SkeletonBlock.vue'
 
 type Gateway = {
@@ -15,6 +16,15 @@ type Gateway = {
   refunds?: boolean
 }
 
+type CommerceConfig = {
+  guestCheckout: boolean
+  collectShipping: boolean
+  termsUrl?: string | null
+  clinpaysEnabled: boolean
+  clinpaysEnvironment: 'STAGE' | 'PRODUCTION'
+  clinpaysAccountId?: string | null
+}
+
 type CheckoutResult = {
   orderNumber: string
   orderToken?: string
@@ -22,20 +32,38 @@ type CheckoutResult = {
   paymentStatus: string
   redirectUrl?: string | null
   message?: string
+  paymentMetadata?: Record<string, any>
+}
+
+type Setup3dsResult = {
+  success: boolean
+  threeDSecureAuthenticationId: string
+  accessToken: string
+  deviceDataCollectionUrl: string
 }
 
 type CheckoutStep = 1 | 2 | 3
 
 const cart = useCartStore()
 const toast = useToastStore()
+const auth = useAuthStore()
 const route = useRoute()
+const router = useRouter()
 const coupon = ref('')
 const couponApplied = ref('')
 const gateways = ref<Gateway[]>([])
+const config = ref<CommerceConfig>({
+  guestCheckout: true,
+  collectShipping: false,
+  clinpaysEnabled: false,
+  clinpaysEnvironment: 'STAGE'
+})
 const loading = ref(true)
 const buying = ref(false)
+const preparingCard = ref(false)
 const result = ref<CheckoutResult | null>(null)
 const step = ref<CheckoutStep>(1)
+const challenge = reactive({ active: false, stepUpUrl: '', accessToken: '' })
 
 const checkout = reactive({
   email: '',
@@ -46,25 +74,29 @@ const checkout = reactive({
   acceptTerms: false
 })
 
-const errors = reactive({
-  email: '',
-  name: '',
-  phone: '',
-  gatewayKey: '',
-  acceptTerms: ''
+const card = reactive({
+  cardholderName: '', safeIdentifier: '', validThru: '', cvv: '',
+  threeDSecureAuthenticationId: '', sess: '', bankSess: ''
+})
+
+const billing = reactive({
+  country: 'HN', state: '', city: '', address: '', postalCode: ''
+})
+
+const errors = reactive<Record<string, string>>({
+  email: '', name: '', phone: '', gatewayKey: '', acceptTerms: '', card: '', account: ''
 })
 
 const hasPhysicalItems = computed(() =>
   cart.cart?.items.some((item: CartLine) => item.metadata?.productType === 'PHYSICAL') || false
 )
-
 const hasSaasItems = computed(() =>
   cart.cart?.items.some((item: CartLine) => item.providerKey === 'saas') || false
 )
-
-const selectedGateway = computed(() =>
-  gateways.value.find(item => item.key === checkout.gatewayKey)
-)
+const requiresAccount = computed(() => hasSaasItems.value || !config.value.guestCheckout)
+const accountMissing = computed(() => requiresAccount.value && !auth.user.authenticated)
+const selectedGateway = computed(() => gateways.value.find(item => item.key === checkout.gatewayKey))
+const isClinpays = computed(() => checkout.gatewayKey === 'clinpays')
 
 function queryValue(value: unknown): string {
   if (Array.isArray(value)) return value[0] == null ? '' : String(value[0])
@@ -77,17 +109,11 @@ function handlePayPalReturn(): void {
   const orderNumber = queryValue(route.query.order)
   const message = queryValue(route.query.message)
   cart.reset()
-
   if (status === 'success') {
-    result.value = {
-      orderNumber: orderNumber || 'PayPal',
-      orderStatus: 'PAID',
-      paymentStatus: 'SUCCEEDED',
-      message: message || 'Pago PayPal confirmado correctamente'
-    }
+    result.value = { orderNumber: orderNumber || 'PayPal', orderStatus: 'PAID', paymentStatus: 'SUCCEEDED', message: message || 'Pago PayPal confirmado correctamente' }
     toast.success('Pago PayPal confirmado', orderNumber ? `Orden ${orderNumber}` : message)
   } else if (status === 'cancelled') {
-    toast.warning('Pago PayPal cancelado', 'La orden quedó pendiente y puede revisarse desde el panel.')
+    toast.warning('Pago PayPal cancelado', 'La orden quedó pendiente y puede revisarse desde Mi Cuenta.')
   } else {
     toast.error('No se pudo confirmar PayPal', message || 'Revise la orden o intente nuevamente.')
   }
@@ -97,42 +123,33 @@ async function applyCoupon(): Promise<void> {
   try {
     await cart.refresh(coupon.value)
     couponApplied.value = coupon.value.trim().toUpperCase()
-    toast.success(
-      couponApplied.value ? 'Cupón aplicado' : 'Cupón eliminado',
-      couponApplied.value ? 'El descuento ya aparece en el resumen.' : undefined
-    )
+    toast.success(couponApplied.value ? 'Cupón aplicado' : 'Cupón eliminado')
   } catch (caught: unknown) {
     toast.error('No se pudo aplicar el cupón', caught instanceof ApiError ? caught.message : undefined)
   }
 }
 
 async function changeQuantity(itemId: string, value: number): Promise<void> {
-  const safeValue = Math.max(0, Math.min(Number(value) || 0, 999))
   try {
-    await cart.update(itemId, safeValue)
-    if (safeValue === 0) toast.info('Producto eliminado del carrito')
+    await cart.update(itemId, Math.max(0, Math.min(Number(value) || 0, 999)))
   } catch (caught: unknown) {
     toast.error('No se pudo actualizar el carrito', caught instanceof ApiError ? caught.message : undefined)
   }
 }
+async function stepQuantity(itemId: string, current: number, delta: number): Promise<void> { await changeQuantity(itemId, current + delta) }
+async function clearCart(): Promise<void> { await cart.clear(); step.value = 1 }
 
-async function stepQuantity(itemId: string, current: number, delta: number): Promise<void> {
-  await changeQuantity(itemId, current + delta)
-}
-
-async function clearCart(): Promise<void> {
-  try {
-    await cart.clear()
-    step.value = 1
-    toast.info('Carrito vaciado')
-  } catch (caught: unknown) {
-    toast.error('No se pudo vaciar el carrito', caught instanceof ApiError ? caught.message : undefined)
-  }
+async function requestAccount(): Promise<void> {
+  await router.push({ name: 'my-account', query: { redirect: '/cart', mode: 'register' } })
 }
 
 function goToCustomer(): void {
-  if (cart.empty) {
-    toast.warning('Agregue al menos un producto')
+  if (cart.empty) { toast.warning('Agregue al menos un producto'); return }
+  if (accountMissing.value) {
+    errors.account = hasSaasItems.value
+      ? 'Las licencias y suscripciones deben vincularse a una cuenta.'
+      : 'Este comercio requiere una cuenta antes del pago.'
+    void requestAccount()
     return
   }
   step.value = 2
@@ -140,102 +157,142 @@ function goToCustomer(): void {
 }
 
 function validateStep2(): boolean {
-  let valid = true;
-  errors.name = '';
-  errors.email = '';
-  errors.phone = '';
-  errors.gatewayKey = '';
-
-  if (!checkout.name.trim()) {
-    errors.name = 'El nombre completo es requerido';
-    valid = false;
-  } else if (checkout.name.trim().length < 2) {
-    errors.name = 'El nombre debe tener al menos 2 caracteres';
-    valid = false;
+  Object.keys(errors).forEach(key => { errors[key] = '' })
+  let valid = true
+  if (accountMissing.value) { errors.account = 'Inicie sesión o cree una cuenta para continuar.'; valid = false }
+  if (!checkout.name.trim() || checkout.name.trim().length < 2) { errors.name = 'Ingrese el nombre completo'; valid = false }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(checkout.email.trim())) { errors.email = 'Ingrese un correo válido'; valid = false }
+  if (!checkout.gatewayKey) { errors.gatewayKey = 'Seleccione un método de pago'; valid = false }
+  if (isClinpays.value) {
+    if (card.safeIdentifier.replace(/\D/g, '').length < 13 || !/^\d{2}\/?\d{2}$/.test(card.validThru) || card.cvv.replace(/\D/g, '').length < 3 || !card.cardholderName.trim()) {
+      errors.card = 'Complete correctamente número, vencimiento, CVV y titular de la tarjeta.'
+      valid = false
+    }
+    if (!billing.state || !billing.city || !billing.address || !billing.postalCode) {
+      errors.card = 'Complete también la dirección de facturación requerida por 3DS.'
+      valid = false
+    }
   }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!checkout.email.trim()) {
-    errors.email = 'El correo electrónico es requerido';
-    valid = false;
-  } else if (!emailRegex.test(checkout.email.trim())) {
-    errors.email = 'Ingrese un correo electrónico válido (ej. cliente@empresa.com)';
-    valid = false;
-  }
-
-  if (!checkout.gatewayKey) {
-    errors.gatewayKey = 'Debe seleccionar un método de pago';
-    valid = false;
-  }
-
-  return valid;
+  return valid
 }
 
-function goToReview(): void {
-  if (!validateStep2()) {
-    toast.warning('Complete los datos requeridos', 'Por favor verifique los campos señalados en rojo.')
-    return
+async function collectDeviceData(): Promise<void> {
+  if (!config.value.clinpaysAccountId) return
+  try {
+    const src = 'https://cdn.jsdelivr.net/npm/@clinpays-sdk/paygate/dist/paygate.min.js'
+    if (!(window as any).Paygate) {
+      await new Promise<void>((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = src; script.async = true; script.onload = () => resolve(); script.onerror = () => reject(new Error('SDK'))
+        document.head.appendChild(script)
+      })
+    }
+    const collector = (window as any).Paygate?.dataCollector
+    if (collector) {
+      const data = await collector(config.value.clinpaysAccountId, config.value.clinpaysEnvironment)
+      card.sess = data?.sess || ''
+      card.bankSess = data?.bankSess || ''
+    }
+  } catch {
+    // El recolector antifraude complementa el flujo. setup3ds sigue siendo obligatorio.
+  }
+}
+
+async function setupClinpays(): Promise<void> {
+  preparingCard.value = true
+  try {
+    await collectDeviceData()
+    const setup = await api<Setup3dsResult>('/api/public/commerce/clinpays/setup3ds', {
+      method: 'POST', body: JSON.stringify({
+        safeIdentifier: card.safeIdentifier,
+        validThru: card.validThru,
+        currency: cart.cart?.currency || 'HNL'
+      })
+    })
+    if (!setup.success || !setup.threeDSecureAuthenticationId) throw new Error('No se pudo inicializar 3DS')
+    card.threeDSecureAuthenticationId = setup.threeDSecureAuthenticationId
+    if (setup.deviceDataCollectionUrl && setup.accessToken) {
+      const frameName = `clinpays-device-${Date.now()}`
+      const iframe = document.createElement('iframe')
+      iframe.name = frameName; iframe.style.display = 'none'; iframe.setAttribute('aria-hidden', 'true')
+      const form = document.createElement('form')
+      form.method = 'POST'; form.target = frameName; form.action = setup.deviceDataCollectionUrl; form.style.display = 'none'
+      const jwt = document.createElement('input')
+      jwt.type = 'hidden'; jwt.name = 'JWT'; jwt.value = setup.accessToken
+      form.appendChild(jwt); document.body.append(iframe, form); form.submit()
+      window.setTimeout(() => { iframe.remove(); form.remove() }, 120000)
+    }
+  } finally {
+    preparingCard.value = false
+  }
+}
+
+async function goToReview(): Promise<void> {
+  if (!validateStep2()) { toast.warning('Complete los datos requeridos'); return }
+  if (isClinpays.value) {
+    try { await setupClinpays() }
+    catch (caught: unknown) {
+      errors.card = caught instanceof Error ? caught.message : 'No se pudo inicializar la autenticación 3DS'
+      toast.error('No se pudo preparar la tarjeta', errors.card)
+      return
+    }
   }
   step.value = 3
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+async function startChallenge(metadata: Record<string, any> | undefined): Promise<void> {
+  const session = metadata?.threeDSecureSession || {}
+  const url = session.stepUpUrl || session.stepUpURL || session.url
+  const token = session.accessToken || session.jwt || session.JWT
+  if (!url || !token) return
+  challenge.active = true; challenge.stepUpUrl = url; challenge.accessToken = token
+  await nextTick()
+  const form = document.getElementById('clinpays-challenge-form') as HTMLFormElement | null
+  form?.submit()
+}
+
 async function buy(): Promise<void> {
-  if (!checkout.acceptTerms) {
-    errors.acceptTerms = 'Debe aceptar los términos de compra'
-    toast.warning('Debe aceptar los términos de compra')
-    return
-  }
-  errors.acceptTerms = ''
-
-  if (!cart.token) {
-    toast.error('Error de sesión del carrito', 'Intente recargar la página.')
-    return
-  }
-
+  if (!checkout.acceptTerms) { errors.acceptTerms = 'Debe aceptar los términos'; return }
+  if (!cart.token || accountMissing.value) return void requestAccount()
   buying.value = true
   try {
-    result.value = await api<CheckoutResult>(
-      `/api/public/commerce/carts/${cart.token}/checkout`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          email: checkout.email,
-          name: checkout.name,
-          phone: checkout.phone,
-          gatewayKey: checkout.gatewayKey,
-          notes: checkout.notes,
-          couponCode: couponApplied.value || coupon.value,
-          billing: {},
-          shipping: { required: hasPhysicalItems.value },
-          returnUrl: `${window.location.origin}/cart`,
-          cancelUrl: `${window.location.origin}/cart`,
-          idempotencyKey: window.crypto.randomUUID()
-        })
-      }
-    )
-
-    if (result.value.redirectUrl) {
-      toast.info('Redirigiendo al proveedor de pago')
-      window.location.assign(result.value.redirectUrl)
-      return
-    }
-
+    result.value = await api<CheckoutResult>(`/api/public/commerce/carts/${cart.token}/checkout`, {
+      method: 'POST',
+      body: JSON.stringify({
+        email: checkout.email, name: checkout.name, phone: checkout.phone,
+        gatewayKey: checkout.gatewayKey, notes: checkout.notes,
+        couponCode: couponApplied.value || coupon.value,
+        billing, shipping: { required: hasPhysicalItems.value },
+        paymentData: isClinpays.value ? card : {},
+        returnUrl: `${window.location.origin}/cart`, cancelUrl: `${window.location.origin}/cart`,
+        idempotencyKey: window.crypto.randomUUID()
+      })
+    })
+    if (result.value.redirectUrl) return window.location.assign(result.value.redirectUrl)
+    await startChallenge(result.value.paymentMetadata)
     cart.reset()
     toast.success('Orden creada', `La orden ${result.value.orderNumber} fue procesada.`)
   } catch (caught: unknown) {
     toast.error('No se pudo finalizar la compra', caught instanceof ApiError ? caught.message : undefined)
-  } finally {
-    buying.value = false
-  }
+  } finally { buying.value = false }
 }
 
 function itemKind(item: CartLine): string {
   if (item.providerKey !== 'saas') return item.type.replaceAll('_', ' ')
-  const licenseType = String(item.metadata?.licenseType || '')
-  return licenseType === 'PERPETUAL' ? 'LICENCIA PERPETUA' : 'SUSCRIPCIÓN DE SOFTWARE'
+  return String(item.metadata?.licenseType || '') === 'PERPETUAL' ? 'LICENCIA PERPETUA' : 'SUSCRIPCIÓN DE SOFTWARE'
 }
-
+function providerLabel(item: CartLine): string {
+  if (item.providerKey === 'saas') return 'SaaS'
+  if (item.providerKey === 'academy') return 'Academia'
+  return 'Tienda'
+}
+function isSingleQuantity(item: CartLine): boolean { return item.metadata?.singleQuantity === true }
+function itemCommercialNote(item: CartLine): string {
+  if (item.providerKey === 'saas') return itemRenewal(item)
+  if (item.providerKey === 'academy') return 'Acceso individual al curso'
+  return `${money(item.unitPrice, item.currency)} por unidad`
+}
 function itemRenewal(item: CartLine): string {
   const interval = String(item.metadata?.billingInterval || '')
   const count = Number(item.metadata?.intervalCount || 1)
@@ -243,25 +300,24 @@ function itemRenewal(item: CartLine): string {
   const label = ({ MONTH: 'mes', YEAR: 'año', WEEK: 'semana', DAY: 'día' } as Record<string, string>)[interval] || interval.toLowerCase()
   return `Renovación cada ${count > 1 ? `${count} ` : ''}${label}${count > 1 ? 'es' : ''}`
 }
-
-function money(value: number, currency = 'USD'): string {
-  return new Intl.NumberFormat('es-HN', { style: 'currency', currency }).format(value || 0)
-}
+function money(value: number, currency = 'USD'): string { return new Intl.NumberFormat('es-HN', { style: 'currency', currency }).format(value || 0) }
 
 onMounted(async () => {
-  handlePayPalReturn()
-  loading.value = true
+  handlePayPalReturn(); loading.value = true
   try {
-    await cart.ensure()
-    gateways.value = await api<Gateway[]>('/api/public/commerce/gateways')
-    if (gateways.value.length && !gateways.value.some(item => item.key === checkout.gatewayKey)) {
-      checkout.gatewayKey = gateways.value[0].key
+    await Promise.all([cart.ensure(), auth.loaded ? Promise.resolve() : auth.load().catch(() => undefined)])
+    const [loadedGateways, loadedConfig] = await Promise.all([
+      api<Gateway[]>('/api/public/commerce/gateways'), api<CommerceConfig>('/api/public/commerce/config')
+    ])
+    gateways.value = loadedGateways; config.value = loadedConfig
+    if (auth.user.authenticated) {
+      checkout.email = auth.user.email || ''
+      checkout.name = auth.user.displayName || ''
     }
+    if (gateways.value.length && !gateways.value.some(item => item.key === checkout.gatewayKey)) checkout.gatewayKey = gateways.value[0].key
   } catch (caught: unknown) {
     toast.error('No se pudo preparar el checkout', caught instanceof ApiError ? caught.message : undefined)
-  } finally {
-    loading.value = false
-  }
+  } finally { loading.value = false }
 })
 </script>
 
@@ -339,17 +395,25 @@ onMounted(async () => {
         <span class="status-pill ok">{{ result.paymentStatus }}</span>
         <h2>Orden {{ result.orderNumber }}</h2>
         <p>{{ result.message || 'La orden fue creada correctamente.' }}</p>
-        <div v-if="hasSaasItems || result.orderToken" class="order-license-notice">
+        <div v-if="hasSaasItems" class="order-license-notice">
           <b>Esta compra incluye software</b>
           <span>La licencia o suscripción se emite después de confirmar el pago.</span>
+        </div>
+        <div v-if="challenge.active" class="clinpays-challenge">
+          <h3>Complete la verificación 3D Secure</h3>
+          <p>El banco emisor solicita una validación adicional. No cierre esta página.</p>
+          <iframe name="clinpaysChallengeFrame" title="Autenticación 3D Secure" width="100%" height="460"></iframe>
+          <form id="clinpays-challenge-form" method="POST" target="clinpaysChallengeFrame" :action="challenge.stepUpUrl">
+            <input type="hidden" name="JWT" :value="challenge.accessToken">
+          </form>
         </div>
         <div class="checkout-success__actions">
           <RouterLink
             v-if="result.orderToken"
-            :to="`/saas/claim?order=${result.orderNumber}&token=${result.orderToken}`"
+            :to="{ name: 'my-account', query: { section: hasSaasItems ? 'licenses' : 'orders', order: result.orderNumber } }"
             class="button"
           >
-            Abrir portal de licencias
+            Abrir Mi Cuenta
           </RouterLink>
           <RouterLink to="/store" class="button secondary">Volver a la tienda</RouterLink>
         </div>
@@ -386,16 +450,17 @@ onMounted(async () => {
             <div v-else class="checkout-line-list">
               <article v-for="item in cart.cart?.items" :key="item.id" class="checkout-line-card">
                 <div class="checkout-line-card__image" :style="item.imageUrl ? { backgroundImage: `url(${item.imageUrl})` } : {}">
-                  <span>{{ item.providerKey === 'saas' ? 'SaaS' : 'Store' }}</span>
+                  <span>{{ providerLabel(item) }}</span>
                 </div>
                 <div class="checkout-line-card__content">
                   <small class="kind-tag">{{ itemKind(item) }}</small>
                   <h3>{{ item.name }}</h3>
-                  <p class="renewal-note">{{ item.providerKey === 'saas' ? itemRenewal(item) : `${money(item.unitPrice, item.currency)} por unidad` }}</p>
+                  <p class="renewal-note">{{ itemCommercialNote(item) }}</p>
                   <span class="tax-badge">{{ item.taxable ? `Impuesto ${item.taxRate || 0}%` : 'Exento de impuesto' }}</span>
                 </div>
                 <div class="checkout-line-card__quantity">
-                  <div class="quantity-control quantity-control--cart">
+                  <span v-if="isSingleQuantity(item)" class="single-quantity">1 acceso</span>
+                  <div v-else class="quantity-control quantity-control--cart">
                     <button type="button" aria-label="Restar una unidad" @click="stepQuantity(item.id, item.quantity, -1)">−</button>
                     <input :value="item.quantity" type="number" min="0" max="999" aria-label="Cantidad" @change="changeQuantity(item.id, Number(($event.target as HTMLInputElement).value))">
                     <button type="button" aria-label="Sumar una unidad" @click="stepQuantity(item.id, item.quantity, 1)">+</button>
@@ -427,17 +492,21 @@ onMounted(async () => {
               </div>
             </header>
 
+            <div v-if="accountMissing" class="account-required-banner">
+              <div><b>Necesita una cuenta para continuar</b><p>{{ hasSaasItems ? 'La licencia y sus pagos deben quedar asociados a Mi Cuenta.' : 'El administrador desactivó las compras como invitado.' }}</p></div>
+              <button class="button" type="button" @click="requestAccount">Iniciar sesión o crear cuenta</button>
+            </div>
             <div class="checkout-customer-grid">
               <div class="checkout-customer-fields">
                 <label :class="{ 'has-error': errors.name }">
                   <span>Nombre completo <em class="required-star">*</em></span>
-                  <input v-model="checkout.name" required autocomplete="name" placeholder="Ej. Juan Pérez" @input="errors.name = ''">
+                  <input v-model="checkout.name" required autocomplete="name" placeholder="Ej. Juan Pérez" :readonly="auth.user.authenticated" @input="errors.name = ''">
                   <span v-if="errors.name" class="field-error-msg">{{ errors.name }}</span>
                 </label>
 
                 <label :class="{ 'has-error': errors.email }">
                   <span>Correo electrónico <em class="required-star">*</em></span>
-                  <input v-model="checkout.email" type="email" required autocomplete="email" placeholder="correo@empresa.com" @input="errors.email = ''">
+                  <input v-model="checkout.email" type="email" required autocomplete="email" placeholder="correo@empresa.com" :readonly="auth.user.authenticated" @input="errors.email = ''">
                   <span v-if="errors.email" class="field-error-msg">{{ errors.email }}</span>
                 </label>
 
@@ -464,6 +533,22 @@ onMounted(async () => {
                   </div>
                 </label>
                 <span v-if="errors.gatewayKey" class="field-error-msg">{{ errors.gatewayKey }}</span>
+                <section v-if="isClinpays" class="clinpays-card-form">
+                  <header><b>Tarjeta con 3D Secure</b><small>Los datos se envían directamente a Clinpays; TrastCMS no los persiste.</small></header>
+                  <div class="card-fields">
+                    <label class="wide"><span>Nombre del titular</span><input v-model="card.cardholderName" autocomplete="cc-name" placeholder="Como aparece en la tarjeta"></label>
+                    <label class="wide"><span>Número de tarjeta</span><input v-model="card.safeIdentifier" inputmode="numeric" autocomplete="cc-number" maxlength="23" placeholder="0000 0000 0000 0000"></label>
+                    <label><span>Vencimiento</span><input v-model="card.validThru" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/AA"></label>
+                    <label><span>CVV</span><input v-model="card.cvv" type="password" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="000"></label>
+                    <label><span>País</span><input v-model="billing.country" maxlength="2" placeholder="HN"></label>
+                    <label><span>Departamento</span><input v-model="billing.state" placeholder="Islas de la Bahía"></label>
+                    <label><span>Ciudad</span><input v-model="billing.city" placeholder="Roatán"></label>
+                    <label><span>Código postal</span><input v-model="billing.postalCode" placeholder="34101"></label>
+                    <label class="wide"><span>Dirección</span><input v-model="billing.address" autocomplete="street-address" placeholder="Dirección de facturación"></label>
+                  </div>
+                  <p v-if="errors.card" class="field-error-msg">{{ errors.card }}</p>
+                  <p v-if="preparingCard" class="card-preparing">Preparando autenticación 3DS…</p>
+                </section>
               </div>
             </div>
 
@@ -471,7 +556,7 @@ onMounted(async () => {
               <button class="button secondary nav-back-btn" type="button" @click="step = 1">
                 ← Volver al carrito
               </button>
-              <button class="button checkout-action-btn" type="button" @click="goToReview">
+              <button class="button checkout-action-btn" type="button" :disabled="preparingCard || accountMissing" @click="goToReview">
                 Revisar mi orden →
               </button>
             </footer>
@@ -588,10 +673,14 @@ onMounted(async () => {
 
           <div v-if="hasSaasItems" class="cart-software-note">
             <b>Compra de software</b>
-            <p>Después del pago recibirá acceso al portal de licencias para la activación.</p>
+            <p>Después del pago, la licencia y sus activaciones estarán dentro de Mi Cuenta.</p>
           </div>
         </aside>
       </div>
     </section>
   </main>
 </template>
+
+<style scoped>
+.single-quantity{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:.55rem .85rem;border:1px solid var(--theme-border,var(--line,#d9e2e1));border-radius:10px;background:var(--theme-surface-muted,var(--surface-soft,#f5f8f7));font-size:.78rem;font-weight:900;color:var(--theme-primary,var(--primary,#087f7b))}
+</style>

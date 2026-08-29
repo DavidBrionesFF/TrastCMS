@@ -5,6 +5,12 @@ import com.nattechnologies.trastcms.domain.audit.AuditLogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Registro de auditoría administrativa.
+ *
+ * <p>Guarda trazas de acciones realizadas por administradores y usuarios
+ * autenticados para fines de cumplimiento y depuración.</p>
+ */
 @Service
 public class AuditService {
     private final AuditLogRepository repository;

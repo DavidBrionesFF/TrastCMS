@@ -16,7 +16,8 @@ public final class ApiDtos {
     private ApiDtos() {}
 
     public record AuthUser(boolean authenticated, String email, String displayName, String role,
-                           String avatarUrl, Instant lastLoginAt) {}
+                           String avatarUrl, Instant lastLoginAt, boolean networkAdmin,
+                           String siteId, String siteKey, String siteName) {}
     public record Csrf(String token, String headerName, String parameterName) {}
 
     public record UserRequest(
@@ -110,7 +111,9 @@ public final class ApiDtos {
     public record SiteInfo(
             String name, String tagline, String description, String locale,
             String activeTheme, String logoUrl, String homePageSlug,
-            boolean showAdminBar, String contactEmail, String contactPhone) {}
+            boolean showAdminBar, String contactEmail, String contactPhone,
+            boolean suspended, String suspendedTitle, String suspendedMessage,
+            String suspendedContactEmail, String suspendedContactPhone) {}
 
     public record NavigationItem(String title, String slug, int order, String role) {}
 
@@ -204,7 +207,42 @@ public final class ApiDtos {
     public record BundledPluginResponse(
             String pluginId, String name, String version, String description,
             String author, boolean enabled, boolean enabledByDefault,
+            List<String> requiredPlugins, List<String> optionalPlugins,
             List<String> capabilities, Instant updatedAt) {}
 
     public record ApiMessage(String message) {}
+
+    public record SiteEndpointRequest(
+            @NotBlank @Size(max = 253) String host,
+            @NotNull @Min(1) @Max(65535) Integer port,
+            @Pattern(regexp = "https?") String scheme,
+            boolean primaryEndpoint,
+            boolean active) {}
+
+    public record SiteEndpointResponse(
+            String id, String host, Integer port, String scheme,
+            boolean primaryEndpoint, boolean active) {}
+
+    public record SiteRequest(
+            @NotBlank @Pattern(regexp = "[a-z0-9][a-z0-9-]{2,79}") String siteKey,
+            @NotBlank @Size(max = 160) String name,
+            @NotBlank @Pattern(regexp = "[a-z]{2}(?:-(?:[A-Z]{2}|[0-9]{3}))?") String locale,
+            @NotBlank @Size(max = 80) String timezone,
+            @Pattern(regexp = "ACTIVE|SUSPENDED|ARCHIVED") String status,
+            @Size(max = 40) String blueprint,
+            List<@Valid SiteEndpointRequest> endpoints) {}
+
+    public record SiteResponse(
+            String id, String siteKey, String name, String status,
+            String locale, String timezone, String primaryUrl,
+            String activeTheme, List<String> enabledPlugins,
+            long users, boolean current, Instant createdAt, Instant updatedAt,
+            List<SiteEndpointResponse> endpoints) {}
+
+    public record SiteMembershipSummary(
+            String siteId, String siteKey, String siteName, String role,
+            String primaryUrl) {}
+
+    public record PluginSelectionRequest(List<String> enabledPluginIds) {}
+
 }

@@ -2,6 +2,7 @@ package com.nattechnologies.trastcms.mcp;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.nattechnologies.trastcms.config.TrastCmsProperties;
+import com.nattechnologies.trastcms.multisite.SiteContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +37,10 @@ public class McpController {
                 "endpoint", properties.getMcp().normalizedEndpoint(),
                 "transport", "streamable-http",
                 "protocolVersion", McpService.PROTOCOL_VERSION,
+                "site", Map.of(
+                        "id", SiteContext.siteId(),
+                        "key", SiteContext.siteKey(),
+                        "name", SiteContext.siteName()),
                 "authentication", Map.of(
                         "type", "bearer",
                         "environmentVariable", "TRASTCMS_MCP_TOKEN"),

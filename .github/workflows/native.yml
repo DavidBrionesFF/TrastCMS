@@ -1,73 +1,238 @@
 name: Native executables
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Disparadores:
+#   push de tag v*  → compila las 4 plataformas y publica un GitHub Release
+#   pull_request    → compila las 4 plataformas como verificación
+#   workflow_dispatch → ejecución manual con selección de plataformas
+# ─────────────────────────────────────────────────────────────────────────────
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
   pull_request:
     paths:
       - 'pom.xml'
       - 'src/**'
       - 'frontend/**'
       - 'plugins/**'
-      - 'docs/NATIVE_IMAGE.md'
-      - 'scripts/build-native.*'
+      - 'scripts/build-native*'
       - '.github/workflows/native.yml'
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Plataforma a compilar'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - linux-x64
+          - windows-x64
+          - macos-x64
+          - macos-arm64
+      skip_frontend:
+        description: 'Omitir build del frontend Vue'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
-  contents: read
+  contents: write   # necesario para crear GitHub Releases
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Matriz de plataformas
+# ─────────────────────────────────────────────────────────────────────────────
 jobs:
   native:
-    name: Native ${{ matrix.label }}
+    name: Build · ${{ matrix.label }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             label: linux-x64
+            artifact_suffix: ''
           - os: windows-latest
             label: windows-x64
-          - os: macos-15-intel
+            artifact_suffix: '.exe'
+          - os: macos-13
             label: macos-x64
+            artifact_suffix: ''
           - os: macos-15
             label: macos-arm64
+            artifact_suffix: ''
+
     runs-on: ${{ matrix.os }}
+
+    # Omitir plataformas no seleccionadas en ejecución manual
+    if: >
+      github.event_name != 'workflow_dispatch' ||
+      inputs.platform == 'all' ||
+      inputs.platform == matrix.label
+
     steps:
-      - uses: actions/checkout@v6
-      - name: Set up GraalVM
+      # ── Checkout ────────────────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── GraalVM ─────────────────────────────────────────────────────────────
+      - name: Configurar GraalVM JDK 25
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: '25'
           distribution: 'graalvm-community'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          cache: maven
+          cache: 'maven'
           native-image-job-reports: true
-      - name: Compile native executable
+
+      # ── Caché de node_modules (frontend Vue) ────────────────────────────────
+      - name: Caché de dependencias Node
+        if: inputs.skip_frontend != true
+        uses: actions/cache@v4
+        with:
+          path: frontend/node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: node-${{ runner.os }}-
+
+      # ── Leer versión del proyecto ────────────────────────────────────────────
+      - name: Leer versión del proyecto
+        id: version
+        shell: bash
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/' | tr -d '[:space:]')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "artifact=trastcms-${VERSION}-${{ matrix.label }}${{ matrix.artifact_suffix }}" >> "$GITHUB_OUTPUT"
+
+      # ── Compilar (Linux / macOS) ─────────────────────────────────────────────
+      - name: Compilar ejecutable nativo (Linux / macOS)
         if: runner.os != 'Windows'
-        run: ./mvnw --batch-mode --no-transfer-progress -Pnative -DskipTests native:compile
-      - name: Compile native executable on Windows
+        env:
+          MAVEN_OPTS: '-Xmx512m'
+          FRONTEND_SKIP: ${{ inputs.skip_frontend == true && '-Dfrontend.skip=true' || '' }}
+        run: |
+          ./mvnw --batch-mode --no-transfer-progress \
+            -Pnative -DskipTests $FRONTEND_SKIP \
+            clean native:compile
+
+      # ── Compilar (Windows) ───────────────────────────────────────────────────
+      - name: Compilar ejecutable nativo (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
-        run: .\mvnw.cmd --batch-mode --no-transfer-progress -Pnative -DskipTests native:compile
-      - name: Stage Unix executable
+        env:
+          MAVEN_OPTS: '-Xmx512m'
+        run: |
+          $args = @('--batch-mode','--no-transfer-progress','-Pnative','-DskipTests','clean','native:compile')
+          if ('${{ inputs.skip_frontend }}' -eq 'true') { $args += '-Dfrontend.skip=true' }
+          & .\mvnw.cmd @args
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      # ── Empaquetar artefacto (Linux / macOS) ─────────────────────────────────
+      - name: Empaquetar artefacto (Linux / macOS)
         if: runner.os != 'Windows'
         shell: bash
         run: |
           mkdir -p dist
-          executable=$(find target -maxdepth 1 -type f -name 'trastcms-*' ! -name '*.jar' -perm -111 | head -n 1)
-          test -n "$executable"
-          cp "$executable" "dist/trastcms-${{ matrix.label }}"
-      - name: Stage Windows executable
+          EXECUTABLE=$(find target -maxdepth 1 -type f -name 'trastcms-*' ! -name '*.jar' -perm -111 | head -n1)
+          if [[ -z "$EXECUTABLE" ]]; then
+            echo "Error: ejecutable nativo no encontrado en target/" >&2
+            exit 1
+          fi
+          DEST="dist/${{ steps.version.outputs.artifact }}"
+          cp "$EXECUTABLE" "$DEST"
+          chmod +x "$DEST"
+          sha256sum "$DEST" > "${DEST}.sha256" 2>/dev/null || shasum -a 256 "$DEST" > "${DEST}.sha256"
+          echo "Artefacto: $(pwd)/$DEST"
+          echo "SHA-256:   $(cat ${DEST}.sha256)"
+
+      # ── Empaquetar artefacto (Windows) ───────────────────────────────────────
+      - name: Empaquetar artefacto (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path dist | Out-Null
-          $executable = Get-ChildItem target\trastcms-*.exe | Select-Object -First 1
-          if (-not $executable) { throw "Native executable not found" }
-          Copy-Item $executable.FullName "dist\trastcms-${{ matrix.label }}.exe"
-      - name: Upload native executable
+          $exe = Get-ChildItem target -Filter 'trastcms-*.exe' | Select-Object -First 1
+          if (-not $exe) { Write-Error "Ejecutable nativo no encontrado en target\"; exit 1 }
+          $dest = "dist\${{ steps.version.outputs.artifact }}"
+          Copy-Item $exe.FullName $dest -Force
+          $hash = (Get-FileHash $dest -Algorithm SHA256).Hash.ToLower()
+          "$hash  ${{ steps.version.outputs.artifact }}" | Set-Content "$dest.sha256" -Encoding ASCII
+          Write-Host "Artefacto: $((Resolve-Path $dest).Path)"
+          Write-Host "SHA-256:   $hash"
+
+      # ── Subir artefacto al workflow ───────────────────────────────────────────
+      - name: Subir artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: trastcms-${{ matrix.label }}
-          path: dist/trastcms-${{ matrix.label }}*
+          name: ${{ steps.version.outputs.artifact }}
+          path: |
+            dist/${{ steps.version.outputs.artifact }}${{ matrix.artifact_suffix == '.exe' && '' || '' }}
+            dist/${{ steps.version.outputs.artifact }}.sha256
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Publicar GitHub Release (solo en push de tag v*)
+  # ─────────────────────────────────────────────────────────────────────────────
+  release:
+    name: Publicar GitHub Release
+    needs: native
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Descargar todos los artefactos compilados
+      - name: Descargar artefactos
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Listar artefactos descargados
+        run: ls -lh release-assets/
+
+      # Leer versión para el nombre del release
+      - name: Leer versión
+        id: version
+        run: |
+          VERSION=$(grep -m1 '<version>' pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/' | tr -d '[:space:]')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      # Crear el GitHub Release con todos los ejecutables y checksums
+      - name: Crear GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "TrastCMS ${{ steps.version.outputs.version }}"
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, 'alpha') || contains(steps.version.outputs.version, 'beta') || contains(steps.version.outputs.version, 'rc') }}
+          generate_release_notes: true
+          body: |
+            ## TrastCMS ${{ steps.version.outputs.version }} — Ejecutables Nativos
+
+            Binarios compilados con **GraalVM Native Image**. No requieren JVM instalada.
+
+            | Plataforma | Archivo |
+            |---|---|
+            | 🐧 Linux x64 | `trastcms-${{ steps.version.outputs.version }}-linux-x64` |
+            | 🪟 Windows x64 | `trastcms-${{ steps.version.outputs.version }}-windows-x64.exe` |
+            | 🍎 macOS x64 (Intel) | `trastcms-${{ steps.version.outputs.version }}-macos-x64` |
+            | 🍎 macOS ARM64 (Apple Silicon) | `trastcms-${{ steps.version.outputs.version }}-macos-arm64` |
+
+            ### Variables de entorno mínimas
+            ```
+            TRASTCMS_DATA_DIR=./data
+            TRASTCMS_ADMIN_PASSWORD=CAMBIE_ESTA_CLAVE
+            TRASTCMS_PLUGIN_MASTER_KEY=CAMBIE_ESTA_CLAVE_LARGA
+            TRASTCMS_MCP_TOKEN=CAMBIE_ESTE_TOKEN
+            SESSION_COOKIE_SECURE=true
+            ```
+
+            > Verifique la integridad descargando también el archivo `.sha256` correspondiente.
+          files: |
+            release-assets/*
