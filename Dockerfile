@@ -5,7 +5,7 @@ COPY frontend frontend
 COPY src src
 RUN mvn --batch-mode --no-transfer-progress -DskipTests clean package
 
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 RUN useradd --system --create-home --uid 10001 trastcms
 WORKDIR /app
 COPY --from=build /workspace/target/trastcms-*.jar /app/trastcms.jar
