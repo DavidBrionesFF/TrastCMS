@@ -30,7 +30,7 @@
         <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
         <springdoc.version>2.8.17</springdoc.version>
         <pf4j.version>3.15.0</pf4j.version>
-        <jsoup.version>1.22.2</jsoup.version>
+        <jsoup.version>1.23.2</jsoup.version>
         <node.version>v24.16.0</node.version>
         <frontend.skip>false</frontend.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
